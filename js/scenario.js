@@ -83,6 +83,25 @@ function updateButtons() {
 // UNIT TOGGLE
 // =========================
 function toggleUnits() {
+    const weightEl = document.getElementById("userWeight");
+    const jumpEl = document.getElementById("userJump");
+    const throwEl = document.getElementById("userThrow");
+    const speedEl = document.getElementById("userSpeed");
+
+    if (!useMetric) {
+        // Switching imperial → metric: convert the displayed values
+        weightEl.value = (parseFloat(weightEl.value) * 0.453592).toFixed(1);
+        jumpEl.value = (parseFloat(jumpEl.value) * 0.3048).toFixed(2);
+        throwEl.value = (parseFloat(throwEl.value) * 0.3048).toFixed(2);
+        speedEl.value = (parseFloat(speedEl.value) * 1.60934).toFixed(2);
+    } else {
+        // Switching metric → imperial: convert the displayed values
+        weightEl.value = (parseFloat(weightEl.value) / 0.453592).toFixed(1);
+        jumpEl.value = (parseFloat(jumpEl.value) / 0.3048).toFixed(2);
+        throwEl.value = (parseFloat(throwEl.value) / 0.3048).toFixed(2);
+        speedEl.value = (parseFloat(speedEl.value) / 1.60934).toFixed(2);
+    }
+
     useMetric = !useMetric;
     updateUnits();
     updateAnimation();
@@ -180,18 +199,19 @@ function updateAnimation() {
     // ======================
     if (currentScenario === "weight") {
 
-        let earthWeight = parseFloat(document.getElementById("userWeight").value);
+        let inputWeight = parseFloat(document.getElementById("userWeight").value);
+        let weightKg = useMetric ? inputWeight : inputWeight * 0.453592;
 
         let ratio = g / earthG;
-        let planetWeight = earthWeight * ratio;
 
-        let displayPlanet = useMetric ? planetWeight * 0.453592 : planetWeight;
+        let planetWeightKg = weightKg * ratio;
+        let displayPlanet = useMetric ? planetWeightKg : planetWeightKg / 0.453592;
         let unit = useMetric ? "kg" : "lbs";
 
         let gravityLabel = `Gravity Effect: ${ratio.toFixed(2)}× Earth`;
         let weightLabel = `Weight (${unit}): ${displayPlanet.toFixed(1)}`;
 
-        let scaleY = Math.max(0.5, Math.min(2.5, ratio));
+        let scaleY = Math.max(0.5, Math.min(2.5, 1/ratio));
 
         container.innerHTML = `
             <div style="display:flex; align-items:center; gap:30px; height:260px; padding:20px;">
@@ -237,11 +257,11 @@ function updateAnimation() {
     // ======================
     else if (currentScenario === "jump") {
 
-        let baseJump = useMetric ? jump : jump * 0.3048;
-        let newJump = baseJump * (earthG / g);
+        let baseJumpM = useMetric ? jump : jump * 0.3048;
+        let newJumpM = baseJumpM * (earthG / g);
 
-        let displayEarth = useMetric ? baseJump : baseJump / 0.3048;
-        let displayPlanet = useMetric ? newJump : newJump / 0.3048;
+        let displayEarth = useMetric ? baseJumpM : baseJumpM / 0.3048;
+        let displayPlanet = useMetric ? newJumpM : newJumpM / 0.3048;
 
         let unit = useMetric ? "m" : "ft";
 
@@ -311,11 +331,11 @@ function updateAnimation() {
             </div>`;
         }
 
-        let baseThrow = useMetric ? throwRange : throwRange * 0.3048;
-        let newThrow = baseThrow * (earthG / g);
+        let baseThrowM = useMetric ? throwRange : throwRange * 0.3048;
+        let newThrowM = baseThrowM * (earthG / g);
 
-        let displayEarth = useMetric ? baseThrow : baseThrow / 0.3048;
-        let displayPlanet = useMetric ? newThrow : newThrow / 0.3048;
+        let displayEarth = useMetric ? baseThrowM : baseThrowM / 0.3048;
+        let displayPlanet = useMetric ? newThrowM : newThrowM / 0.3048;
 
         let unit = useMetric ? "m" : "ft";
 
@@ -421,11 +441,11 @@ function updateAnimation() {
     // ======================
     else if (currentScenario === "run") {
 
-        let baseSpeed = useMetric ? speed : speed * 0.44704;
-        let newSpeed = baseSpeed * (earthG / g);
+        let baseSpeedMs = useMetric ? speed / 3.6 : speed * 0.44704;
+        let newSpeedMs = baseSpeedMs * (earthG / g);
 
-        let displayEarth = useMetric ? baseSpeed * 3.6 : speed;
-        let displayPlanet = useMetric ? newSpeed * 3.6 : speed * (earthG / g);
+        let displayEarth = useMetric ? baseSpeedMs * 3.6 : baseSpeedMs / 0.44704;
+        let displayPlanet = useMetric ? newSpeedMs * 3.6 : newSpeedMs / 0.44704;
 
         let unit = useMetric ? "km/h" : "mph";
 
@@ -506,7 +526,7 @@ function updateDataTable() {
             <p><strong>Weight:</strong> ${weightResult} ${useMetric ? "kg" : "lbs"}</p>
             <p><strong>Jump:</strong> ${jumpResult} ${useMetric ? "m" : "ft"}</p>
             <p><strong>Throw:</strong> ${throwResult} ${useMetric ? "m" : "ft"}</p>
-            <p><strong>Speed:</strong> ${speedResult} ${useMetric ? "m/s" : "mph"}</p>
+            <p><strong>Speed:</strong> ${speedResult} ${useMetric ? "km/h" : "mph"}</p>
         `;
 
         container.appendChild(card);
