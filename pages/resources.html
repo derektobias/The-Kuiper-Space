@@ -1,7 +1,301 @@
-<h2>Helpful Astronomy Resources</h2>
+<!DOCTYPE html>
+<html lang="en">
 
-<ul>
-<li>NASA</li>
-<li>Space.com</li>
-<li>Astrobites</li>
-</ul>
+<head>
+<meta charset="UTF-8">
+<title>Resources</title>
+<link rel="stylesheet" href="../css/styles.css">
+<style>
+
+    .resources-hero {
+        text-align: center;
+        padding: 40px 20px 20px;
+        color: #ccc;
+        font-size: 15px;
+        max-width: 620px;
+        margin: 0 auto;
+    }
+
+    .resources-hero h2 {
+        font-size: 28px;
+        color: white;
+        margin-bottom: 10px;
+    }
+
+    .resources-section {
+        max-width: 1000px;
+        margin: 30px auto;
+        padding: 0 20px;
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #2a3a55;
+    }
+
+    .section-icon {
+        font-size: 22px;
+    }
+
+    .section-header h3 {
+        font-size: 16px;
+        font-weight: 700;
+        color: #4da3ff;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin: 0;
+    }
+
+    .resource-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 14px;
+        margin-bottom: 40px;
+    }
+
+    .resource-card {
+        background: #121a2b;
+        border: 1px solid #1e2e45;
+        border-radius: 10px;
+        padding: 16px 18px;
+        transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .resource-card:hover {
+        border-color: #4da3ff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 20px rgba(77, 163, 255, 0.12);
+    }
+
+    .resource-card a {
+        font-size: 15px;
+        font-weight: 700;
+        color: #4da3ff;
+        text-decoration: none;
+    }
+
+    .resource-card a:hover {
+        text-decoration: underline;
+    }
+
+    .resource-card p {
+        font-size: 13px;
+        color: #9aadcc;
+        margin: 0;
+        line-height: 1.5;
+    }
+
+    .resource-tag {
+        display: inline-block;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #4da3ff;
+        background: rgba(77, 163, 255, 0.1);
+        border-radius: 4px;
+        padding: 2px 7px;
+        margin-bottom: 2px;
+        width: fit-content;
+    }
+
+</style>
+</head>
+
+<body>
+
+<header class="navbar">
+<h1 class="logo">Resources</h1>
+<nav>
+    <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="tool.html">Planetary Properties</a></li>
+        <li><a href="scenario.html">Scenario Comparisons</a></li>
+        <li><a href="simulations.html">Simulations</a></li>
+        <li><a href="conversion.html">Unit Conversions</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="merch.html">Merch</a></li>
+        <li><a href="support.html">Support</a></li>
+    </ul>
+</nav>
+</header>
+
+<main>
+
+    <div class="resources-hero">
+        <h2>Helpful Astronomy Resources</h2>
+        <p>A curated list of trusted websites for students, educators, and space enthusiasts — from beginner-friendly news to professional research tools.</p>
+    </div>
+
+    <!-- ===================== -->
+    <!-- OFFICIAL NASA SOURCES -->
+    <!-- ===================== -->
+    <div class="resources-section">
+        <div class="section-header">
+            <span class="section-icon">🚀</span>
+            <h3>Official NASA Sources</h3>
+        </div>
+        <div class="resource-grid">
+
+            <div class="resource-card">
+                <span class="resource-tag">News &amp; Science</span>
+                <a href="https://science.nasa.gov/" target="_blank" rel="noopener">NASA Science</a>
+                <p>NASA's official science hub covering astrophysics, planetary science, Earth science, and heliophysics. A reliable starting point for any space topic.</p>
+            </div>
+
+            <div class="resource-card">
+                <span class="resource-tag">Missions &amp; Data</span>
+                <a href="https://www.jpl.nasa.gov/" target="_blank" rel="noopener">NASA Jet Propulsion Laboratory (JPL)</a>
+                <p>The center of NASA's robotic space exploration. Follow active missions, access spacecraft data, and explore discoveries from across the solar system.</p>
+            </div>
+
+            <div class="resource-card">
+                <span class="resource-tag">Solar System Data</span>
+                <a href="https://ssd.jpl.nasa.gov/" target="_blank" rel="noopener">JPL Solar System Dynamics</a>
+                <p>Authoritative orbital and physical data for planets, moons, asteroids, and comets. The source behind much of the data used on this site.</p>
+            </div>
+
+            <div class="resource-card">
+                <span class="resource-tag">Space Telescope</span>
+                <a href="https://science.nasa.gov/mission/hubble/" target="_blank" rel="noopener">Hubble Space Telescope</a>
+                <p>News, imagery, and educational resources from the Hubble Space Telescope — one of the most productive scientific instruments ever built.</p>
+            </div>
+
+            <div class="resource-card">
+                <span class="resource-tag">Space Telescope</span>
+                <a href="https://science.nasa.gov/mission/webb/" target="_blank" rel="noopener">James Webb Space Telescope</a>
+                <p>News, imagery, and science from NASA's most powerful space telescope. Observes the universe in infrared, revealing distant galaxies, exoplanet atmospheres, and more.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ===================== -->
+    <!-- NEWS & OUTREACH       -->
+    <!-- ===================== -->
+    <div class="resources-section">
+        <div class="section-header">
+            <span class="section-icon">📰</span>
+            <h3>News, Magazines &amp; Outreach</h3>
+        </div>
+        <div class="resource-grid">
+
+            <div class="resource-card">
+                <span class="resource-tag">News</span>
+                <a href="https://www.space.com/" target="_blank" rel="noopener">Space.com</a>
+                <p>One of the most widely read space news sites. Covers breaking news, missions, and astronomy topics in an accessible, engaging format.</p>
+            </div>
+
+            <div class="resource-card">
+                <span class="resource-tag">Magazine</span>
+                <a href="https://www.astronomy.com/" target="_blank" rel="noopener">Astronomy Magazine</a>
+                <p>News, observer guides, and in-depth articles on planets, galaxies, and the latest discoveries. Great for beginners and enthusiasts alike.</p>
+            </div>
+
+            <div class="resource-card">
+                <span class="resource-tag">Magazine</span>
+                <a href="https://skyandtelescope.org/" target="_blank" rel="noopener">Sky &amp; Telescope</a>
+                <p>A trusted resource for skywatching guides, equipment reviews, and professional astronomy news — published since 1941.</p>
+            </div>
+
+            <div class="resource-card">
+                <span class="resource-tag">Advocacy</span>
+                <a href="https://www.planetary.org/" target="_blank" rel="noopener">The Planetary Society</a>
+                <p>The world's largest independent space advocacy group. Covers space exploration, missions, and space policy in an approachable, engaging way.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ===================== -->
+    <!-- RESEARCH & DATA       -->
+    <!-- ===================== -->
+    <div class="resources-section">
+        <div class="section-header">
+            <span class="section-icon">🔬</span>
+            <h3>Research &amp; Scientific Databases</h3>
+        </div>
+        <div class="resource-grid">
+
+            <div class="resource-card">
+                <span class="resource-tag">Paper Database</span>
+                <a href="https://ui.adsabs.harvard.edu/" target="_blank" rel="noopener">SAO/NASA Astrophysics Data System (ADS)</a>
+                <p>A free, searchable library of millions of peer-reviewed papers in astronomy, astrophysics, and physics. Essential for diving into primary research.</p>
+            </div>
+
+            <div class="resource-card">
+                <span class="resource-tag">Preprints</span>
+                <a href="https://arxiv.org/search/physics" target="_blank" rel="noopener">arXiv.org — Physics &amp; Astrophysics</a>
+                <p>Free access to preprint research papers before formal publication. A great way to read cutting-edge science as it happens.</p>
+            </div>
+
+            <div class="resource-card">
+                <span class="resource-tag">Object Database</span>
+                <a href="https://simbad.u-strasbg.fr/simbad/sim-fbasic" target="_blank" rel="noopener">SIMBAD Astronomical Database</a>
+                <p>The definitive catalog for identifying stars, nebulae, clusters, and other galactic objects — used by professional astronomers worldwide.</p>
+            </div>
+
+            <div class="resource-card">
+                <span class="resource-tag">Galaxy Database</span>
+                <a href="https://ned.ipac.caltech.edu/" target="_blank" rel="noopener">NASA/IPAC Extragalactic Database (NED)</a>
+                <p>Comprehensive data on objects outside our galaxy — including galaxies, quasars, and radio sources. Maintained by Caltech and NASA.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ===================== -->
+    <!-- INSTITUTIONS          -->
+    <!-- ===================== -->
+    <div class="resources-section">
+        <div class="section-header">
+            <span class="section-icon">🏛️</span>
+            <h3>Institutions &amp; Specialized Resources</h3>
+        </div>
+        <div class="resource-grid">
+
+            <div class="resource-card">
+                <span class="resource-tag">Planetary Science</span>
+                <a href="https://www.lpi.usra.edu/" target="_blank" rel="noopener">Lunar and Planetary Institute (LPI)</a>
+                <p>A research institute providing planetary science resources, datasets, and educational materials — including resources for teachers and students.</p>
+            </div>
+
+            <div class="resource-card">
+                <span class="resource-tag">Radio Astronomy</span>
+                <a href="https://public.nrao.edu/" target="_blank" rel="noopener">National Radio Astronomy Observatory (NRAO)</a>
+                <p>The public face of the NRAO, home of the Very Large Array (VLA). Explains radio astronomy and its discoveries in accessible terms.</p>
+            </div>
+
+            <div class="resource-card">
+                <span class="resource-tag">Astrobiology</span>
+                <a href="https://www.seti.org/" target="_blank" rel="noopener">SETI Institute</a>
+                <p>Research and news on the search for extraterrestrial intelligence, astrobiology, and the potential for life beyond Earth.</p>
+            </div>
+
+            <div class="resource-card">
+                <span class="resource-tag">Nomenclature</span>
+                <a href="https://planetarynames.wr.usgs.gov/" target="_blank" rel="noopener">Gazetteer of Planetary Nomenclature</a>
+                <p>The official USGS resource for the names and locations of surface features across every body in the solar system — from craters to valleys.</p>
+            </div>
+
+            <div class="resource-card">
+                <span class="resource-tag">Research Blog</span>
+                <a href="https://astrobites.org/" target="_blank" rel="noopener">Astrobites</a>
+                <p>Daily summaries of new astrophysics papers written by graduate students — bridging the gap between technical research and general audiences.</p>
+            </div>
+
+        </div>
+    </div>
+
+</main>
+
+</body>
+</html>
