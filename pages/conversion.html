@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>Conversion Calculator</title>
+<title>Unit Conversions</title>
 
 <link rel="stylesheet" href="../css/styles.css">
 
@@ -13,17 +13,17 @@
 
 <header class="navbar">
 
-<h1 class="logo">Planetary Comparison Lab</h1>
+<h1 class="logo">Unit Conversions</h1>
 
 <nav>
 <ul class="nav-links">
 <li><a href="../index.html">Home</a></li>
 <li><a href="about.html">About</a></li>
-<li><a href="tool.html">Interactive Tool</a></li>
-<li><a href="scenario.html">Scenario Tool</a></li>
+<li><a href="tool.html">Planetary Properties</a></li>
+<li><a href="scenario.html">Scenario Comparisons</a></li>
 <li><a href="simulations.html">Simulations</a></li>
-<li><a href="conversion.html">Conversion Calculator</a></li>
-<li><a href="resources.html">Helpful Resources</a></li>
+<li><a href="conversion.html">Unit Conversions</a></li>
+<li><a href="resources.html">Resources</a></li>
 <li><a href="merch.html">Merch</a></li>
 <li><a href="support.html">Support</a></li>
 </ul>
@@ -33,7 +33,7 @@
 
 <main>
 
-<h1 class="title">Conversion Calculator</h1>
+<h1 class="title">Unit Conversions</h1>
 
 <div class="grid">
 
@@ -139,9 +139,9 @@
 <button class="swapBtn">Swap</button>
 </div>
 
-<!-- MASS -->
+<!-- MASS/Weight -->
 <div class="converter" data-type="mass">
-<h2>Mass</h2>
+<h2>Mass/Weight</h2>
 
 <div class="unitRow">
 
@@ -331,6 +331,90 @@
 
 <div class="dropdownList unitTo"></div>
 
+</div>
+
+</div>
+
+<div class="valueRow">
+<input class="inputValue" type="text" placeholder="Value">
+<input class="outputValue" type="text" readonly>
+</div>
+
+<button class="swapBtn">Swap</button>
+</div>
+
+<!-- MAGNETIC FIELD -->
+<div class="converter" data-type="magnetic">
+<h2>Magnetic Field</h2>
+
+<div class="unitRow">
+
+<div class="unitSelect">
+<input class="unitSearchFrom" placeholder="Search unit...">
+<button class="clearBtn clearFrom">×</button>
+<div class="dropdownList unitFrom"></div>
+</div>
+
+<div class="unitSelect">
+<input class="unitSearchTo" placeholder="Search unit...">
+<button class="clearBtn clearTo">×</button>
+<div class="dropdownList unitTo"></div>
+</div>
+
+</div>
+
+<div class="valueRow">
+<input class="inputValue" type="text" placeholder="Value">
+<input class="outputValue" type="text" readonly>
+</div>
+
+<button class="swapBtn">Swap</button>
+</div>
+
+<!-- PRESSURE -->
+<div class="converter" data-type="pressure">
+<h2>Pressure</h2>
+
+<div class="unitRow">
+
+<div class="unitSelect">
+<input class="unitSearchFrom" placeholder="Search unit...">
+<button class="clearBtn clearFrom">×</button>
+<div class="dropdownList unitFrom"></div>
+</div>
+
+<div class="unitSelect">
+<input class="unitSearchTo" placeholder="Search unit...">
+<button class="clearBtn clearTo">×</button>
+<div class="dropdownList unitTo"></div>
+</div>
+
+</div>
+
+<div class="valueRow">
+<input class="inputValue" type="text" placeholder="Value">
+<input class="outputValue" type="text" readonly>
+</div>
+
+<button class="swapBtn">Swap</button>
+</div>
+
+<!-- DENSITY -->
+<div class="converter" data-type="density">
+<h2>Density</h2>
+
+<div class="unitRow">
+
+<div class="unitSelect">
+<input class="unitSearchFrom" placeholder="Search unit...">
+<button class="clearBtn clearFrom">×</button>
+<div class="dropdownList unitFrom"></div>
+</div>
+
+<div class="unitSelect">
+<input class="unitSearchTo" placeholder="Search unit...">
+<button class="clearBtn clearTo">×</button>
+<div class="dropdownList unitTo"></div>
 </div>
 
 </div>

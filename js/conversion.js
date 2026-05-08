@@ -1,105 +1,295 @@
 const units = {
 
 length:{
-m:{factor:1,label:"Meters (m)"},
-mm:{factor:0.001,label:"Millimeters (mm)"},
-cm:{factor:0.01,label:"Centimeters (cm)"},
-km:{factor:1000,label:"Kilometers (km)"},
+
+// --- Imperial / US ---
 in:{factor:0.0254,label:"Inches (in)"},
 ft:{factor:0.3048,label:"Feet (ft)"},
+yd:{factor:0.9144,label:"Yards (yd)"},
+fur:{factor:201.168,label:"Furlongs (fur)"},
 mi:{factor:1609.34,label:"Miles (mi)"},
+nmi:{factor:1852,label:"Nautical Miles (nmi)"},
+
+// --- Astronomical ---
+"Lunar radii":{factor:1.737e6,label:"Lunar Radii (R☽)"},
+"Earth radii":{factor:6.371e6,label:"Earth Radii (R⊕)"},
+"Jupiter radii":{factor:6.9911e7,label:"Jupiter Radii (R♃)"},
+"Solar radii":{factor:6.957e8,label:"Solar Radii (R☉)"},
 AU:{factor:1.496e11,label:"Astronomical Units (AU)"},
 ly:{factor:9.461e15,label:"Light Years (ly)"},
-"Earth radius":{factor:6.371e6,label:"Earth Radius (R⊕)"},
-"Jupiter radius":{factor:6.9911e7,label:"Jupiter Radius (R♃)"},
-"Lunar radius":{factor:1.737e6,label:"Moon Radius (R☽)"}
+pc:{factor:3.0857e16,label:"Parsecs (pc)"},
+
+// --- Subatomic / Quantum ---
+fm:{factor:1e-15,label:"Femtometers (fm)"},
+pm:{factor:1e-12,label:"Picometers (pm)"},
+Å:{factor:1e-10,label:"Angstroms (Å)"},
+nm:{factor:1e-9,label:"Nanometers (nm)"},
+µm:{factor:1e-6,label:"Micrometers (µm)"},
+
+// --- Metric ---
+mm:{factor:0.001,label:"Millimeters (mm)"},
+cm:{factor:0.01,label:"Centimeters (cm)"},
+m:{factor:1,label:"Meters (m)"},
+km:{factor:1000,label:"Kilometers (km)"}
+
 },
 
 area:{
-"m²":{factor:1,label:"Square Meters (m²)"},
-"cm²":{factor:0.0001,label:"Square Centimeters (cm²)"},
-"km²":{factor:1e6,label:"Square Kilometers (km²)"},
-ac:{factor:4046.86,label:"Acres (ac)"},
+
+// --- Other ---
 ha:{factor:10000,label:"Hectares (ha)"},
-"mi²":{factor:2.59e6,label:"Square Miles (mi²)"}
+b:{factor:1e-28,label:"Barns (b)"},
+
+// --- Imperial / US ---
+ac:{factor:4046.86,label:"Acres (ac)"},
+"mi²":{factor:2.59e6,label:"Square Miles (mi²)"},
+"in²":{factor:0.00064516,label:"Square Inches (in²)"},
+"ft²":{factor:0.092903,label:"Square Feet (ft²)"},
+"yd²":{factor:0.836127,label:"Square Yards (yd²)"},
+
+// --- Metric ---
+"mm²":{factor:1e-6,label:"Square Millimeters (mm²)"},
+"cm²":{factor:0.0001,label:"Square Centimeters (cm²)"},
+"m²":{factor:1,label:"Square Meters (m²)"},
+"km²":{factor:1e6,label:"Square Kilometers (km²)"}
+
 },
 
 volume:{
-"m³":{factor:1,label:"Cubic Meters (m³)"},
-L:{factor:0.001,label:"Liters (L)"},
-mL:{factor:1e-6,label:"Milliliters (mL)"},
+
+// --- Imperial / US ---
+cup:{factor:0.000236588,label:"Cups (cup)"},
+pt:{factor:0.000473176,label:"Pints (pt)"},
+qt:{factor:0.000946353,label:"Quarts (qt)"},
 gal:{factor:0.00378541,label:"US Gallons (gal)"},
-"ft³":{factor:0.0283168,label:"Cubic Feet (ft³)"}
+bbl:{factor:0.158987,label:"Barrels (bbl)"},
+"in³":{factor:1.6387e-5,label:"Cubic Inches (in³)"},
+"ft³":{factor:0.0283168,label:"Cubic Feet (ft³)"},
+
+// --- Metric ---
+"cm³":{factor:1e-6,label:"Cubic Centimeters (cm³)"},
+mL:{factor:1e-6,label:"Milliliters (mL)"},
+L:{factor:0.001,label:"Liters (L)"},
+"m³":{factor:1,label:"Cubic Meters (m³)"}
+
 },
 
 mass:{
-kg:{factor:1,label:"Kilograms (kg)"},
-g:{factor:0.001,label:"Grams (g)"},
-mg:{factor:1e-6,label:"Milligrams (mg)"},
-ton:{factor:1000,label:"Metric Tons (ton)"},
+
+// --- Imperial / US ---
 oz:{factor:0.0283495,label:"Ounces (oz)"},
-lb:{factor:0.453592,label:"Pounds (lb)"},
-"Earth mass":{factor:5.972e24,label:"Earth Mass (M\u2295)"},
-"Solar mass":{factor:1.989e30,label:"Solar Mass (M\u2609)"},
-"Jupiter mass":{factor:1.898e27,label:"Jupiter Mass (M♃)"},
-"Lunar mass":{factor:7.342e22,label:"Moon Mass (M☽)"}
+lbs:{factor:0.453592,label:"Pounds (lbs)"},
+tn:{factor:907.185,label:"U.S. Tons (tn)"},
+
+// --- Astronomical ---
+"Lunar masses":{factor:7.342e22,label:"Lunar Masses (M☽)"},
+"Earth masses":{factor:5.972e24,label:"Earth Masses (M⊕)"},
+"Jupiter masses":{factor:1.898e27,label:"Jupiter Masses (M♃)"},
+"Solar masses":{factor:1.989e30,label:"Solar Masses (M☉)"},
+
+// --- Metric ---
+mg:{factor:1e-6,label:"Milligrams (mg)"},
+g:{factor:0.001,label:"Grams (g)"},
+kg:{factor:1,label:"Kilograms (kg)"},
+t:{factor:1000,label:"Metric Tonnes (t)"}
+
 },
 
 time:{
+
+// --- Subatomic / Scientific ---
+fs:{factor:1e-15,label:"Femtoseconds (fs)"},
+ps:{factor:1e-12,label:"Picoseconds (ps)"},
+ns:{factor:1e-9,label:"Nanoseconds (ns)"},
+µs:{factor:1e-6,label:"Microseconds (µs)"},
+ms:{factor:0.001,label:"Milliseconds (ms)"},
+
+// --- Standard ---
 s:{factor:1,label:"Seconds (s)"},
 min:{factor:60,label:"Minutes (min)"},
 hr:{factor:3600,label:"Hours (hr)"},
 day:{factor:86400,label:"Days (day)"},
 yr:{factor:3.154e7,label:"Years (yr)"},
+
+// --- Geological / Astronomical ---
+kyr:{factor:3.154e10,label:"Thousand Years (kyr)"},
 Myr:{factor:3.154e13,label:"Million Years (Myr)"},
 Gyr:{factor:3.154e16,label:"Billion Years (Gyr)"}
+
 },
 
 speed:{
-"m/s":{factor:1,label:"Meters per Second (m/s)"},
-"km/h":{factor:0.277778,label:"Kilometers per Hour (km/h)"},
+
+// --- Nautical ---
+kn:{factor:0.514444,label:"Knots (kn)"},
+
+// --- Imperial / US ---
+"ft/s":{factor:0.3048,label:"Feet per Second (ft/s)"},
 mph:{factor:0.44704,label:"Miles per Hour (mph)"},
+"mi/s":{factor:1609.34,label:"Miles per Second (mi/s)"},
+
+// --- Physical ---
 Mach:{factor:343,label:"Mach (Mach)"},
-c:{factor:299792458,label:"Speed of Light (c)"}
+c:{factor:299792458,label:"Speed of Light (c)"},
+
+// --- Metric ---
+"m/s":{factor:1,label:"Meters per Second (m/s)"},
+"km/s":{factor:1000,label:"Kilometers per Second (km/s)"},
+"km/h":{factor:0.277778,label:"Kilometers per Hour (km/h)"}
+
 },
 
 energy:{
+
+// --- Subatomic ---
+eV:{factor:1.602e-19,label:"Electron Volts (eV)"},
+keV:{factor:1.602e-16,label:"Kiloelectron Volts (keV)"},
+MeV:{factor:1.602e-13,label:"Megaelectron Volts (MeV)"},
+GeV:{factor:1.602e-10,label:"Gigaelectron Volts (GeV)"},
+
+// --- Other ---
+"ft·lbf":{factor:1.35582,label:"Foot-Pounds (ft·lbf)"},
+cal:{factor:4.184,label:"Calories (cal)"},
+kcal:{factor:4184,label:"Kilocalories (kcal)"},
+BTU:{factor:1055.06,label:"British Thermal Units (BTU)"},
+kWh:{factor:3.6e6,label:"Kilowatt Hours (kWh)"},
+erg:{factor:1e-7,label:"Ergs (erg)"},
+
+// --- Subatomic / Scientific ---
+fJ:{factor:1e-15,label:"Femtojoules (fJ)"},
+pJ:{factor:1e-12,label:"Picojoules (pJ)"},
+nJ:{factor:1e-9,label:"Nanojoules (nJ)"},
+µJ:{factor:1e-6,label:"Microjoules (µJ)"},
+mJ:{factor:0.001,label:"Millijoules (mJ)"},
+
+// --- Metric ---
 J:{factor:1,label:"Joules (J)"},
 kJ:{factor:1000,label:"Kilojoules (kJ)"},
-cal:{factor:4.184,label:"Calories (cal)"},
-kWh:{factor:3.6e6,label:"Kilowatt Hours (kWh)"},
-eV:{factor:1.602e-19,label:"Electron Volts (eV)"}
+MJ:{factor:1e6,label:"Megajoules (MJ)"},
+GJ:{factor:1e9,label:"Gigajoules (GJ)"}
+
 },
 
 power:{
+
+// --- Other ---
+hp:{factor:745.7,label:"Horsepower (hp)"},
+"BTU/hr":{factor:0.29307,label:"BTU per Hour (BTU/hr)"},
+"ft·lbf/s":{factor:1.35582,label:"Foot-Pounds per Second (ft·lbf/s)"},
+"ft·lbf/min":{factor:0.0225970,label:"Foot-Pounds per Minute (ft·lbf/min)"},
+"ft·lbf/hr":{factor:0.000376617,label:"Foot-Pounds per Hour (ft·lbf/hr)"},
+
+// --- Subatomic / Scientific ---
+fW:{factor:1e-15,label:"Femtowatts (fW)"},
+pW:{factor:1e-12,label:"Picowatts (pW)"},
+nW:{factor:1e-9,label:"Nanowatts (nW)"},
+µW:{factor:1e-6,label:"Microwatts (µW)"},
+mW:{factor:0.001,label:"Milliwatts (mW)"},
+
+// --- Metric ---
 W:{factor:1,label:"Watts (W)"},
 kW:{factor:1000,label:"Kilowatts (kW)"},
 MW:{factor:1e6,label:"Megawatts (MW)"},
-hp:{factor:745.7,label:"Horsepower (hp)"}
+GW:{factor:1e9,label:"Gigawatts (GW)"},
+TW:{factor:1e12,label:"Terawatts (TW)"}
+
 },
 
 temperature:{
+
+// --- Historical ---
+Re:{label:"Réaumur (°Re)"},
+
+// --- Common ---
+C:{label:"Celsius (°C)"},
+F:{label:"Fahrenheit (°F)"},
+
+// --- Absolute ---
 K:{label:"Kelvin (K)"},
-C:{label:"Celsius (\u00B0C)"},
-F:{label:"Fahrenheit (\u00B0F)"}
+Ra:{label:"Rankine (°Ra)"}
+
+},
+
+magnetic:{
+
+// --- CGS ---
+nG:{factor:1e-13,label:"Nanogauss (nG)"},
+µG:{factor:1e-10,label:"Microgauss (µG)"},
+mG:{factor:1e-7,label:"Milligauss (mG)"},
+G:{factor:1e-4,label:"Gauss (G)"},
+Oe:{factor:1e-4,label:"Oersted (Oe)"},
+
+// --- SI ---
+"A/m":{factor:1.2566e-6,label:"Amperes per Meter (A/m)"},
+nT:{factor:1e-9,label:"Nanotesla (nT)"},
+µT:{factor:1e-6,label:"Microtesla (µT)"},
+mT:{factor:0.001,label:"Millitesla (mT)"},
+T:{factor:1,label:"Tesla (T)"}
+
+},
+
+pressure:{
+
+// --- Imperial / US ---
+Torr:{factor:133.322,label:"Torr (Torr)"},
+mmHg:{factor:133.322,label:"Millimeters of Mercury (mmHg)"},
+psi:{factor:6894.76,label:"Pounds per Square Inch (psi)"},
+
+// --- Common ---
+mbar:{factor:100,label:"Millibars (mbar)"},
+bar:{factor:100000,label:"Bars (bar)"},
+atm:{factor:101325,label:"Atmospheres (atm)"},
+
+// --- Micro / Scientific ---
+fPa:{factor:1e-15,label:"Femtopascals (fPa)"},
+pPa:{factor:1e-12,label:"Picopascals (pPa)"},
+nPa:{factor:1e-9,label:"Nanopascals (nPa)"},
+µPa:{factor:1e-6,label:"Micropascals (µPa)"},
+mPa:{factor:0.001,label:"Millipascals (mPa)"},
+
+// --- Metric ---
+Pa:{factor:1,label:"Pascals (Pa)"},
+kPa:{factor:1000,label:"Kilopascals (kPa)"},
+MPa:{factor:1e6,label:"Megapascals (MPa)"},
+GPa:{factor:1e9,label:"Gigapascals (GPa)"}
+
+},
+
+density:{
+
+// --- Imperial / US ---
+"lb/ft³":{factor:16.0185,label:"Pounds per Cubic Foot (lb/ft³)"},
+"lb/in³":{factor:27679.9,label:"Pounds per Cubic Inch (lb/in³)"},
+
+// --- Metric ---
+"kg/m³":{factor:1,label:"Kilograms per Cubic Meter (kg/m³)"},
+"kg/L":{factor:1000,label:"Kilograms per Liter (kg/L)"},
+"g/cm³":{factor:1000,label:"Grams per Cubic Centimeter (g/cm³)"},
+"g/mL":{factor:1000,label:"Grams per Milliliter (g/mL)"},
+"g/L":{factor:1,label:"Grams per Liter (g/L)"}
+
 }
 
 };
 
-function convertTemp(value,from,to){
+function convertTemp(value, from, to) {
 
+// Convert input to Kelvin first
 let K;
+if(from === "K")  K = value;
+if(from === "C")  K = value + 273.15;
+if(from === "F")  K = (value - 32) * 5/9 + 273.15;
+if(from === "Ra") K = value * 5/9;
+if(from === "Re") K = value * 1.25 + 273.15;
 
-if(from==="K") K=value;
-if(from==="C") K=value+273.15;
-if(from==="F") K=(value-32)*5/9+273.15;
-
-/* ❗ Fix here */
 if(K < 0) return undefined;
 
-if(to==="K") return K;
-if(to==="C") return K-273.15;
-if(to==="F") return (K-273.15)*9/5+32;
+// Convert Kelvin to output
+if(to === "K")  return K;
+if(to === "C")  return K - 273.15;
+if(to === "F")  return (K - 273.15) * 9/5 + 32;
+if(to === "Ra") return K * 9/5;
+if(to === "Re") return (K - 273.15) * 0.8;
 
 }
 
