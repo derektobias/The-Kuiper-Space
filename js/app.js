@@ -1,369 +1,285 @@
 let selectedPlanets = [];
-
-async function loadPlanets(){
-
-const response = await fetch("../data/planets.json");
-
-const planets = await response.json();
-
-createPlanetGrid(planets);
-
-}
-
 let allPlanets = [];
 
-function createPlanetGrid(planets){
+const MAX_DISPLAY_SIZE = 400; // px — largest planet in size comparison
 
-allPlanets = planets;
-
-renderPlanetGrid(planets);
-
+// ================================
+// LOAD DATA
+// ================================
+async function loadPlanets() {
+    const response = await fetch("../data/planets.json");
+    const planets  = await response.json();
+    allPlanets = planets;
+    renderPlanetGrid(planets);
 }
 
-function renderPlanetGrid(planets){
+// ================================
+// RENDER PLANET GRID
+// Applies .selected and .disabled states visually
+// so the user never sees an alert — unselectable cards just look dimmed
+// ================================
+function renderPlanetGrid(planets) {
+    const grid = document.getElementById("planet-grid");
+    grid.innerHTML = "";
 
-const grid = document.getElementById("planet-grid");
+    const twoSelected = selectedPlanets.length >= 2;
 
-grid.innerHTML = "";
+    planets.forEach(planet => {
+        const card = document.createElement("div");
+        card.classList.add("planet-card");
 
-planets.forEach(planet => {
+        const isSelected = !!selectedPlanets.find(p => p.name === planet.name);
 
-const card = document.createElement("div");
+        if (isSelected) {
+            card.classList.add("selected");
+        } else if (twoSelected) {
+            // Already have 2 — dim unselected cards instead of showing alert
+            card.classList.add("disabled");
+        }
 
-card.classList.add("planet-card");
+        card.innerHTML = `
+            <img src="${planet.image}" alt="${planet.name}">
+            <p>${planet.name}</p>
+        `;
 
-card.innerHTML = `
-<img src="${planet.image}">
-<p>${planet.name}</p>
-`;
+        card.addEventListener("click", () => {
+            if (card.classList.contains("disabled")) return; // silently ignore
+            selectPlanet(card, planet);
+        });
 
-card.addEventListener("click", () => selectPlanet(card, planet));
+        grid.appendChild(card);
+    });
+}
 
-grid.appendChild(card);
-
+// ================================
+// SEARCH & FILTER
+// ================================
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("class-filter").addEventListener("change", applyFilters);
 });
 
-}
+document.getElementById("planet-search").addEventListener("input", applyFilters);
 
-// Categorize planetary body filters by class
-document.addEventListener("DOMContentLoaded", () => {
-
-  const classFilter = document.getElementById("class-filter");
-
-  classFilter.addEventListener("change", () => {
-
-    const selectedClass = classFilter.value;
-
-    console.log("Selected filter:", selectedClass);
+function applyFilters() {
+    const query         = document.getElementById("planet-search").value.toLowerCase();
+    const selectedClass = document.getElementById("class-filter").value;
 
     let filtered = allPlanets;
+    if (selectedClass !== "all") {
+        filtered = filtered.filter(p => p.class.toLowerCase() === selectedClass);
+    }
+    filtered = filtered.filter(p => p.name.toLowerCase().includes(query));
+    renderPlanetGrid(filtered);
+}
 
-    if(selectedClass !== "all"){
-      filtered = allPlanets.filter(p =>
-        p.class.toLowerCase() === selectedClass
-      );
+// ================================
+// SELECT / DESELECT PLANET
+// ================================
+function selectPlanet(card, planet) {
+    const alreadySelected = selectedPlanets.find(p => p.name === planet.name);
+
+    if (alreadySelected) {
+        selectedPlanets = selectedPlanets.filter(p => p.name !== planet.name);
+    } else {
+        if (selectedPlanets.length >= 2) return; // safety guard, no alert
+        selectedPlanets.push(planet);
     }
 
-    renderPlanetGrid(filtered);
-
-  });
-
-});
-
-// Create searchbar for planetary bodies
-const searchInput = document.getElementById("planet-search");
-
-searchInput.addEventListener("input", () => {
-
-  const query = searchInput.value.toLowerCase();
-  const selectedClass = document.getElementById("class-filter").value;
-
-  let filtered = allPlanets;
-
-  // apply class filter FIRST
-  if(selectedClass !== "all"){
-    filtered = filtered.filter(p =>
-      p.class.toLowerCase() === selectedClass
-    );
-  }
-
-  // THEN apply search
-  filtered = filtered.filter(p =>
-    p.name.toLowerCase().includes(query)
-  );
-
-  renderPlanetGrid(filtered);
-
-});
-
-// Users select which planet(s) to look at
-function selectPlanet(card, planet){
-
-// limit selection to 2 planets
-if(selectedPlanets.length >= 2 && !card.classList.contains("selected")){
-alert("You can only compare 2 planets at a time.");
-return;
+    // Re-render grid to update disabled/selected states across all cards
+    applyFilters();
+    displayComparison();
+    displayScale();
 }
 
-// toggle selection
-if(card.classList.contains("selected")){
-
-card.classList.remove("selected");
-
-selectedPlanets = selectedPlanets.filter(p => p.name !== planet.name);
-
-}
-
-else{
-
-card.classList.add("selected");
-
-selectedPlanets.push(planet);
-
-}
-
-console.log("Selected planets:", selectedPlanets);
-
-displayComparison();
-
-displayScale();
-
-}
-
-loadPlanets();
-
-function formatValue(value){
-
-if(value === null || value === undefined){
-return "Unknown";
-}
-
-if(Array.isArray(value)){
-return value.join(" → ");
-}
-
-if(typeof value === "object"){
-return Object.entries(value)
-.map(([k,v]) => `${k}: ${v}%`)
-.join(", ");
-}
-
-return value;
-
-}
-
-function getSelectedProperties(){
-
-const checkboxes = document.querySelectorAll("#property-controls input:checked");
-
-return Array.from(checkboxes).map(cb => cb.value);
-
-}
-
-// Property Labels
+// ================================
+// PROPERTY LABELS
+// ================================
 const propertyLabels = {
-class: "Class",
-parent: "Parent",
-moons: "Moons",
-mass_kg: "Mass (kg)",
-mean_radius_km: "Mean Radius (km)",
-volume_km3: "Volume (km³)",
-density_kg_m3: "Density (kg/m³)",
-gravity_m_s2: "Gravity (m/s²)",
-escape_velocity_km_s: "Escape Velocity (km/s)",
-oblateness: "Oblateness",
-
-perihelion: "Perihelion (AU/km)",
-aphelion: "Aphelion (AU/km)",
-semi_major_axis: "Semi-Major Axis (AU/km)",
-
-orbital_period_days: "Orbital Period (days)",
-rotation_period_hours: "Rotation Period (hours)",
-rotation_speed_kmh: "Rotation Speed (km/hr)",
-eccentricity: "Eccentricity",
-axial_tilt_deg: "Axial Tilt (°)",
-orbital_inclination_deg: "Orbital Inclination (°)",
-
-avg_temp_c: "Avg Surface Temp (°C)",
-temp_range_c: "Surface Temp Range (°C)",
-magnetism_gauss: "Magnetism (Gauss)",
-atmospheric_density_kg_m3: "Atmospheric Density (kg/m³)",
-atmospheric_pressure_bar: "Atmospheric Pressure (bar)",
-atmospheric_composition: "Atmospheric Composition",
-scale_height_km: "Scale Height (km)",
-
-surface_composition: "Surface Composition",
-albedo: "Albedo"
+    class:                     "Class",
+    parent:                    "Parent",
+    moons:                     "Moons",
+    mass_kg:                   "Mass (kg)",
+    mean_radius_km:            "Mean Radius (km)",
+    volume_km3:                "Volume (km³)",
+    density_kg_m3:             "Density (kg/m³)",
+    gravity_m_s2:              "Gravity (m/s²)",
+    escape_velocity_km_s:      "Escape Velocity (km/s)",
+    oblateness:                "Oblateness",
+    perihelion:                "Perihelion",
+    aphelion:                  "Aphelion",
+    semi_major_axis:           "Semi-Major Axis",
+    orbital_period_days:       "Orbital Period (days)",
+    rotation_period_hours:     "Rotation Period (hrs)",
+    rotation_speed_kmh:        "Rotation Speed (km/h)",
+    eccentricity:              "Eccentricity",
+    axial_tilt_deg:            "Axial Tilt (°)",
+    orbital_inclination_deg:   "Orbital Inclination (°)",
+    avg_temp_c:                "Avg Surface Temp (°C)",
+    temp_range_c:              "Surface Temp Range (°C)",
+    magnetism_gauss:           "Magnetism (Gauss)",
+    atmospheric_density_kg_m3: "Atmospheric Density (kg/m³)",
+    atmospheric_pressure_bar:  "Atmospheric Pressure (bar)",
+    atmospheric_composition:   "Atmospheric Composition",
+    scale_height_km:           "Scale Height (km)",
+    surface_composition:       "Surface Composition",
+    albedo:                    "Albedo"
 };
 
-// Get values WITH units
-function getValueWithUnits(planet, prop){
-
-// Handle moons vs planets
-const isMoon = planet.class === "Moon";
-
-if(prop === "perihelion"){
-return isMoon ? planet.perihelion_km: planet.perihelion_au;
+function getDynamicLabel(planet, prop) {
+    const isMoon = planet.class === "Moon";
+    if (prop === "perihelion")      return isMoon ? "Perigee (km)"                     : "Perihelion (AU)";
+    if (prop === "aphelion")        return isMoon ? "Apogee (km)"                      : "Aphelion (AU)";
+    if (prop === "semi_major_axis") return isMoon ? "Semi-Major Axis to Parent (km)"   : "Semi-Major Axis (AU)";
+    return propertyLabels[prop] || prop;
 }
 
-if(prop === "aphelion"){
-return isMoon ? planet.aphelion_km: planet.aphelion_au;
+function getValueWithUnits(planet, prop) {
+    const isMoon = planet.class === "Moon";
+    if (prop === "perihelion")      return isMoon ? planet.perihelion_km      : planet.perihelion_au;
+    if (prop === "aphelion")        return isMoon ? planet.aphelion_km        : planet.aphelion_au;
+    if (prop === "semi_major_axis") return isMoon ? planet.semi_major_axis_km : planet.semi_major_axis_au;
+
+    const value = planet[prop];
+    if (Array.isArray(value)) return value[0] + " to " + value[1];
+    return value ?? "Unknown";
 }
 
-if(prop === "semi_major_axis"){
-return isMoon ? planet.semi_major_axis_km: planet.semi_major_axis_au;
+function getSelectedProperties() {
+    return Array.from(document.querySelectorAll("#property-controls input:checked"))
+                .map(cb => cb.value);
 }
 
-let value = planet[prop];
+// ================================
+// DISPLAY COMPARISON CARDS
+// ================================
+function displayComparison() {
+    const container = document.getElementById("comparison-container");
+    container.innerHTML = "";
 
-// Format arrays (temp range)
-if(Array.isArray(value)){
-return value[0] + " to " + value[1];
+    if (selectedPlanets.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-state-icon">🪐</div>
+                <p>Select up to 2 planetary bodies from the sidebar to compare their properties.</p>
+            </div>
+        `;
+        return;
+    }
+
+    const selectedProps = getSelectedProperties();
+
+    selectedPlanets.forEach((planet, index) => {
+        const card = document.createElement("div");
+        card.classList.add("comparison-card");
+
+        let propertyHTML = "";
+
+        selectedProps.forEach(prop => {
+            let className = "";
+
+            if (selectedPlanets.length === 2) {
+                const thisVal  = planet[prop];
+                const otherVal = selectedPlanets[1 - index][prop];
+                if (typeof thisVal === "number" && typeof otherVal === "number") {
+                    className = thisVal > otherVal ? "better" : thisVal < otherVal ? "worse" : "";
+                }
+            }
+
+            const label = getDynamicLabel(planet, prop);
+            const val   = getValueWithUnits(planet, prop);
+
+            propertyHTML += `
+                <p class="${className}">
+                    <strong>${label}:</strong> ${val}
+                </p>
+            `;
+        });
+
+        card.innerHTML = `
+            <div class="planet-img-wrap">
+                <img src="${planet.image}" alt="${planet.name}">
+            </div>
+            <h2>${planet.name}</h2>
+            ${propertyHTML}
+        `;
+
+        container.appendChild(card);
+    });
 }
 
-return value ?? "Unknown";
+// ================================
+// SIZE COMPARISON
+// Largest body = MAX_DISPLAY_SIZE px, others scale proportionally
+// ================================
+function displayScale() {
+    const container = document.getElementById("scale-container");
+    container.innerHTML = "";
+
+    if (selectedPlanets.length === 0) return;
+
+    const maxRadius = Math.max(...selectedPlanets.map(p => p.mean_radius_km));
+
+    const colors = [
+        ["#1a5fa8", "#6db8ff"],  // blue for first
+        ["#5b21b6", "#c4b5fd"]   // purple for second
+    ];
+
+    selectedPlanets.forEach((planet, index) => {
+      const ratio = planet.mean_radius_km / maxRadius;
+      const size  = Math.max(ratio * MAX_DISPLAY_SIZE, 8);
+      const c     = colors[index];
+
+      const wrap = document.createElement("div");
+      wrap.classList.add("scale-planet-wrap");
+
+      const planetDiv = document.createElement("div");
+      planetDiv.classList.add("scale-planet");
+      planetDiv.style.width      = size + "px";
+      planetDiv.style.height     = size + "px";
+      planetDiv.style.background = `radial-gradient(circle at 35% 35%, ${c[1]}, ${c[0]})`;
+      planetDiv.style.boxShadow  = `0 0 ${Math.max(size * 0.2, 10)}px ${c[1]}55`;
+
+      const label = document.createElement("div");
+      label.classList.add("scale-planet-label");
+      label.innerHTML = `${planet.name}<br>${planet.mean_radius_km.toLocaleString()} km`;
+
+      wrap.appendChild(planetDiv);
+      wrap.appendChild(label);
+      container.appendChild(wrap);
+  });
 }
 
-// Displays the comparison of the planetary bodies
-function displayComparison(){
-
-const container = document.getElementById("comparison-container");
-container.innerHTML = "";
-
-const selectedProps = getSelectedProperties();
-
-selectedPlanets.forEach((planet, index) => {
-
-const card = document.createElement("div");
-card.classList.add("comparison-card");
-
-let propertyHTML = "";
-
-selectedProps.forEach(prop => {
-
-let value = planet[prop];
-let className = "";
-
-if(selectedPlanets.length === 2){
-
-const other = selectedPlanets[1 - index][prop];
-
-if(typeof value === "number" && typeof other === "number"){
-
-if(value > other){
-className = "better";
-}
-else if(value < other){
-className = "worse";
-}
-
-}
-
-}
-
-// Update orbital labels for Moons
-function getDynamicLabel(planet, prop){
-
-const isMoon = planet.class === "Moon";
-
-if(prop === "perihelion"){
-return isMoon ? "Perigee (km)" : "Perihelion (AU)";
-}
-
-if(prop === "aphelion"){
-return isMoon ? "Apogee (km)" : "Aphelion (AU)";
-}
-
-if(prop === "semi_major_axis"){
-return isMoon ? "Semi-Major Axis to Parent (km)" : "Semi-Major Axis (AU)";
-}
-
-return propertyLabels[prop] || prop;
-}
-
-const label = getDynamicLabel(planet, prop);
-const val = getValueWithUnits(planet, prop);
-
-propertyHTML += `
-<p class="${className}">
-<strong>${label}:</strong> ${val}
-</p>
-`;
-
+// ================================
+// LIVE PROPERTY UPDATES
+// ================================
+document.addEventListener("change", (e) => {
+    if (e.target.closest("#property-controls")) {
+        displayComparison();
+    }
 });
 
-card.innerHTML = `
-<img src="${planet.image}">
-<h2>${planet.name}</h2>
-${propertyHTML}
-`;
-
-container.appendChild(card);
-
+// ================================
+// SIDEBAR COLLAPSE / EXPAND
+// ================================
+document.getElementById("toggle-sidebar").addEventListener("click", () => {
+    document.body.classList.add("sidebar-collapsed");
 });
 
+function expandSidebar() {
+    document.body.classList.remove("sidebar-collapsed");
 }
 
-document.addEventListener("change", () => {
-
-displayComparison();
-
-});
-
-const toggleButton = document.getElementById("toggle-sidebar");
-
-toggleButton.addEventListener("click", () => {
-
-document.body.classList.toggle("sidebar-collapsed");
-
-});
-
-
-// Scales the displayed planetary bodies according to their size ratios
-function displayScale(){
-
-const container = document.getElementById("scale-container");
-
-container.innerHTML = "";
-
-if(selectedPlanets.length === 0) return;
-
-const SCALE_FACTOR = 0.01; 
-// reduces real km sizes into display pixels
-
-selectedPlanets.forEach(planet => {
-
-const size = planet.mean_radius_km * SCALE_FACTOR;
-
-const planetDiv = document.createElement("div");
-
-planetDiv.classList.add("scale-planet");
-
-planetDiv.style.width = size + "px";
-planetDiv.style.height = size + "px";
-
-planetDiv.innerHTML = `<span>${planet.name}<br>${planet.mean_radius_km} km</span>`;
-
-container.appendChild(planetDiv);
-
-});
-
-}
-
-// Allow arrow keys to toggle through Controls section
-const planetGrid = document.getElementById("planet-grid");
-
+// ================================
+// KEYBOARD NAV
+// ================================
 document.addEventListener("keydown", (e) => {
-
-if(!planetGrid) return;
-
-if(e.key === "ArrowDown"){
-planetGrid.scrollBy({ top: 80, behavior: "smooth" });
-}
-
-if(e.key === "ArrowUp"){
-planetGrid.scrollBy({ top: -80, behavior: "smooth" });
-}
-
+    const grid = document.getElementById("planet-grid");
+    if (!grid) return;
+    if (e.key === "ArrowDown") grid.scrollBy({ top:  80, behavior: "smooth" });
+    if (e.key === "ArrowUp")   grid.scrollBy({ top: -80, behavior: "smooth" });
 });
 
+// ================================
+// INIT
+// ================================
+loadPlanets();

@@ -4,162 +4,613 @@
 <head>
 <meta charset="UTF-8">
 <title>Planetary Properties</title>
-
 <link rel="stylesheet" href="../css/styles.css">
+<style>
 
+/* ── HERO ── */
+    .tool-hero {
+        text-align: center;
+        padding: 60px 20px 30px;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .tool-hero h1 {
+        font-size: 36px;
+        font-weight: 800;
+        color: white;
+        letter-spacing: -0.02em;
+        margin-bottom: 12px;
+    }
+
+    .tool-hero h1 span { color: #4da3ff; }
+
+    .tool-hero p {
+        font-size: 16px;
+        color: #8fa8cc;
+        line-height: 1.65;
+        margin: 0;
+    }
+
+    .hero-divider {
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, #4da3ff, #a78bfa);
+        border-radius: 2px;
+        margin: 16px auto 20px;
+    }
+
+/* ── LAYOUT ── */
+.tool-layout {
+    display: flex;
+    min-height: calc(100vh - 60px);
+    position: relative;
+}
+
+/* ── SIDEBAR ── */
+#sidebar {
+    width: 280px;
+    min-width: 280px;
+    background: linear-gradient(180deg, #0d1525 0%, #0a1020 100%);
+    border-right: 2px solid #4da3ff;
+    border-left: 2px solid #4da3ff;
+    border-top: 2px solid #4da3ff;
+    border-bottom: 2px solid #4da3ff;
+    padding: 20px 14px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: width 0.25s ease, min-width 0.25s ease, padding 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-sizing: border-box;
+}
+
+#sidebar::-webkit-scrollbar { width: 8px; }
+#sidebar::-webkit-scrollbar-thumb {
+    background: #1e2f47;
+    border-radius: 4px;
+}
+
+/* Collapsed sidebar — strip to zero, keep expand tab visible */
+.sidebar-collapsed #sidebar {
+    width: 0;
+    min-width: 0;
+    padding: 0;
+    overflow: hidden;
+    border-right: none;
+}
+
+/* ── EXPAND TAB (visible when collapsed) ── */
+#expand-tab {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(77,163,255,0.05);
+    border: 2px solid rgba(77,163,255,0.65);
+    border-radius: 8px;
+    color: #4da3ff;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    writing-mode: vertical-rl;
+    padding: 14px 7px;
+    cursor: pointer;
+    z-index: 200;
+    transition: background 0.25s;
+
+
+}
+
+#expand-tab:hover { background: #3a8de0; }
+
+.sidebar-collapsed #expand-tab { display: block; }
+
+/* ── SIDEBAR SECTIONS ── */
+.sidebar-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #4da3ff;
+    padding-bottom: 6px;
+    border-bottom: 2px solid rgba(77,163,255,0.65);
+    white-space: nowrap;
+}
+
+#sidebar input[type="text"],
+#sidebar select {
+    width: 100%;
+    background: #0a1020;
+    border: 1px solid #1e2e47;
+    border-radius: 8px;
+    padding: 8px 10px;
+    color: white;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+#sidebar input[type="text"]:focus,
+#sidebar select:focus {
+    outline: none;
+    border-color: #4da3ff;
+    box-shadow: 0 0 0 2px rgba(77,163,255,0.65);
+}
+
+#sidebar input::placeholder { color: #3a4f6a; }
+
+/* ── COLLAPSE BUTTON ── */
+#toggle-sidebar {
+    background: rgba(77,163,255,0.05);
+    border: 2px solid rgba(77,163,255,0.65);
+    border-radius: 8px;
+    padding: 7px 14px;
+    color: #4da3ff;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: background 0.25s, border-color 0.25s;
+    align-self: flex-start;
+    white-space: nowrap;
+}
+
+#toggle-sidebar:hover {
+    background: rgba(77,163,255,0.65);
+    border-color: #4da3ff;
+}
+
+/* ── PLANET GRID ── */
+#planet-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+#planet-grid::-webkit-scrollbar { width: 8px; }
+#planet-grid::-webkit-scrollbar-thumb {
+    background: #4da3ff;
+    border-radius: 4px;
+}
+
+.planet-card {
+    background: #0f1a2e;
+    border: 1px solid #1c2d47;
+    border-radius: 8px;
+    padding: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.25s, transform 0.25s;
+}
+
+.planet-card:hover {
+    border-color: #2a4a6a;
+    transform: scale(1.04);
+}
+
+.planet-card.selected {
+    border: 2px solid #4da3ff;
+    box-shadow: 0 0 8px rgba(77,163,255,0.65);
+    transform: scale(1.05);
+}
+
+/* Disabled state — 2 already selected, this one isn't */
+.planet-card.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.planet-card img {
+    width: 100%;
+    border-radius: 5px;
+    display: block;
+}
+
+.planet-card p {
+    font-size: 13px;
+    font-weight: 500;
+    color: #4da3ff;
+    margin: 3px 0 0;
+}
+
+/* ── PROPERTY GROUPS ── */
+.property-group {
+    background: #0f1a2e;
+    border: 1px solid #1c2d47;
+    border-radius: 10px;
+    padding: 10px 12px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.property-group h4 {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #4da3ff;
+    margin-bottom: 8px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid rgba(77,163,255,0.65);
+}
+
+.group-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px 6px;
+}
+
+.group-grid label {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    font-size: 14px;
+    color: #8fa8cc;
+    cursor: pointer;
+    line-height: 1.4;
+    transition: color 0.25s;
+}
+
+.group-grid label:hover { color: #c8d8ee; }
+
+.group-grid input[type="checkbox"] {
+    accent-color: #4da3ff;
+    margin-top: 2px;
+    width: 13px;
+    height: 13px;
+}
+
+/* ── DISPLAY AREA ── */
+#display-area {
+    flex: 1;
+    padding: 28px 36px;
+    overflow-y: auto;
+    min-width: 0;
+}
+
+.display-section-title {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #4da3ff;
+    margin: 0 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid rgba(77,163,255,0.65);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.display-section-title::before {
+    content: '';
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #4da3ff;
+    flex-shrink: 0;
+}
+
+/* ── COMPARISON CARDS ── */
+#comparison-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.comparison-card {
+    background: linear-gradient(160deg, #0f1928, #121e30);
+    border: 2px solid #1c2d47;
+    border-radius: 14px;
+    padding: 24px 20px;
+    min-width: 220px;
+    flex: 1;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.comparison-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #4da3ff, #a78bfa);
+}
+
+.comparison-card:hover {
+    border-color: #2a3f5f;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.65);
+}
+
+/* Planet image — fixed container so all images appear same size */
+.planet-img-wrap {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #050d18;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    box-shadow: 0 0 20px rgba(77,163,255,0.65), inset 0 0 20px rgba(0,0,0,0.65);
+    flex-shrink: 0;
+}
+
+.planet-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.comparison-card h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    margin: 0 0 10px;
+}
+
+.comparison-card p {
+    width: 100%;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 700;
+    color: #c8d8ee;
+    margin: 0;
+    padding: 5px 0;
+    border-bottom: 2px solid rgba(255,255,255,0.65);
+    line-height: 1.4;
+}
+
+.comparison-card p strong {
+    color: #c8d8ee;
+    font-weight: 700;
+}
+
+.better { color: #4ade80 !important; }
+.better strong { color: #4ade80 !important; }
+.worse  { color: #f87171 !important; }
+.worse strong  { color: #f87171 !important; }
+
+/* ── SIZE COMPARISON ── */
+#scale-container {
+    display: flex;
+    align-items: flex-end;
+    gap: 50px;
+    padding: 20px 0 20px;
+    flex-wrap: wrap;
+    min-height: 220px;
+}
+
+.scale-planet-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.scale-planet {
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.scale-planet-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    line-height: 1.5;
+    white-space: nowrap;
+}
+
+/* ── EMPTY STATE ── */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 20px;
+    color: #3a4f6a;
+    text-align: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.empty-state-icon { font-size: 44px; opacity: 1; }
+.empty-state p { font-size: 14px; color: #4da3ff; font-weight: 700;}
+
+</style>
 </head>
 
 <body>
 
 <header class="navbar">
 
-<h1 class="logo">Planetary Properties</h1>
+<a href="tool.html" class="brand-container">
 
-<nav>
-<ul class="nav-links">
-<li><a href="../index.html">Home</a></li>
-<li><a href="about.html">About</a></li>
-<li><a href="tool.html">Planetary Properties</a></li>
-<li><a href="scenario.html">Scenario Comparisons</a></li>
-<li><a href="simulations.html">Simulations</a></li>
-<li><a href="conversion.html">Unit Conversions</a></li>
-<li><a href="resources.html">Resources</a></li>
-<li><a href="merch.html">Merch</a></li>
-<li><a href="support.html">Support</a></li>
-</ul>
+    <img 
+        src="../images/branding/kuiperspace_wordmark.png"
+        alt="KuiperSpace"
+        class="brand-wordmark"
+    >
+
+</a>
+    <nav>
+    <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="tool.html">Planetary Properties</a></li>
+        <li><a href="scenario.html">Scenario Comparisons</a></li>
+        <li><a href="viewer.html">3D Planet Viewer</a></li>
+        <li><a href="simulations.html">Orbit Simulator</a></li>
+        <li><a href="conversion.html">Unit Conversions</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="merch.html">Shop & Support</a></li>
+        <li><a href="support.html">Contact</a></li>
+    </ul>
 </nav>
-
 </header>
+
+<div class="tool-hero">
+    <h1>Planetary <span>Properties</span></h1>
+    <div class="hero-divider"></div>
+    <p>Explore and compare real data across planets, moons, dwarf planets, and asteroids — from surface gravity to atmospheric composition.</p>
+</div>
+
+<!-- Expand tab — only visible when sidebar is collapsed -->
+<button id="expand-tab" onclick="expandSidebar()">Expand ▶</button>
 
 <main class="tool-layout">
 
-<div id="sidebar">
+    <!-- ── SIDEBAR ── -->
+    <div id="sidebar">
 
-<!---Collapse Controls button-->
-<h2>Controls</h2>
+        <div class="sidebar-section">
+            <button id="toggle-sidebar">⟨ Collapse</button>
+        </div>
 
-<button id="toggle-sidebar">Collapse</button>
+        <div class="sidebar-section">
+            <div class="sidebar-label">Select Planetary Bodies</div>
+            <input type="text" id="planet-search" placeholder="Search...">
+            <select id="class-filter">
+                <option value="all">All Bodies</option>
+                <option value="planet">Planets</option>
+                <option value="moon">Moons</option>
+                <option value="dwarf">Dwarf Planets</option>
+                <option value="asteroid">Asteroids</option>
+            </select>
+            <div id="planet-grid"></div>
+        </div>
 
-<!---Select Planetary Bodies lookup finder-->
-<h3>Select Planetary Bodies</h3>
+        <div class="sidebar-section">
+            <div class="sidebar-label">Data Properties</div>
+            <div id="property-controls">
 
-<input type="text" id="planet-search" placeholder="Search planetary bodies...">
+                <div class="property-group">
+                    <h4>Basic</h4>
+                    <div class="group-grid">
+                        <label><input type="checkbox" value="class" checked> Class</label>
+                        <label><input type="checkbox" value="parent"> Parent</label>
+                        <label><input type="checkbox" value="moons"> Moons</label>
+                    </div>
+                </div>
 
-<!---Filter by Class dropdown menu buttons-->
-<h3>Filter by Class</h3>
+                <div class="property-group">
+                    <h4>Physical</h4>
+                    <div class="group-grid">
+                        <label><input type="checkbox" value="mass_kg"> Mass (kg)</label>
+                        <label><input type="checkbox" value="mean_radius_km" checked> Radius (km)</label>
+                        <label><input type="checkbox" value="volume_km3"> Volume (km³)</label>
+                        <label><input type="checkbox" value="density_kg_m3" checked> Density (kg/m³)</label>
+                        <label><input type="checkbox" value="gravity_m_s2" checked> Gravity (m/s²)</label>
+                        <label><input type="checkbox" value="escape_velocity_km_s"> Escape Vel.</label>
+                        <label><input type="checkbox" value="oblateness"> Oblateness</label>
+                    </div>
+                </div>
 
-<!---Planetar Body selection by picture-->
-<select id="class-filter">
+                <div class="property-group">
+                    <h4>Orbital</h4>
+                    <div class="group-grid">
+                        <label><input type="checkbox" value="perihelion"> Perihelion</label>
+                        <label><input type="checkbox" value="aphelion"> Aphelion</label>
+                        <label><input type="checkbox" value="orbital_period_days" checked> Orb. Period</label>
+                        <label><input type="checkbox" value="rotation_period_hours"> Rot. Period</label>
+                        <label><input type="checkbox" value="rotation_speed_kmh"> Rot. Speed</label>
+                        <label><input type="checkbox" value="semi_major_axis"> Semi-Major</label>
+                        <label><input type="checkbox" value="eccentricity"> Eccentricity</label>
+                        <label><input type="checkbox" value="axial_tilt_deg"> Axial Tilt</label>
+                        <label><input type="checkbox" value="orbital_inclination_deg"> Inclination</label>
+                    </div>
+                </div>
 
-<option value="all">All</option>
-<option value="planet">Planets</option>
-<option value="moon">Moons</option>
-<option value="dwarf">Dwarf Planets</option>
-<option value="asteroid">Asteroids</option>
+                <div class="property-group">
+                    <h4>Environmental</h4>
+                    <div class="group-grid">
+                        <label><input type="checkbox" value="avg_temp_c" checked> Avg Temp</label>
+                        <label><input type="checkbox" value="temp_range_c"> Temp Range</label>
+                        <label><input type="checkbox" value="magnetism_gauss"> Magnetism</label>
+                        <label><input type="checkbox" value="atmospheric_density_kg_m3"> Atm. Density</label>
+                        <label><input type="checkbox" value="atmospheric_pressure_bar"> Atm. Pressure</label>
+                        <label><input type="checkbox" value="atmospheric_composition"> Atm. Comp.</label>
+                        <label><input type="checkbox" value="scale_height_km"> Scale Height</label>
+                    </div>
+                </div>
 
-<!---Select Data Properties label-->
-</select>
+                <div class="property-group">
+                    <h4>Surface</h4>
+                    <div class="group-grid">
+                        <label><input type="checkbox" value="surface_composition"> Composition</label>
+                        <label><input type="checkbox" value="albedo"> Albedo</label>
+                    </div>
+                </div>
 
-<div id="planet-grid"></div>
+            </div>
+        </div>
 
-<h3>Select Data Properties</h3>
+    </div>
 
-<div id="property-controls">
+    <!-- ── DISPLAY AREA ── -->
+    <div id="display-area">
 
-<!-- BASIC -->
-<div class="property-group">
-<h4>Basic</h4>
-<div class="group-grid">
+        <div class="display-section-title">Planet Comparison</div>
+        <div id="comparison-container">
+            <div class="empty-state">
+                <div class="empty-state-icon">🪐</div>
+                <p>Select a body from the sidebar to get started.</p>
+            </div>
+        </div>
 
-<label><input type="checkbox" value="class" checked> Class</label>
-<label><input type="checkbox" value="parent"> Parent</label>
-<label><input type="checkbox" value="moons"> Moons</label>
+        <div class="display-section-title">Size Comparison</div>
+        <div id="scale-container"></div>
 
-</div>
-</div>
-
-<!-- PHYSICAL -->
-<div class="property-group">
-<h4>Physical</h4>
-<div class="group-grid">
-
-<label><input type="checkbox" value="mass_kg"> Mass (kg)</label>
-<label><input type="checkbox" value="mean_radius_km" checked> Mean Radius (km)</label>
-<label><input type="checkbox" value="volume_km3"> Volume (km³)</label>
-<label><input type="checkbox" value="density_kg_m3" checked> Density (kg/m³)</label>
-<label><input type="checkbox" value="gravity_m_s2" checked> Gravity (m/s²)</label>
-<label><input type="checkbox" value="escape_velocity_km_s"> Escape Velocity (km/s)</label>
-<label><input type="checkbox" value="oblateness"> Oblateness</label>
-
-</div>
-</div>
-
-<!-- ORBITAL -->
-<div class="property-group">
-<h4>Orbital</h4>
-<div class="group-grid">
-
-<label><input type="checkbox" value="perihelion"> Perihelion / Perigee (AU/km)</label>
-<label><input type="checkbox" value="aphelion"> Aphelion / Apogee (AU/km)</label>
-<label><input type="checkbox" value="orbital_period_days" checked> Orbital Period (days)</label>
-<label><input type="checkbox" value="rotation_period_hours"> Rotation Period (hours)</label>
-<label><input type="checkbox" value="rotation_speed_kmh"> Rotation Speed (km/hr)</label>
-<label><input type="checkbox" value="semi_major_axis"> Semi-Major Axis (AU/km)</label>
-<label><input type="checkbox" value="eccentricity"> Eccentricity</label>
-<label><input type="checkbox" value="axial_tilt_deg"> Axial Tilt (°)</label>
-<label><input type="checkbox" value="orbital_inclination_deg"> Orbital Inclination (°)</label>
-
-</div>
-</div>
-
-<!-- ENVIRONMENTAL -->
-<div class="property-group">
-<h4>Environmental</h4>
-<div class="group-grid">
-
-<label><input type="checkbox" value="avg_temp_c" checked> Avg Surface Temp (°C)</label>
-<label><input type="checkbox" value="temp_range_c"> Surface Temp Range (°C)</label>
-<label><input type="checkbox" value="magnetism_gauss"> Magnetism (Gauss)</label>
-<label><input type="checkbox" value="atmospheric_density_kg_m3"> Atmospheric Density (kg/m³)</label>
-<label><input type="checkbox" value="atmospheric_pressure_bar"> Atmospheric Pressure (bar)</label>
-<label><input type="checkbox" value="atmospheric_composition"> Atmospheric Composition</label>
-<label><input type="checkbox" value="scale_height_km"> Scale Height (km)</label>
-
-</div>
-</div>
-
-<!-- SURFACE -->
-<div class="property-group">
-<h4>Surface</h4>
-<div class="group-grid">
-
-<label><input type="checkbox" value="surface_composition"> Surface Composition</label>
-<label><input type="checkbox" value="albedo"> Albedo</label>
-
-</div>
-</div>
-
-</div>
-
-</div> <!-- END property-controls -->
-
-</div> <!-- ✅ END sidebar -->
-
-<div id="display-area">
-
-<h2>Planet Comparison</h2>
-
-<div id="comparison-container"></div>
-
-<h2>Planet Size Comparison</h2>
-
-<div id="scale-container"></div>
-
-</div>
+    </div>
 
 </main>
 
 <script src="../js/app.js"></script>
+
+<footer class="site-footer">
+
+<p>
+KuiperSpace is an independent educational project focused on astronomy and planetary science.
+Data, simulations, calculations, and visualizations may contain inaccuracies or simplified approximations.
+</p>
+
+<div class="footer-links">
+<a href="terms.html">Terms</a>
+<a href="privacy.html">Privacy</a>
+<a href="disclaimer.html">Disclaimer</a>
+<a href="copyright.html">Copyright</a>
+<a href="affiliate.html">Affiliate Disclosure</a>
+</div>
+
+<p class="copyright">
+© 2026 KuiperSpace — thekuiperspace.com
+</p>
+
+</footer>
 
 </body>
 </html>
