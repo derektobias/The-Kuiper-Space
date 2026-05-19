@@ -2,114 +2,530 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Scenario Comparisons</title>
-
+<title>Scenario Comparisons — The Planetary Lab</title>
 <link rel="stylesheet" href="../css/styles.css">
+<style>
+
+/* ── HERO ── */
+.scenario-hero {
+    text-align: center;
+    padding: 52px 20px 28px;
+    max-width: 680px;
+    margin: 0 auto;
+}
+
+.scenario-hero h1 {
+    font-size: 36px;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+}
+
+.scenario-hero h1 span { color: #4da3ff; }
+
+.scenario-hero p {
+    font-size: 16px;
+    color: #8fa8cc;
+    line-height: 1.65;
+    margin: 0;
+}
+
+.hero-divider {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #4da3ff, #a78bfa);
+    border-radius: 2px;
+    margin: 14px auto 18px;
+}
+
+/* ── INPUT SECTION ── */
+.input-section {
+    background: linear-gradient(160deg, #0f1928, #121e30);
+    border: 1px solid #1c2d47;
+    border-radius: 16px;
+    padding: 24px 28px;
+    max-width: 700px;
+    margin: 0 auto 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.input-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #4da3ff, #a78bfa);
+}
+
+.input-section-title {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #4da3ff;
+    margin-bottom: 16px;
+}
+
+.input-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 24px;
+    margin-bottom: 16px;
+}
+
+.input-row {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.input-row label {
+    font-size: 13px;
+    color: #8fa8cc;
+    font-weight: 600;
+}
+
+.input-row label span {
+    color: #4da3ff;
+    font-weight: 700;
+}
+
+.input-row input {
+    background: #0a1020;
+    border: 1px solid #1e2e47;
+    border-radius: 8px;
+    padding: 9px 12px;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-row input:focus {
+    outline: none;
+    border-color: #4da3ff;
+    box-shadow: 0 0 0 2px rgba(77,163,255,0.15);
+}
+
+.unit-toggle-btn {
+    background: rgba(77,163,255,0.08);
+    border: 1px solid rgba(77,163,255,0.3);
+    border-radius: 8px;
+    padding: 8px 20px;
+    color: #4da3ff;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.unit-toggle-btn:hover {
+    background: rgba(77,163,255,0.16);
+    border-color: #4da3ff;
+}
+
+.disclaimer {
+    font-size: 12px;
+    color: #4a5a78;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* ── SCENARIO BUTTONS ── */
+.scenario-btn-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 0 auto 28px;
+    max-width: 700px;
+}
+
+.scenario-btn {
+    background: #0f1928;
+    border: 1px solid #1c2d47;
+    border-radius: 10px;
+    padding: 10px 20px;
+    color: #6a85a8;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.scenario-btn:hover {
+    border-color: #2a4a6a;
+    color: #c8d8ee;
+}
+
+.scenario-btn.active-btn {
+    background: rgba(77,163,255,0.12);
+    border-color: #4da3ff;
+    color: #4da3ff;
+    box-shadow: 0 0 16px rgba(77,163,255,0.15);
+}
+
+/* ── MIDDLE SECTION ── */
+.middle-section {
+    display: flex;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 30px;
+    align-items: flex-start;
+}
+
+/* ── LEFT PANEL ── */
+.left-panel {
+    width: 280px;
+    min-width: 280px;
+    background: linear-gradient(180deg, #0d1525, #0a1020);
+    border: 1px solid #1c2d47;
+    border-radius: 14px;
+    padding: 18px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.left-panel-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #4da3ff;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(77,163,255,0.2);
+}
+
+.left-panel input,
+.left-panel select {
+    width: 100%;
+    background: #0a1020;
+    border: 1px solid #1e2e47;
+    border-radius: 8px;
+    padding: 8px 10px;
+    color: white;
+    font-size: 13px;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.left-panel input:focus,
+.left-panel select:focus {
+    outline: none;
+    border-color: #4da3ff;
+}
+
+.left-panel input::placeholder { color: #3a4f6a; }
+
+#planet-selector {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    max-height: 420px;
+    overflow-y: auto;
+}
+
+#planet-selector::-webkit-scrollbar { width: 4px; }
+#planet-selector::-webkit-scrollbar-thumb {
+    background: #4da3ff;
+    border-radius: 4px;
+}
+
+.planet-card {
+    background: #0f1a2e;
+    border: 1px solid #1c2d47;
+    border-radius: 8px;
+    padding: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s;
+}
+
+.planet-card:hover {
+    border-color: #2a4a6a;
+    transform: scale(1.04);
+}
+
+.planet-card.selected {
+    border: 2px solid #4da3ff;
+    box-shadow: 0 0 8px rgba(77,163,255,0.35);
+}
+
+.planet-card img {
+    width: 100%;
+    border-radius: 5px;
+    display: block;
+}
+
+.planet-card p {
+    font-size: 10px;
+    color: #8fa8cc;
+    margin: 3px 0 0;
+}
+
+/* ── RIGHT PANEL ── */
+.right-panel {
+    flex: 1;
+    min-width: 0;
+    background: linear-gradient(160deg, #0f1928, #121e30);
+    border: 1px solid #1c2d47;
+    border-radius: 14px;
+    padding: 24px;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+}
+
+.right-panel-title {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #4da3ff;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(77,163,255,0.2);
+}
+
+#visual-animation {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ── ANIMATION HELPERS ── */
+.anim-empty {
+    color: #3a4f6a;
+    font-size: 14px;
+    text-align: center;
+}
+
+.anim-stat {
+    font-size: 14px;
+    color: #8fa8cc;
+    margin: 4px 0;
+}
+
+.anim-stat strong { color: #c8d8ee; }
+
+.anim-stat .highlight { color: #4da3ff; font-weight: 700; }
+
+/* ── BOTTOM GRID ── */
+.bottom-section-title {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #4da3ff;
+    max-width: 1200px;
+    margin: 10px auto 16px;
+    padding: 0 20px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(77,163,255,0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.bottom-section-title::before {
+    content: '';
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #4da3ff;
+    flex-shrink: 0;
+}
+
+.scenario-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 14px;
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    padding: 0 20px;
+}
+
+.scenario-card {
+    background: linear-gradient(160deg, #0f1928, #121e30);
+    border: 1px solid #1c2d47;
+    border-radius: 12px;
+    padding: 14px;
+    transition: border-color 0.2s, transform 0.2s;
+    text-align: center;
+}
+
+.scenario-card:hover {
+    border-color: #2a3f5f;
+    transform: translateY(-3px);
+}
+
+.scenario-card img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto 10px;
+    box-shadow: 0 0 16px rgba(77,163,255,0.15);
+}
+
+.scenario-card h2 {
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    margin: 0 0 8px;
+}
+
+.scenario-card p {
+    font-size: 12px;
+    color: #6a85a8;
+    margin: 3px 0;
+    text-align: left;
+}
+
+.scenario-card p strong {
+    color: #8fa8cc;
+    font-weight: 600;
+}
+
+</style>
 </head>
 
 <body>
 
 <header class="navbar">
-<h1 class="logo">Scenario Comparisons</h1>
+
+<a href="scenario.html" class="brand-container">
+
+    <img 
+        src="../images/branding/kuiperspace_wordmark.png"
+        alt="KuiperSpace"
+        class="brand-wordmark"
+    >
+
+</a>
 
 <nav>
-<ul class="nav-links">
-<li><a href="../index.html">Home</a></li>
-<li><a href="about.html">About</a></li>
-<li><a href="tool.html">Planetary Properties</a></li>
-<li><a href="scenario.html">Scenario Comparisons</a></li>
-<li><a href="simulations.html">Simulations</a></li>
-<li><a href="conversion.html">Unit Conversions</a></li>
-<li><a href="resources.html">Resources</a></li>
-<li><a href="merch.html">Merch</a></li>
-<li><a href="support.html">Support</a></li>
-</ul>
+    <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="tool.html">Planetary Properties</a></li>
+        <li><a href="scenario.html">Scenario Comparisons</a></li>
+        <li><a href="viewer.html">3D Planet Viewer</a></li>
+        <li><a href="simulations.html">Orbit Simulator</a></li>
+        <li><a href="conversion.html">Unit Conversions</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="merch.html">Shop & Support</a></li>
+        <li><a href="support.html">Contact</a></li>
+    </ul>
 </nav>
-
 </header>
 
 <main>
 
-<h2 class="section-title">Compare Your Performance on Other Planetary Bodies:</h2>
-
-<!-- INPUT SECTION -->
-<div style="text-align:center; margin:20px;">
-
-    <div>
-        <label>Enter your weight (<span id="unit-weight">lbs</span>):</label>
-        <input type="number" id="userWeight" value="150">
+    <!-- ── HERO ── -->
+    <div class="scenario-hero">
+        <h1>Scenario <span>Comparisons</span></h1>
+        <div class="hero-divider"></div>
+        <p>Enter your real-world stats and see how gravity changes everything — from how much you'd weigh on Jupiter to how far you could throw on the Moon.</p>
     </div>
 
-    <div>
-        <label>Enter your jump height (<span id="unit-height">ft</span>):</label>
-        <input type="number" id="userJump" value="2">
+    <!-- ── INPUTS ── -->
+    <div class="input-section">
+        <div class="input-section-title">Your Stats</div>
+        <div class="input-grid">
+            <div class="input-row">
+                <label>Weight (<span id="unit-weight">lbs</span>)</label>
+                <input type="number" id="userWeight" value="150">
+            </div>
+            <div class="input-row">
+                <label>Jump Height (<span id="unit-height">ft</span>)</label>
+                <input type="number" id="userJump" value="2">
+            </div>
+            <div class="input-row">
+                <label>Throw Distance (<span id="unit-distance">ft</span>)</label>
+                <input type="number" id="userThrow" value="30">
+            </div>
+            <div class="input-row">
+                <label>Running Speed (<span id="unit-speed">mph</span>)</label>
+                <input type="number" id="userSpeed" value="6">
+            </div>
+        </div>
+        <div style="text-align:center;">
+            <button onclick="toggleUnits()" class="unit-toggle-btn" id="unit-toggle-btn">⇄ Switch to Metric</button>
+        </div>
+        <p class="disclaimer">Based on surface gravity and assuming Earth-like conditions.</p>
     </div>
 
-    <div>
-        <label>Enter your throw range (<span id="unit-distance">ft</span>):</label>
-        <input type="number" id="userThrow" value="30">
+    <!-- ── SCENARIO BUTTONS ── -->
+    <div class="scenario-btn-row">
+        <button id="btn-weight" onclick="setScenario('weight')" class="scenario-btn active-btn">⚖️ Weight</button>
+        <button id="btn-jump"   onclick="setScenario('jump')"   class="scenario-btn">↑ Jump Height</button>
+        <button id="btn-throw"  onclick="setScenario('throw')"  class="scenario-btn">🎯 Throw Distance</button>
+        <button id="btn-run"    onclick="setScenario('run')"    class="scenario-btn">🏃 Running Speed</button>
     </div>
 
-    <div>
-        <label>Enter your running speed (<span id="unit-speed">mph</span>):</label>
-        <input type="number" id="userSpeed" value="6">
-    </div>
+    <!-- ── MIDDLE ── -->
+    <div class="middle-section">
 
-</div>
+        <div class="left-panel">
+            <div class="left-panel-label">Select a Planetary Body</div>
+            <input type="text" id="planet-search" placeholder="Search...">
+            <select id="class-filter">
+                <option value="all">All Bodies</option>
+                <option value="planet">Planets</option>
+                <option value="moon">Moons</option>
+                <option value="dwarf">Dwarf Planets</option>
+                <option value="asteroid">Asteroids</option>
+            </select>
+            <div id="planet-selector"></div>
+        </div>
 
-<div style="text-align:center; margin-bottom:15px;">
-    <button onclick="toggleUnits()" class="button">Switch to Metric</button>
-</div>
-
-<!-- SCENARIO BUTTONS -->
-<div style="text-align:center; margin-bottom:20px;">
-    <button id="btn-weight" onclick="setScenario('weight')" class="button active-btn">Weight Comparison</button>
-    <button id="btn-jump" onclick="setScenario('jump')" class="button">Jump Height</button>
-    <button id="btn-throw" onclick="setScenario('throw')" class="button">Throw Distance</button>
-    <button id="btn-run" onclick="setScenario('run')" class="button">Running Speed</button>
-</div>
-
-<!-- DISCLAIMER -->
- <p id="scenario-disclaimer" style="text-align:center; font-size:14px; color:#aaa; margin-top:10px;">
-Based on surface gravity and assuming Earth-like conditions.
-</p>
-
-<!-- MIDDLE SECTION ARCHITECTURE -->
-<div class="middle-section">
-    <div class="left-panel">
-
-        <h3>Select Planetary Body</h3>
-
-        <!-- Search -->
-        <input type="text" id="planet-search" placeholder="Search planetary bodies...">
-
-        <!-- Filter -->
-        <select id="class-filter">
-            <option value="all">All</option>
-            <option value="planet">Planets</option>
-            <option value="moon">Moons</option>
-            <option value="dwarf">Dwarf Planets</option>
-            <option value="asteroid">Asteroids</option>
-        </select>
-
-        <!-- Grid -->
-        <div id="planet-selector"></div>
+        <div class="right-panel">
+            <div class="right-panel-title" id="visual-title">Select a planetary body to begin</div>
+            <div id="visual-animation">
+                <div class="anim-empty">Choose a body from the left panel to see your scenario visualized.</div>
+            </div>
+        </div>
 
     </div>
 
-    <div class="right-panel">
-        <h3 id="visual-title">Visualization: (Select a planet...)</h3>
-        <div id="visual-animation"></div>
-    </div>
-
-</div>
-
-<!-- OUTPUT -->
-<div id="results" class="scenario-grid"></div>
+    <!-- ── BOTTOM DATA GRID ── -->
+    <div class="bottom-section-title">All Planetary Bodies</div>
+    <div id="results" class="scenario-grid"></div>
 
 </main>
 
 <script src="../js/scenario.js"></script>
+
+<footer class="site-footer">
+
+<p>
+KuiperSpace is an independent educational project focused on astronomy and planetary science.
+Data, simulations, calculations, and visualizations may contain inaccuracies or simplified approximations.
+</p>
+
+<div class="footer-links">
+<a href="terms.html">Terms</a>
+<a href="privacy.html">Privacy</a>
+<a href="disclaimer.html">Disclaimer</a>
+<a href="copyright.html">Copyright</a>
+<a href="affiliate.html">Affiliate Disclosure</a>
+</div>
+
+<p class="copyright">
+© 2026 KuiperSpace — thekuiperspace.com
+</p>
+
+</footer>
 
 </body>
 </html>
