@@ -6,430 +6,621 @@
 <title>Unit Conversions</title>
 
 <link rel="stylesheet" href="../css/styles.css">
+<style>
 
+    main {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    /* ── HERO ── */
+    .conv-hero {
+        text-align: center;
+        padding: 60px 20px 30px;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .conv-hero h1 {
+        font-size: 36px;
+        font-weight: 800;
+        color: white;
+        letter-spacing: -0.02em;
+        margin-bottom: 12px;
+    }
+
+    .conv-hero h1 span { color: #4da3ff; }
+
+    .conv-hero p {
+        font-size: 16px;
+        color: #8fa8cc;
+        line-height: 1.65;
+        margin: 0;
+    }
+
+    .hero-divider {
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, #4da3ff, #a78bfa);
+        border-radius: 2px;
+        margin: 16px auto 20px;
+    }
+
+    /* ── GRID ── */
+    .conv-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        width: 90%;
+        max-width: 1100px;
+        margin: 0 auto 60px;
+        padding: 0 10px;
+        text-align: left;
+        align-self: center;
+        justify-content: center;
+    }
+
+    @media (max-width: 1000px) { .conv-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px)  { .conv-grid { grid-template-columns: 1fr; } }
+
+    /* ── CARDS ── */
+    .converter {
+        background: linear-gradient(160deg, #0f1928, #121e30);
+        border: 1px solid #1c2d47;
+        border-radius: 16px;
+        padding: 20px 20px 20px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+        transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+        position: relative;
+        overflow: visible;
+        z-index: 1;
+    }
+
+    .converter::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 4px;
+        background: var(--accent-gradient, linear-gradient(90deg, #4da3ff, #7bc4ff));
+        border-radius: 16px 16px 0 0;
+        z-index: 1;
+    }
+
+    .converter:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+        border-color: #2a3f5f;
+        z-index: 10;
+    }
+
+    /* Category accent colors */
+    .converter[data-type="length"]     { --accent-gradient: linear-gradient(90deg, #4da3ff, #7bc4ff); --accent: #4da3ff; }
+    .converter[data-type="area"]       { --accent-gradient: linear-gradient(90deg, #34d399, #6ee7b7); --accent: #34d399; }
+    .converter[data-type="volume"]     { --accent-gradient: linear-gradient(90deg, #60a5fa, #93c5fd); --accent: #60a5fa; }
+    .converter[data-type="mass"]       { --accent-gradient: linear-gradient(90deg, #f59e0b, #fcd34d); --accent: #f59e0b; }
+    .converter[data-type="time"]       { --accent-gradient: linear-gradient(90deg, #a78bfa, #c4b5fd); --accent: #a78bfa; }
+    .converter[data-type="speed"]      { --accent-gradient: linear-gradient(90deg, #f87171, #fca5a5); --accent: #f87171; }
+    .converter[data-type="energy"]     { --accent-gradient: linear-gradient(90deg, #fb923c, #fdba74); --accent: #fb923c; }
+    .converter[data-type="power"]      { --accent-gradient: linear-gradient(90deg, #facc15, #fde68a); --accent: #facc15; }
+    .converter[data-type="temperature"]{ --accent-gradient: linear-gradient(90deg, #f472b6, #f9a8d4); --accent: #f472b6; }
+    .converter[data-type="magnetic"]   { --accent-gradient: linear-gradient(90deg, #22d3ee, #67e8f9); --accent: #22d3ee; }
+    .converter[data-type="pressure"]   { --accent-gradient: linear-gradient(90deg, #818cf8, #a5b4fc); --accent: #818cf8; }
+    .converter[data-type="density"]    { --accent-gradient: linear-gradient(90deg, #2dd4bf, #5eead4); --accent: #2dd4bf; }
+
+    /* ── CARD HEADER ── */
+    .converter h2 {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--accent, #4da3ff);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin: 0 0 18px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        z-index: 1;
+    }
+
+    .converter h2::before {
+        content: '';
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent, #4da3ff);
+        flex-shrink: 0;
+        z-index: 1;
+    }
+
+    /* ── UNIT ROW ── */
+    .unitSelect:focus-within {
+        z-index: 500;
+    }
+
+    .unitSelect:focus-within .dropdownList {
+        z-index: 1000;
+    }
+
+    .unitRow {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .unitSelect {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .unitSelect input {
+        background: #0a1020;
+        border: 1px solid #1e2e47;
+        border-radius: 8px;
+        padding: 8px 28px 8px 10px;
+        color: white;
+        font-size: 14px;
+        min-width: 0;
+        width: 100%;
+        box-sizing: border-box;
+        transition: border-color 0.25s, box-shadow 0.25s;
+    }
+
+    .unitSelect input:focus {
+        outline: none;
+        border-color: var(--accent, #4da3ff);
+        box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent, #4da3ff) 20%, transparent);
+    }
+
+    .unitSelect input::placeholder { color: #3a4f6a; }
+
+    .clearBtn {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: #3a4f6a;
+        cursor: pointer;
+        font-size: 14px;
+        line-height: 1;
+        padding: 0;
+        transition: color 0.25s;
+    }
+
+    .clearBtn:hover { color: var(--accent, #4da3ff); }
+
+    .dropdownList {
+        position: absolute;
+        top: calc(100% + 4px);
+        left: 0;
+        right: 0;
+        max-height: 180px;
+        overflow-y: auto;
+        background: #0d1828;
+        border: 1px solid #1e2e47;
+        border-radius: 8px;
+        display: none;
+        z-index: 1000;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    }
+
+    .dropdownList::-webkit-scrollbar { width: 8px; }
+    .dropdownList::-webkit-scrollbar-thumb {
+        background: var(--accent, #4da3ff);
+        border-radius: 4px;
+        opacity: 0.5;
+    }
+
+    .dropdownItem {
+        padding: 8px 12px;
+        font-size: 14px;
+        color: #8fa8cc;
+        cursor: pointer;
+        transition: background 0.25s, color 0.25s;
+    }
+
+    .dropdownItem:hover,
+    .dropdownItem.active {
+        background: rgba(77, 163, 255, 0.08);
+        color: var(--accent, #4da3ff);
+    }
+
+    /* ── VALUE ROW ── */
+    .valueRow {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+
+    .valueRow input {
+        flex: 1;
+        min-width: 0;  /* ADD THIS */
+        background: #0a1020;
+        border: 1px solid #1e2e47;
+        border-radius: 8px;
+        padding: 10px 12px;
+        color: white;
+        font-size: 14px;
+        font-weight: 600;
+        box-sizing: border-box;
+        transition: border-color 0.25s, box-shadow 0.25s;
+    }
+
+    .valueRow input:focus {
+        outline: none;
+        border-color: var(--accent, #4da3ff);
+        box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent, #4da3ff) 20%, transparent);
+    }
+
+    .valueRow input[readonly] {
+        color: var(--accent, #4da3ff);
+        border-color: #1e2e47;
+        cursor: default;
+    }
+
+    .valueRow input::placeholder { color: #2a3f5f; }
+
+    /* ── SWAP BUTTON ── */
+    .swapBtn {
+        width: 100%;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid #1e2e47;
+        border-radius: 8px;
+        padding: 8px;
+        color: #6a85a8;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        cursor: pointer;
+        transition: background 0.25s, border-color 0.25s, color 0.25s;
+    }
+
+    .swapBtn:hover {
+        background: color-mix(in srgb, var(--accent, #4da3ff) 10%, transparent);
+        border-color: var(--accent, #4da3ff);
+        color: var(--accent, #4da3ff);
+    }
+
+    .highlight { color: var(--accent, #4da3ff); font-weight: bold; }
+
+</style>
 </head>
 
 <body>
 
 <header class="navbar">
 
-<h1 class="logo">Unit Conversions</h1>
+<a href="conversion.html" class="brand-container">
+
+    <img 
+        src="../images/branding/kuiperspace_wordmark.png"
+        alt="KuiperSpace"
+        class="brand-wordmark"
+    >
+
+</a>
 
 <nav>
-<ul class="nav-links">
-<li><a href="../index.html">Home</a></li>
-<li><a href="about.html">About</a></li>
-<li><a href="tool.html">Planetary Properties</a></li>
-<li><a href="scenario.html">Scenario Comparisons</a></li>
-<li><a href="simulations.html">Simulations</a></li>
-<li><a href="conversion.html">Unit Conversions</a></li>
-<li><a href="resources.html">Resources</a></li>
-<li><a href="merch.html">Merch</a></li>
-<li><a href="support.html">Support</a></li>
-</ul>
+    <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="tool.html">Planetary Properties</a></li>
+        <li><a href="scenario.html">Scenario Comparisons</a></li>
+        <li><a href="viewer.html">3D Planet Viewer</a></li>
+        <li><a href="simulations.html">Orbit Simulator</a></li>
+        <li><a href="conversion.html">Unit Conversions</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="merch.html">Shop & Support</a></li>
+        <li><a href="support.html">Contact</a></li>
+    </ul>
 </nav>
 
 </header>
 
 <main>
 
-<h1 class="title">Unit Conversions</h1>
-
-<div class="grid">
-
-<!-- LENGTH -->
-<div class="converter" data-type="length">
-<h2>Length / Distance</h2>
-
-<div class="unitRow">
-
-<div class="unitSelect">
-
-<input class="unitSearchFrom" placeholder="Search unit...">
-<button class="clearBtn clearFrom">×</button>
-
-<div class="dropdownList unitFrom"></div>
-
-</div>
-
-<div class="unitSelect">
-
-<input class="unitSearchTo" placeholder="Search unit...">
-<button class="clearBtn clearTo">×</button>
-
-<div class="dropdownList unitTo"></div>
-
-</div>
-
-</div>
-
-<div class="valueRow">
-<input class="inputValue" type="text" placeholder="Value">
-<input class="outputValue" type="text" readonly>
-</div>
-
-<button class="swapBtn">Swap</button>
-</div>
-
-<!-- AREA -->
-<div class="converter" data-type="area">
-<h2>Area</h2>
-
-<div class="unitRow">
-
-<div class="unitSelect">
-
-<input class="unitSearchFrom" placeholder="Search unit...">
-<button class="clearBtn clearFrom">×</button>
-
-<div class="dropdownList unitFrom"></div>
-
-</div>
-
-<div class="unitSelect">
-
-<input class="unitSearchTo" placeholder="Search unit...">
-<button class="clearBtn clearTo">×</button>
-
-<div class="dropdownList unitTo"></div>
-
-</div>
-
-</div>
-
-<div class="valueRow">
-<input class="inputValue" type="text" placeholder="Value">
-<input class="outputValue" type="text" readonly>
-</div>
-
-<button class="swapBtn">Swap</button>
-</div>
-
-<!-- VOLUME -->
-<div class="converter" data-type="volume">
-<h2>Volume</h2>
-
-<div class="unitRow">
-
-<div class="unitSelect">
-
-<input class="unitSearchFrom" placeholder="Search unit...">
-<button class="clearBtn clearFrom">×</button>
-
-<div class="dropdownList unitFrom"></div>
-
-</div>
-
-<div class="unitSelect">
-
-<input class="unitSearchTo" placeholder="Search unit...">
-<button class="clearBtn clearTo">×</button>
-
-<div class="dropdownList unitTo"></div>
-
-</div>
-
-</div>
-
-<div class="valueRow">
-<input class="inputValue" type="text" placeholder="Value">
-<input class="outputValue" type="text" readonly>
-</div>
-
-<button class="swapBtn">Swap</button>
-</div>
-
-<!-- MASS/Weight -->
-<div class="converter" data-type="mass">
-<h2>Mass/Weight</h2>
-
-<div class="unitRow">
-
-<div class="unitSelect">
-
-<input class="unitSearchFrom" placeholder="Search unit...">
-<button class="clearBtn clearFrom">×</button>
-
-<div class="dropdownList unitFrom"></div>
-
-</div>
-
-<div class="unitSelect">
-
-<input class="unitSearchTo" placeholder="Search unit...">
-<button class="clearBtn clearTo">×</button>
-
-<div class="dropdownList unitTo"></div>
-
-</div>
-
-</div>
-
-<div class="valueRow">
-<input class="inputValue" type="text" placeholder="Value">
-<input class="outputValue" type="text" readonly>
-</div>
-
-<button class="swapBtn">Swap</button>
-</div>
-
-<!-- TIME -->
-<div class="converter" data-type="time">
-<h2>Time</h2>
-
-<div class="unitRow">
-
-<div class="unitSelect">
-
-<input class="unitSearchFrom" placeholder="Search unit...">
-<button class="clearBtn clearFrom">×</button>
-
-<div class="dropdownList unitFrom"></div>
-
-</div>
-
-<div class="unitSelect">
-
-<input class="unitSearchTo" placeholder="Search unit...">
-<button class="clearBtn clearTo">×</button>
-
-<div class="dropdownList unitTo"></div>
-
-</div>
-
-</div>
-
-<div class="valueRow">
-<input class="inputValue" type="text" placeholder="Value">
-<input class="outputValue" type="text" readonly>
-</div>
-
-<button class="swapBtn">Swap</button>
-</div>
-
-<!-- SPEED -->
-<div class="converter" data-type="speed">
-<h2>Speed</h2>
-
-<div class="unitRow">
-
-<div class="unitSelect">
-
-<input class="unitSearchFrom" placeholder="Search unit...">
-<button class="clearBtn clearFrom">×</button>
-
-<div class="dropdownList unitFrom"></div>
-
-</div>
-
-<div class="unitSelect">
-
-<input class="unitSearchTo" placeholder="Search unit...">
-<button class="clearBtn clearTo">×</button>
-
-<div class="dropdownList unitTo"></div>
-
-</div>
-
-</div>
-
-<div class="valueRow">
-<input class="inputValue" type="text" placeholder="Value">
-<input class="outputValue" type="text" readonly>
-</div>
-
-<button class="swapBtn">Swap</button>
-</div>
-
-<!-- ENERGY -->
-<div class="converter" data-type="energy">
-<h2>Energy</h2>
-
-<div class="unitRow">
-
-<div class="unitSelect">
-
-<input class="unitSearchFrom" placeholder="Search unit...">
-<button class="clearBtn clearFrom">×</button>
-
-<div class="dropdownList unitFrom"></div>
-
-</div>
-
-<div class="unitSelect">
-
-<input class="unitSearchTo" placeholder="Search unit...">
-<button class="clearBtn clearTo">×</button>
-
-<div class="dropdownList unitTo"></div>
-
-</div>
-
-</div>
-
-<div class="valueRow">
-<input class="inputValue" type="text" placeholder="Value">
-<input class="outputValue" type="text" readonly>
-</div>
-
-<button class="swapBtn">Swap</button>
-</div>
-
-<!-- POWER -->
-<div class="converter" data-type="power">
-<h2>Power</h2>
-
-<div class="unitRow">
-
-<div class="unitSelect">
-
-<input class="unitSearchFrom" placeholder="Search unit...">
-<button class="clearBtn clearFrom">×</button>
-
-<div class="dropdownList unitFrom"></div>
-
-</div>
-
-<div class="unitSelect">
-
-<input class="unitSearchTo" placeholder="Search unit...">
-<button class="clearBtn clearTo">×</button>
-
-<div class="dropdownList unitTo"></div>
-
-</div>
-
-</div>
-
-<div class="valueRow">
-<input class="inputValue" type="text" placeholder="Value">
-<input class="outputValue" type="text" readonly>
-</div>
-
-<button class="swapBtn">Swap</button>
-</div>
-
-<!-- TEMPERATURE -->
-<div class="converter" data-type="temperature">
-<h2>Temperature</h2>
-
-<div class="unitRow">
-
-<div class="unitSelect">
-
-<input class="unitSearchFrom" placeholder="Search unit...">
-<button class="clearBtn clearFrom">×</button>
-
-<div class="dropdownList unitFrom"></div>
-
-</div>
-
-<div class="unitSelect">
-
-<input class="unitSearchTo" placeholder="Search unit...">
-<button class="clearBtn clearTo">×</button>
-
-<div class="dropdownList unitTo"></div>
-
-</div>
-
-</div>
-
-<div class="valueRow">
-<input class="inputValue" type="text" placeholder="Value">
-<input class="outputValue" type="text" readonly>
-</div>
-
-<button class="swapBtn">Swap</button>
-</div>
-
-<!-- MAGNETIC FIELD -->
-<div class="converter" data-type="magnetic">
-<h2>Magnetic Field</h2>
-
-<div class="unitRow">
-
-<div class="unitSelect">
-<input class="unitSearchFrom" placeholder="Search unit...">
-<button class="clearBtn clearFrom">×</button>
-<div class="dropdownList unitFrom"></div>
-</div>
-
-<div class="unitSelect">
-<input class="unitSearchTo" placeholder="Search unit...">
-<button class="clearBtn clearTo">×</button>
-<div class="dropdownList unitTo"></div>
-</div>
-
-</div>
-
-<div class="valueRow">
-<input class="inputValue" type="text" placeholder="Value">
-<input class="outputValue" type="text" readonly>
-</div>
-
-<button class="swapBtn">Swap</button>
-</div>
-
-<!-- PRESSURE -->
-<div class="converter" data-type="pressure">
-<h2>Pressure</h2>
-
-<div class="unitRow">
-
-<div class="unitSelect">
-<input class="unitSearchFrom" placeholder="Search unit...">
-<button class="clearBtn clearFrom">×</button>
-<div class="dropdownList unitFrom"></div>
-</div>
-
-<div class="unitSelect">
-<input class="unitSearchTo" placeholder="Search unit...">
-<button class="clearBtn clearTo">×</button>
-<div class="dropdownList unitTo"></div>
-</div>
-
-</div>
-
-<div class="valueRow">
-<input class="inputValue" type="text" placeholder="Value">
-<input class="outputValue" type="text" readonly>
-</div>
-
-<button class="swapBtn">Swap</button>
-</div>
-
-<!-- DENSITY -->
-<div class="converter" data-type="density">
-<h2>Density</h2>
-
-<div class="unitRow">
-
-<div class="unitSelect">
-<input class="unitSearchFrom" placeholder="Search unit...">
-<button class="clearBtn clearFrom">×</button>
-<div class="dropdownList unitFrom"></div>
-</div>
-
-<div class="unitSelect">
-<input class="unitSearchTo" placeholder="Search unit...">
-<button class="clearBtn clearTo">×</button>
-<div class="dropdownList unitTo"></div>
-</div>
-
-</div>
-
-<div class="valueRow">
-<input class="inputValue" type="text" placeholder="Value">
-<input class="outputValue" type="text" readonly>
-</div>
-
-<button class="swapBtn">Swap</button>
-</div>
+    <div class="conv-hero">
+        <h1>Unit <span>Conversions</span></h1>
+        <div class="hero-divider"></div>
+        <p>Convert between hundreds of scientific and everyday units across 12 categories — from femtometers to parsecs, milliseconds to gigayears.</p>
+    </div>
+
+    <div class="conv-grid">
+
+        <!-- LENGTH -->
+        <div class="converter" data-type="length">
+        <h2>Length / Distance</h2>
+        <div class="unitRow">
+            <div class="unitSelect">
+                <input class="unitSearchFrom" placeholder="Search unit...">
+                <button class="clearBtn clearFrom">×</button>
+                <div class="dropdownList unitFrom"></div>
+            </div>
+            <div class="unitSelect">
+                <input class="unitSearchTo" placeholder="Search unit...">
+                <button class="clearBtn clearTo">×</button>
+                <div class="dropdownList unitTo"></div>
+            </div>
+        </div>
+        <div class="valueRow">
+            <input class="inputValue" type="text" placeholder="Enter value">
+            <input class="outputValue" type="text" readonly placeholder="Result">
+        </div>
+        <button class="swapBtn">⇄ Swap Units</button>
+        </div>
+
+        <!-- AREA -->
+        <div class="converter" data-type="area">
+        <h2>Area</h2>
+        <div class="unitRow">
+            <div class="unitSelect">
+                <input class="unitSearchFrom" placeholder="Search unit...">
+                <button class="clearBtn clearFrom">×</button>
+                <div class="dropdownList unitFrom"></div>
+            </div>
+            <div class="unitSelect">
+                <input class="unitSearchTo" placeholder="Search unit...">
+                <button class="clearBtn clearTo">×</button>
+                <div class="dropdownList unitTo"></div>
+            </div>
+        </div>
+        <div class="valueRow">
+            <input class="inputValue" type="text" placeholder="Enter value">
+            <input class="outputValue" type="text" readonly placeholder="Result">
+        </div>
+        <button class="swapBtn">⇄ Swap Units</button>
+        </div>
+
+        <!-- VOLUME -->
+        <div class="converter" data-type="volume">
+        <h2>Volume</h2>
+        <div class="unitRow">
+            <div class="unitSelect">
+                <input class="unitSearchFrom" placeholder="Search unit...">
+                <button class="clearBtn clearFrom">×</button>
+                <div class="dropdownList unitFrom"></div>
+            </div>
+            <div class="unitSelect">
+                <input class="unitSearchTo" placeholder="Search unit...">
+                <button class="clearBtn clearTo">×</button>
+                <div class="dropdownList unitTo"></div>
+            </div>
+        </div>
+        <div class="valueRow">
+            <input class="inputValue" type="text" placeholder="Enter value">
+            <input class="outputValue" type="text" readonly placeholder="Result">
+        </div>
+        <button class="swapBtn">⇄ Swap Units</button>
+        </div>
+
+        <!-- MASS -->
+        <div class="converter" data-type="mass">
+        <h2>Mass / Weight</h2>
+        <div class="unitRow">
+            <div class="unitSelect">
+                <input class="unitSearchFrom" placeholder="Search unit...">
+                <button class="clearBtn clearFrom">×</button>
+                <div class="dropdownList unitFrom"></div>
+            </div>
+            <div class="unitSelect">
+                <input class="unitSearchTo" placeholder="Search unit...">
+                <button class="clearBtn clearTo">×</button>
+                <div class="dropdownList unitTo"></div>
+            </div>
+        </div>
+        <div class="valueRow">
+            <input class="inputValue" type="text" placeholder="Enter value">
+            <input class="outputValue" type="text" readonly placeholder="Result">
+        </div>
+        <button class="swapBtn">⇄ Swap Units</button>
+        </div>
+
+        <!-- TIME -->
+        <div class="converter" data-type="time">
+        <h2>Time</h2>
+        <div class="unitRow">
+            <div class="unitSelect">
+                <input class="unitSearchFrom" placeholder="Search unit...">
+                <button class="clearBtn clearFrom">×</button>
+                <div class="dropdownList unitFrom"></div>
+            </div>
+            <div class="unitSelect">
+                <input class="unitSearchTo" placeholder="Search unit...">
+                <button class="clearBtn clearTo">×</button>
+                <div class="dropdownList unitTo"></div>
+            </div>
+        </div>
+        <div class="valueRow">
+            <input class="inputValue" type="text" placeholder="Enter value">
+            <input class="outputValue" type="text" readonly placeholder="Result">
+        </div>
+        <button class="swapBtn">⇄ Swap Units</button>
+        </div>
+
+        <!-- SPEED -->
+        <div class="converter" data-type="speed">
+        <h2>Speed</h2>
+        <div class="unitRow">
+            <div class="unitSelect">
+                <input class="unitSearchFrom" placeholder="Search unit...">
+                <button class="clearBtn clearFrom">×</button>
+                <div class="dropdownList unitFrom"></div>
+            </div>
+            <div class="unitSelect">
+                <input class="unitSearchTo" placeholder="Search unit...">
+                <button class="clearBtn clearTo">×</button>
+                <div class="dropdownList unitTo"></div>
+            </div>
+        </div>
+        <div class="valueRow">
+            <input class="inputValue" type="text" placeholder="Enter value">
+            <input class="outputValue" type="text" readonly placeholder="Result">
+        </div>
+        <button class="swapBtn">⇄ Swap Units</button>
+        </div>
+
+        <!-- ENERGY -->
+        <div class="converter" data-type="energy">
+        <h2>Energy</h2>
+        <div class="unitRow">
+            <div class="unitSelect">
+                <input class="unitSearchFrom" placeholder="Search unit...">
+                <button class="clearBtn clearFrom">×</button>
+                <div class="dropdownList unitFrom"></div>
+            </div>
+            <div class="unitSelect">
+                <input class="unitSearchTo" placeholder="Search unit...">
+                <button class="clearBtn clearTo">×</button>
+                <div class="dropdownList unitTo"></div>
+            </div>
+        </div>
+        <div class="valueRow">
+            <input class="inputValue" type="text" placeholder="Enter value">
+            <input class="outputValue" type="text" readonly placeholder="Result">
+        </div>
+        <button class="swapBtn">⇄ Swap Units</button>
+        </div>
+
+        <!-- POWER -->
+        <div class="converter" data-type="power">
+        <h2>Power</h2>
+        <div class="unitRow">
+            <div class="unitSelect">
+                <input class="unitSearchFrom" placeholder="Search unit...">
+                <button class="clearBtn clearFrom">×</button>
+                <div class="dropdownList unitFrom"></div>
+            </div>
+            <div class="unitSelect">
+                <input class="unitSearchTo" placeholder="Search unit...">
+                <button class="clearBtn clearTo">×</button>
+                <div class="dropdownList unitTo"></div>
+            </div>
+        </div>
+        <div class="valueRow">
+            <input class="inputValue" type="text" placeholder="Enter value">
+            <input class="outputValue" type="text" readonly placeholder="Result">
+        </div>
+        <button class="swapBtn">⇄ Swap Units</button>
+        </div>
+
+        <!-- TEMPERATURE -->
+        <div class="converter" data-type="temperature">
+        <h2>Temperature</h2>
+        <div class="unitRow">
+            <div class="unitSelect">
+                <input class="unitSearchFrom" placeholder="Search unit...">
+                <button class="clearBtn clearFrom">×</button>
+                <div class="dropdownList unitFrom"></div>
+            </div>
+            <div class="unitSelect">
+                <input class="unitSearchTo" placeholder="Search unit...">
+                <button class="clearBtn clearTo">×</button>
+                <div class="dropdownList unitTo"></div>
+            </div>
+        </div>
+        <div class="valueRow">
+            <input class="inputValue" type="text" placeholder="Enter value">
+            <input class="outputValue" type="text" readonly placeholder="Result">
+        </div>
+        <button class="swapBtn">⇄ Swap Units</button>
+        </div>
+
+        <!-- MAGNETIC FIELD -->
+        <div class="converter" data-type="magnetic">
+        <h2>Magnetic Field</h2>
+        <div class="unitRow">
+            <div class="unitSelect">
+                <input class="unitSearchFrom" placeholder="Search unit...">
+                <button class="clearBtn clearFrom">×</button>
+                <div class="dropdownList unitFrom"></div>
+            </div>
+            <div class="unitSelect">
+                <input class="unitSearchTo" placeholder="Search unit...">
+                <button class="clearBtn clearTo">×</button>
+                <div class="dropdownList unitTo"></div>
+            </div>
+        </div>
+        <div class="valueRow">
+            <input class="inputValue" type="text" placeholder="Enter value">
+            <input class="outputValue" type="text" readonly placeholder="Result">
+        </div>
+        <button class="swapBtn">⇄ Swap Units</button>
+        </div>
+
+        <!-- PRESSURE -->
+        <div class="converter" data-type="pressure">
+        <h2>Pressure</h2>
+        <div class="unitRow">
+            <div class="unitSelect">
+                <input class="unitSearchFrom" placeholder="Search unit...">
+                <button class="clearBtn clearFrom">×</button>
+                <div class="dropdownList unitFrom"></div>
+            </div>
+            <div class="unitSelect">
+                <input class="unitSearchTo" placeholder="Search unit...">
+                <button class="clearBtn clearTo">×</button>
+                <div class="dropdownList unitTo"></div>
+            </div>
+        </div>
+        <div class="valueRow">
+            <input class="inputValue" type="text" placeholder="Enter value">
+            <input class="outputValue" type="text" readonly placeholder="Result">
+        </div>
+        <button class="swapBtn">⇄ Swap Units</button>
+        </div>
+
+        <!-- DENSITY -->
+        <div class="converter" data-type="density">
+        <h2>Density</h2>
+        <div class="unitRow">
+            <div class="unitSelect">
+                <input class="unitSearchFrom" placeholder="Search unit...">
+                <button class="clearBtn clearFrom">×</button>
+                <div class="dropdownList unitFrom"></div>
+            </div>
+            <div class="unitSelect">
+                <input class="unitSearchTo" placeholder="Search unit...">
+                <button class="clearBtn clearTo">×</button>
+                <div class="dropdownList unitTo"></div>
+            </div>
+        </div>
+        <div class="valueRow">
+            <input class="inputValue" type="text" placeholder="Enter value">
+            <input class="outputValue" type="text" readonly placeholder="Result">
+        </div>
+        <button class="swapBtn">⇄ Swap Units</button>
+        </div>
+
+    </div>
 
 </main>
 
 <script src="../js/conversion.js"></script>
+
+<footer class="site-footer">
+
+<p>
+KuiperSpace is an independent educational project focused on astronomy and planetary science.
+Data, simulations, calculations, and visualizations may contain inaccuracies or simplified approximations.
+</p>
+
+<div class="footer-links">
+<a href="terms.html">Terms</a>
+<a href="privacy.html">Privacy</a>
+<a href="disclaimer.html">Disclaimer</a>
+<a href="copyright.html">Copyright</a>
+<a href="affiliate.html">Affiliate Disclosure</a>
+</div>
+
+<p class="copyright">
+© 2026 KuiperSpace — thekuiperspace.com
+</p>
+
+</footer>
 
 </body>
 </html>

@@ -445,6 +445,7 @@ list.appendChild(item);
 
 /* ✅ ALWAYS keep dropdown visible */
 list.style.display = "block";
+list.closest(".converter").style.zIndex = "100";
 
 }
 
@@ -479,7 +480,9 @@ selectedFrom = e.target.dataset.value;
 selectedTo = e.target.dataset.value;
 }
 
-list.style.display="none";
+// When hiding, restore card z-index
+list.style.display = "none";
+list.closest(".converter").style.zIndex = "1";
 
 calculate();
 
