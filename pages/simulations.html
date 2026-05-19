@@ -3,86 +3,349 @@
 
 <head>
 <meta charset="UTF-8">
-<title>Solar System Orbit Simulation</title>
+<title>Orbit Simulator — The Planetary Lab</title>
 <link rel="stylesheet" href="../css/styles.css">
 <style>
-    .sim-wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        gap: 20px;
-        padding: 30px 20px;
-        flex-wrap: wrap;
-    }
 
-    .sim-panel {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-    }
+/* ── HERO ── */
+.sim-hero {
+    text-align: center;
+    padding: 52px 20px 24px;
+    max-width: 700px;
+    margin: 0 auto;
+}
 
-    .sim-label {
-        font-size: 14px;
-        font-weight: 600;
-        color: #aaa;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-    }
+.sim-hero h1 {
+    font-size: 36px;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+}
 
-    .sim-panel canvas {
-        background: #000;
-        border-radius: 10px;
-        display: block;
-    }
+.sim-hero h1 span { color: #4da3ff; }
+
+.sim-hero p {
+    font-size: 16px;
+    color: #8fa8cc;
+    line-height: 1.65;
+    margin: 0;
+}
+
+.hero-divider {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #4da3ff, #a78bfa);
+    border-radius: 2px;
+    margin: 14px auto 18px;
+}
+
+/* ── CONTROLS BAR ── */
+.sim-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 14px 24px;
+    background: linear-gradient(160deg, #0f1928, #121e30);
+    border-top: 1px solid #1c2d47;
+    border-bottom: 1px solid #1c2d47;
+    margin: 0 0 8px;
+}
+
+.ctrl-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ctrl-label {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #4a5a78;
+    white-space: nowrap;
+}
+
+.ctrl-btn {
+    background: rgba(77,163,255,0.08);
+    border: 1px solid rgba(77,163,255,0.25);
+    border-radius: 8px;
+    padding: 7px 16px;
+    color: #4da3ff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    white-space: nowrap;
+}
+
+.ctrl-btn:hover {
+    background: rgba(77,163,255,0.16);
+    border-color: #4da3ff;
+}
+
+.ctrl-btn.active {
+    background: rgba(77,163,255,0.2);
+    border-color: #4da3ff;
+}
+
+.speed-slider {
+    -webkit-appearance: none;
+    width: 120px;
+    height: 4px;
+    border-radius: 2px;
+    background: #1c2d47;
+    outline: none;
+    cursor: pointer;
+}
+
+.speed-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #4da3ff;
+    cursor: pointer;
+    box-shadow: 0 0 6px rgba(77,163,255,0.5);
+}
+
+.speed-val {
+    font-size: 14px;
+    font-weight: 700;
+    color: #4da3ff;
+    min-width: 28px;
+    text-align: left;
+}
+
+.ctrl-divider {
+    width: 1px;
+    height: 20px;
+    background: #1c2d47;
+}
+
+/* ── SIM WRAPPER ── */
+.sim-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px 16px 40px;
+    flex-wrap: wrap;
+}
+
+/* ── SIM PANEL ── */
+.sim-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+}
+
+.sim-card {
+    background: #000;
+    border: 1px solid #1c2d47;
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.sim-card:hover {
+    border-color: #2a3f5f;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+}
+
+.sim-card canvas {
+    display: block;
+    background: #000;
+}
+
+/* Label sits inside the card at top */
+.sim-label {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* ── PLANET LEGEND ── */
+.sim-legend {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    padding: 16px 24px 30px;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: #6a85a8;
+    font-weight: 600;
+}
+
+.legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* ── FACT BAR ── */
+.sim-fact {
+    text-align: center;
+    padding: 14px 24px;
+    font-size: 13px;
+    color: #4a5a78;
+    border-top: 1px solid #1c2d47;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.sim-fact span {
+    color: #4da3ff;
+    font-weight: 700;
+}
+
 </style>
 </head>
 
 <body>
 
 <header class="navbar">
-<h1 class="logo">Planetary Comparison Lab</h1>
+
+<a href="simulations.html" class="brand-container">
+
+    <img 
+        src="../images/branding/kuiperspace_wordmark.png"
+        alt="KuiperSpace"
+        class="brand-wordmark"
+    >
+
+</a>
+
 <nav>
     <ul class="nav-links">
         <li><a href="../index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="tool.html">Planetary Properties</a></li>
         <li><a href="scenario.html">Scenario Comparisons</a></li>
-        <li><a href="simulations.html">Simulations</a></li>
+        <li><a href="viewer.html">3D Planet Viewer</a></li>
+        <li><a href="simulations.html">Orbit Simulator</a></li>
         <li><a href="conversion.html">Unit Conversions</a></li>
         <li><a href="resources.html">Resources</a></li>
-        <li><a href="merch.html">Merch</a></li>
-        <li><a href="support.html">Support</a></li>
+        <li><a href="merch.html">Shop & Support</a></li>
+        <li><a href="support.html">Contact</a></li>
     </ul>
 </nav>
 </header>
 
 <main>
 
-    <h2 style="text-align:center; margin-top:30px;">Solar System Orbit Simulation</h2>
+    <!-- ── HERO ── -->
+    <div class="sim-hero">
+        <h1>Orbit <span>Simulator</span></h1>
+        <div class="hero-divider"></div>
+        <p>Watch the solar system move in real time. Orbital speeds are based on real planetary periods — Mercury laps the Sun in 88 days while Neptune takes 165 years.</p>
+    </div>
 
+    <!-- ── CONTROLS ── -->
+    <div class="sim-controls">
+
+        <div class="ctrl-group">
+            <button id="pauseBtn" class="ctrl-btn" onclick="togglePause()">⏸ Pause</button>
+        </div>
+
+        <div class="ctrl-divider"></div>
+
+        <div class="ctrl-group">
+            <span class="ctrl-label">Speed</span>
+            <input type="range" id="speedSlider" class="speed-slider" min="0.1" max="5" step="0.1" value="1">
+            <span class="speed-val" id="speedVal">1×</span>
+        </div>
+
+        <div class="ctrl-divider"></div>
+
+        <div class="ctrl-group">
+            <button class="ctrl-btn" onclick="resetPositions()">↺ Reset</button>
+        </div>
+
+    </div>
+
+    <!-- ── THREE CANVASES ── -->
     <div class="sim-wrapper">
 
         <div class="sim-panel">
-            <div class="sim-label">Inner Planets</div>
-            <canvas id="canvas-inner"></canvas>
+            <div class="sim-card">
+                <div class="sim-label">Inner Planets</div>
+                <canvas id="canvas-inner"></canvas>
+            </div>
         </div>
 
         <div class="sim-panel">
-            <div class="sim-label">Full Solar System</div>
-            <canvas id="canvas-full"></canvas>
+            <div class="sim-card">
+                <div class="sim-label">Full Solar System</div>
+                <canvas id="canvas-full"></canvas>
+            </div>
         </div>
 
         <div class="sim-panel">
-            <div class="sim-label">Outer Planets</div>
-            <canvas id="canvas-outer"></canvas>
+            <div class="sim-card">
+                <div class="sim-label">Outer Planets (sped up)</div>
+                <canvas id="canvas-outer"></canvas>
+            </div>
         </div>
 
+    </div>
+
+    <!-- ── PLANET LEGEND ── -->
+    <div class="sim-legend" id="sim-legend"></div>
+
+    <!-- ── FUN FACT ── -->
+    <div class="sim-fact">
+        💡 <span>Did you know?</span> If Earth's orbit were the size of a football field, Neptune's orbit would be nearly <span>2 miles</span> away?
     </div>
 
 </main>
 
 <script src="../js/orbitSimulator.js"></script>
+
+<footer class="site-footer">
+
+<p>
+KuiperSpace is an independent educational project focused on astronomy and planetary science.
+Data, simulations, calculations, and visualizations may contain inaccuracies or simplified approximations.
+</p>
+
+<div class="footer-links">
+<a href="terms.html">Terms</a>
+<a href="privacy.html">Privacy</a>
+<a href="disclaimer.html">Disclaimer</a>
+<a href="copyright.html">Copyright</a>
+<a href="affiliate.html">Affiliate Disclosure</a>
+</div>
+
+<p class="copyright">
+© 2026 KuiperSpace — thekuiperspace.com
+</p>
+
+</footer>
 
 </body>
 </html>
