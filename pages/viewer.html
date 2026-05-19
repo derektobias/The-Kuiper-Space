@@ -2,90 +2,251 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
-<title>Planet Viewer</title>
-
+<title>3D Planet Viewer</title>
 <link rel="stylesheet" href="../css/styles.css">
+<style>
+    
+    /* ── HERO ── */
+    .viewer-hero {
+        text-align: center;
+        padding: 60px 20px 30px;
+        max-width: 700px;
+        margin: 0 auto;
+    }
 
+    .viewer-hero h1 {
+        font-size: 36px;
+        font-weight: 800;
+        color: white;
+        letter-spacing: -0.02em;
+        margin-bottom: 12px;
+    }
+
+    .viewer-hero h1 span { color: #4da3ff; }
+
+    .viewer-hero p {
+        font-size: 16px;
+        color: #8fa8cc;
+        line-height: 1.65;
+        margin: 0;
+    }
+
+    .hero-divider {
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, #4da3ff, #a78bfa);
+        border-radius: 2px;
+        margin: 16px auto 20px;
+    }
+    
+    .viewer-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 14px 20px;
+        background: #0d1525;
+        border-bottom: 1px solid #1e2e45;
+    }
+
+    .viewer-controls select {
+        background: #121a2b;
+        border: 1px solid #2a3a55;
+        border-radius: 6px;
+        padding: 6px 10px;
+        color: white;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .viewer-btn {
+        background: #121a2b;
+        border: 1px solid #2a3a55;
+        border-radius: 6px;
+        padding: 6px 14px;
+        color: white;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: border-color 0.2s, background 0.2s;
+    }
+
+    .viewer-btn:hover {
+        border-color: #4da3ff;
+        background: #1a2a40;
+    }
+
+    .viewer-btn.zoom {
+        font-size: 18px;
+        padding: 3px 12px;
+    }
+
+    .control-divider {
+        width: 1px;
+        height: 22px;
+        background: #2a3a55;
+    }
+
+    .control-label {
+        font-size: 13px;
+        color: #aaa;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .control-label input[type="checkbox"] {
+        accent-color: #4da3ff;
+        width: 15px;
+        height: 15px;
+        cursor: pointer;
+    }
+
+    #viewer {
+        width: 100%;
+        height: 600px;
+        cursor: grab;
+    }
+
+    #viewer:active {
+        cursor: grabbing;
+    }
+</style>
 </head>
 
 <body>
 
 <header class="navbar">
 
-<h1 class="logo">Planetary Comparison Lab</h1>
+<a href="viewer.html" class="brand-container">
 
-<nav>
-<ul class="nav-links">
-<li><a href="../index.html">Home</a></li>
-<li><a href="about.html">About</a></li>
-<li><a href="tool.html">Interactive Tool</a></li>
-<li><a href="scenario.html">Scenario Tool</a></li>
-<li><a href="simulations.html">Simulations</a></li>
-<li><a href="conversion.html">Conversion Calculator</a></li>
-<li><a href="resources.html">Helpful Resources</a></li>
-<li><a href="merch.html">Merch</a></li>
-<li><a href="support.html">Support</a></li>
-</ul>
+    <img 
+        src="../images/branding/kuiperspace_wordmark.png"
+        alt="KuiperSpace"
+        class="brand-wordmark"
+    >
+
+</a>
+
+    <nav>
+    <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="tool.html">Planetary Properties</a></li>
+        <li><a href="scenario.html">Scenario Comparisons</a></li>
+        <li><a href="viewer.html">3D Planet Viewer</a></li>
+        <li><a href="simulations.html">Orbit Simulator</a></li>
+        <li><a href="conversion.html">Unit Conversions</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="merch.html">Shop & Support</a></li>
+        <li><a href="support.html">Contact</a></li>
+    </ul>
 </nav>
-
 </header>
+
+<div class="viewer-hero">
+    <h1>3D Planet <span>Viewer</span></h1>
+    <div class="hero-divider"></div>
+    <p>Explore and compare real data across planets, moons, dwarf planets, and asteroids — from surface gravity to atmospheric composition.</p>
+</div>
 
 <main>
 
-<h2 style="text-align:center">3D Planet Viewer</h2>
+    <p style="text-align:center; color:#aaa; font-size:13px; margin: 6px 0 0;">
+        Drag to rotate &nbsp;·&nbsp; Scroll to zoom
+    </p>
 
-<div style="text-align:center; margin-bottom:20px;">
+    <div class="viewer-controls">
 
-<!---Zoom In/Out-->
-<button id="zoomInBtn">+</button>
-<button id="zoomOutBtn">-</button>
+        <!-- Body selector -->
+        <span style="font-size:13px; color:#aaa;">Body:</span>
+        <select id="planetSelect">
+            <optgroup label="The Sun">
+                <option value="sun.jpg">Sun</option>
+            </optgroup>
+            <optgroup label="Planets">
+                <option value="mercury.jpg">Mercury</option>
+                <option value="venus.jpg">Venus</option>
+                <option value="earth.jpg" selected>Earth</option>
+                <option value="mars.jpg">Mars</option>
+                <option value="jupiter.jpg">Jupiter</option>
+                <option value="saturn.jpg">Saturn</option>
+                <option value="uranus.jpg">Uranus</option>
+                <option value="neptune.jpg">Neptune</option>
+            </optgroup>
+            <optgroup label="Moons">
+                <option value="moon.jpg">Moon</option>
+            </optgroup>
+        </select>
 
-<!---Planet Select dropdown menu buttons-->
-<select id="planetSelect">
+        <div class="control-divider"></div>
 
-<option value="mercury.jpg">Mercury</option>
-<option value="venus.jpg">Venus</option>
-<option value="earth.jpg">Earth</option>
-<option value="mars.jpg">Mars</option>
-<option value="jupiter.jpg">Jupiter</option>
-<option value="saturn.jpg">Saturn</option>
-<option value="uranus.jpg">Uranus</option>
-<option value="neptune.jpg">Neptune</option>
+        <!-- Simulation speed -->
+        <span style="font-size:13px; color:#aaa;">Speed:</span>
+        <select id="timeSpeed">
+            <option value="0">0×</option>
+            <option value="0.25">0.25×</option>
+            <option value="1" selected>1×</option>
+            <option value="5">5×</option>
+            <option value="10">10×</option>
+        </select>
 
-<!---Planet View and Solar System View buttons-->
-</select>
+        <div class="control-divider"></div>
 
-<button id="planetViewBtn">Planet View</button>
-<button id="systemViewBtn">Solar System View</button>
+        <!-- Zoom -->
+        <button id="zoomInBtn"  class="viewer-btn zoom" title="Zoom in">+</button>
+        <button id="zoomOutBtn" class="viewer-btn zoom" title="Zoom out">−</button>
 
-<!---Simulation Speed dropdown menu buttons-->
-<label>Simulation Speed</label>
+        <div class="control-divider"></div>
 
-<select id="timeSpeed">
-<option value="1">1x</option>
-<option value="5">5x</option>
-<option value="10">10x</option>
-<option value="100">100x</option>
-</select>
+        <!-- Realistic scale -->
+        <label class="control-label" title="Scale bodies by their true relative sizes">
+            <input type="checkbox" id="scaleToggle">
+            Realistic Scale
+        </label>
 
-<!---Realistic Size Mode button-->
-<label>
-<input type="checkbox" id="scaleToggle">
-Realistic Size Mode
-</label>
+        <div class="control-divider"></div>
 
-</div>
+        <!-- Shadow toggle -->
+        <label class="control-label" title="Toggle day/night shading">
+            <input type="checkbox" id="shadowToggle" checked>
+            Shadows
+        </label>
 
-<div id="viewer"></div>
+    </div>
+
+    <div id="viewer"></div>
 
 </main>
 
-<!-- Three.js library -->
+<!-- Three.js -->
 <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.min.js"></script>
-
 <script src="../js/planetViewer.js"></script>
+
+<footer class="site-footer">
+
+<p>
+KuiperSpace is an independent educational project focused on astronomy and planetary science.
+Data, simulations, calculations, and visualizations may contain inaccuracies or simplified approximations.
+</p>
+
+<div class="footer-links">
+<a href="terms.html">Terms</a>
+<a href="privacy.html">Privacy</a>
+<a href="disclaimer.html">Disclaimer</a>
+<a href="copyright.html">Copyright</a>
+<a href="affiliate.html">Affiliate Disclosure</a>
+</div>
+
+<p class="copyright">
+© 2026 KuiperSpace — thekuiperspace.com
+</p>
+
+</footer>
 
 </body>
 </html>
