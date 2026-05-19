@@ -2,52 +2,352 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
-<title>Merch</title>
-
+<title>Merch & Shop — The Planetary Lab</title>
 <link rel="stylesheet" href="../css/styles.css">
+<style>
 
+    .merch-hero {
+        text-align: center;
+        padding: 52px 20px 28px;
+        max-width: 640px;
+        margin: 0 auto;
+    }
+
+    .merch-hero h1 {
+        font-size: 36px;
+        font-weight: 800;
+        color: white;
+        letter-spacing: -0.02em;
+        margin-bottom: 14px;
+    }
+
+    .merch-hero h1 span { color: #4da3ff; }
+
+    .hero-divider {
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, #4da3ff, #a78bfa);
+        border-radius: 2px;
+        margin: 0 auto 18px;
+    }
+
+    .merch-hero p {
+        font-size: 16px;
+        color: #8fa8cc;
+        line-height: 1.7;
+        margin: 0;
+    }
+
+    .merch-body {
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 0 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    /* ── SECTION HEADER ── */
+    .merch-section-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid rgba(77,163,255,0.2);
+    }
+
+    .merch-section-header h2 {
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #4da3ff;
+        margin: 0;
+    }
+
+    .merch-section-header::before {
+        content: '';
+        width: 7px; height: 7px;
+        border-radius: 50%;
+        background: #4da3ff;
+        flex-shrink: 0;
+    }
+
+    /* ── AFFILIATE GRID ── */
+    .affiliate-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 16px;
+    }
+
+    .affiliate-card {
+        background: linear-gradient(160deg, #0f1928, #121e30);
+        border: 1px solid #1c2d47;
+        border-radius: 14px;
+        padding: 22px 22px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .affiliate-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: var(--card-color, linear-gradient(90deg, #4da3ff, #7bc4ff));
+    }
+
+    .affiliate-card:hover {
+        border-color: #2a3f5f;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+
+    .affiliate-card-icon { font-size: 28px; }
+
+    .affiliate-card h3 {
+        font-size: 16px;
+        font-weight: 700;
+        color: white;
+        margin: 0;
+    }
+
+    .affiliate-card p {
+        font-size: 14px;
+        color: #6a85a8;
+        line-height: 1.6;
+        margin: 0;
+        flex: 1;
+    }
+
+    .affiliate-tag {
+        display: inline-block;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #4da3ff;
+        background: rgba(77,163,255,0.08);
+        border: 1px solid rgba(77,163,255,0.2);
+        border-radius: 20px;
+        padding: 2px 10px;
+        width: fit-content;
+    }
+
+    .affiliate-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(77,163,255,0.08);
+        border: 1px solid rgba(77,163,255,0.25);
+        border-radius: 8px;
+        padding: 7px 14px;
+        color: #4da3ff;
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: background 0.2s, border-color 0.2s;
+        align-self: flex-start;
+        margin-top: 4px;
+    }
+
+    .affiliate-link:hover {
+        background: rgba(77,163,255,0.16);
+        border-color: #4da3ff;
+    }
+
+    /* ── PERSONAL MERCH ── */
+    .coming-soon-card {
+        background: linear-gradient(160deg, #0f1928, #121e30);
+        border: 1px solid #1c2d47;
+        border-radius: 14px;
+        padding: 36px 32px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .coming-soon-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #a78bfa, #f472b6);
+    }
+
+    .coming-soon-badge {
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #a78bfa;
+        background: rgba(167,139,250,0.1);
+        border: 1px solid rgba(167,139,250,0.3);
+        border-radius: 20px;
+        padding: 3px 12px;
+    }
+
+    .coming-soon-card h3 {
+        font-size: 20px;
+        font-weight: 700;
+        color: white;
+        margin: 0;
+    }
+
+    .coming-soon-card p {
+        font-size: 15px;
+        color: #6a85a8;
+        line-height: 1.7;
+        margin: 0;
+        max-width: 480px;
+    }
+
+    .merch-items {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 4px;
+    }
+
+    .merch-item {
+        background: rgba(167,139,250,0.06);
+        border: 1px solid rgba(167,139,250,0.15);
+        border-radius: 10px;
+        padding: 10px 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: #8fa8cc;
+        font-weight: 600;
+    }
+
+    /* ── DISCLAIMER ── */
+    .affiliate-disclaimer {
+        text-align: center;
+        font-size: 12px;
+        color: #3a4f6a;
+        padding: 0 0 40px;
+        line-height: 1.6;
+    }
+
+</style>
 </head>
 
 <body>
 
 <header class="navbar">
 
-<h1 class="logo">Merch</h1>
+<a href="merch.html" class="brand-container">
+
+    <img 
+        src="../images/branding/kuiperspace_wordmark.png"
+        alt="KuiperSpace"
+        class="brand-wordmark"
+    >
+
+</a>
 
 <nav>
-<ul class="nav-links">
-<li><a href="../index.html">Home</a></li>
-<li><a href="about.html">About</a></li>
-<li><a href="tool.html">Planetary Properties</a></li>
-<li><a href="scenario.html">Scenario Comparisons</a></li>
-<li><a href="simulations.html">Simulations</a></li>
-<li><a href="conversion.html">Unit Conversions</a></li>
-<li><a href="resources.html">Resources</a></li>
-<li><a href="merch.html">Merch</a></li>
-<li><a href="support.html">Support</a></li>
-</ul>
+    <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="tool.html">Planetary Properties</a></li>
+        <li><a href="scenario.html">Scenario Comparisons</a></li>
+        <li><a href="viewer.html">3D Planet Viewer</a></li>
+        <li><a href="simulations.html">Orbit Simulator</a></li>
+        <li><a href="conversion.html">Unit Conversions</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="merch.html">Shop & Support</a></li>
+        <li><a href="support.html">Contact</a></li>
+    </ul>
 </nav>
-
 </header>
 
 <main>
 
-<h2 class="logo">Planetary Comparison Lab Merch</h2>
+    <div class="merch-hero">
+        <h1>Shop &amp; <span>Support</span></h1>
+        <div class="hero-divider"></div>
+        <p>Explore curated space-themed stores we love — and help support The Planetary Lab at the same time.</p>
+    </div>
 
-<p>
-Enjoy free features? Support the project by purchasing fun space-themed merchandise.
-</p>
+    <div class="merch-body">
 
-<p>
-Future items will include mugs, t-shirts, stickers, magnets, phone cases, and more!
-</p>
+        <!-- ── AFFILIATE STORES ── -->
+        <div>
+            <div class="merch-section-header"><h2>Space Stores We Recommend</h2></div>
+            <div class="affiliate-grid">
 
-<h2 class="logo">COMING SOON!!!</h2>
+                <!-- Placeholder cards for future affiliates -->
+                <div class="affiliate-card" style="--card-color: linear-gradient(90deg, #a78bfa, #c4b5fd); opacity:0.5;">
+                    <span class="affiliate-tag">Coming Soon</span>
+                    <div class="affiliate-card-icon">🌌</div>
+                    <h3>More Partners Soon</h3>
+                    <p>We're adding more curated space stores. <a href="support.html" style="color:#a78bfa;">Contact us</a> if you'd like to be featured.</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ── PERSONAL MERCH ── -->
+        <div>
+            <div class="merch-section-header"><h2>The Planetary Lab Merch</h2></div>
+            <div class="coming-soon-card">
+                <div class="coming-soon-badge">Coming Soon</div>
+                <div style="font-size:44px;">🪐</div>
+                <h3>Our Own Merch Shop</h3>
+                <p>We're working on a collection of original space-themed items. Check back soon — or <a href="support.html" style="color:#a78bfa;">let us know</a> what you'd like to see.</p>
+                <div class="merch-items">
+                    <div class="merch-item">☕ Mugs</div>
+                    <div class="merch-item">👕 T-Shirts</div>
+                    <div class="merch-item">🖼️ Posters</div>
+                    <div class="merch-item">🏷️ Stickers</div>
+                    <div class="merch-item">🧲 Magnets</div>
+                    <div class="merch-item">📱 Phone Cases</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <p class="affiliate-disclaimer">
+        Some links on this page are affiliate links. We may earn a small commission at no extra cost to you — which helps keep all the tools on this site free.
+    </p>
 
 </main>
 
+<footer class="site-footer">
+
+<p>
+KuiperSpace is an independent educational project focused on astronomy and planetary science.
+Data, simulations, calculations, and visualizations may contain inaccuracies or simplified approximations.
+</p>
+
+<div class="footer-links">
+<a href="terms.html">Terms</a>
+<a href="privacy.html">Privacy</a>
+<a href="disclaimer.html">Disclaimer</a>
+<a href="copyright.html">Copyright</a>
+<a href="affiliate.html">Affiliate Disclosure</a>
+</div>
+
+<p class="copyright">
+© 2026 KuiperSpace — thekuiperspace.com
+</p>
+
+</footer>
 
 </body>
 </html>
