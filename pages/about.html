@@ -2,49 +2,224 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
-<title>About</title>
-
+<title>About — The Planetary Lab</title>
 <link rel="stylesheet" href="../css/styles.css">
+<style>
 
+    .about-hero {
+        text-align: center;
+        padding: 60px 20px 30px;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .about-hero h2 {
+        font-size: 36px;
+        font-weight: 800;
+        color: white;
+        letter-spacing: -0.02em;
+        margin-bottom: 14px;
+    }
+
+    .about-hero h2 span { color: #4da3ff; }
+
+    .hero-divider {
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, #4da3ff, #a78bfa);
+        border-radius: 2px;
+        margin: 0 auto 20px;
+    }
+
+    .about-hero p {
+        font-size: 16px;
+        color: #8fa8cc;
+        line-height: 1.7;
+        margin: 0;
+    }
+
+    /* ── CONTENT ── */
+    .about-body {
+        max-width: 860px;
+        margin: 50px auto;
+        padding: 0 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .about-section {
+        background: linear-gradient(160deg, #0f1928, #121e30);
+        border: 1px solid #1c2d47;
+        border-radius: 14px;
+        padding: 28px 30px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .about-section::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #4da3ff, #a78bfa);
+    }
+
+    .about-section h3 {
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #4da3ff;
+        margin: 0 0 14px;
+    }
+
+    .about-section p {
+        font-size: 15px;
+        color: #8fa8cc;
+        line-height: 1.75;
+        margin: 0 0 12px;
+    }
+
+    .about-section p:last-child { margin-bottom: 0; }
+
+    /* ── TOOLS LIST ── */
+    .tools-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 12px;
+        margin-top: 16px;
+    }
+
+    .tool-item {
+        background: rgba(77,163,255,0.06);
+        border: 1px solid rgba(77,163,255,0.15);
+        border-radius: 10px;
+        padding: 12px 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        color: #c8d8ee;
+        font-weight: 600;
+    }
+
+    .tool-item-icon { font-size: 20px; }
+
+    /* ── COMING SOON ── */
+    .coming-soon-tag {
+        display: inline-block;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #a78bfa;
+        background: rgba(167,139,250,0.1);
+        border: 1px solid rgba(167,139,250,0.25);
+        border-radius: 20px;
+        padding: 3px 10px;
+        margin-left: 8px;
+        vertical-align: middle;
+    }
+
+</style>
 </head>
 
 <body>
 
 <header class="navbar">
 
-<h1 class="logo">About</h1>
+<a href="about.html" class="brand-container">
+
+    <img 
+        src="../images/branding/kuiperspace_wordmark.png"
+        alt="KuiperSpace"
+        class="brand-wordmark"
+    >
+
+</a>
 
 <nav>
-<ul class="nav-links">
-<li><a href="../index.html">Home</a></li>
-<li><a href="about.html">About</a></li>
-<li><a href="tool.html">Planetary Properties</a></li>
-<li><a href="scenario.html">Scenario Comparisons</a></li>
-<li><a href="simulations.html">Simulations</a></li>
-<li><a href="conversion.html">Unit Conversions</a></li>
-<li><a href="resources.html">Resources</a></li>
-<li><a href="merch.html">Merch</a></li>
-<li><a href="support.html">Support</a></li>
-</ul>
+    <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="tool.html">Planetary Properties</a></li>
+        <li><a href="scenario.html">Scenario Comparisons</a></li>
+        <li><a href="viewer.html">3D Planet Viewer</a></li>
+        <li><a href="simulations.html">Orbit Simulator</a></li>
+        <li><a href="conversion.html">Unit Conversions</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="merch.html">Shop & Support</a></li>
+        <li><a href="support.html">Contact</a></li>
+    </ul>
 </nav>
-
 </header>
 
 <main>
 
-<h2>About</h2>
+    <div class="about-hero">
+        <h2>About <span>The Planetary Lab</span></h2>
+        <div class="hero-divider"></div>
+        <p>A free, interactive planetary science toolkit built for students, educators, and anyone curious about the solar system.</p>
+    </div>
 
-<p>
-This site allows students, educators, and enthusiasts to explore and compare
-planets and other celestial bodies using real astronomical data.
-</p>
+    <div class="about-body">
 
-<h2 class="logo">COMING SOON!!!</h2>
+        <div class="about-section">
+            <h3>What is this?</h3>
+            <p>The Planetary Lab is an educational web application that brings real astronomical data to life through interactive tools and visualizations. Instead of reading static tables, you can compare planets side by side, simulate scenarios in different gravitational environments, watch orbits animate in real time, and explore photorealistic 3D models of every planet.</p>
+            <p>All data is sourced from NASA, JPL, and other authoritative scientific institutions, and is updated periodically to reflect the latest discoveries.</p>
+        </div>
+
+        <div class="about-section">
+            <h3>Tools &amp; Features</h3>
+            <div class="tools-grid">
+                <div class="tool-item"><span class="tool-item-icon">🪐</span> Planetary Properties</div>
+                <div class="tool-item"><span class="tool-item-icon">🏃</span> Scenario Comparisons</div>
+                <div class="tool-item"><span class="tool-item-icon">🌍</span> 3D Planet Viewer</div>
+                <div class="tool-item"><span class="tool-item-icon">🌌</span> Orbit Simulator</div>
+                <div class="tool-item"><span class="tool-item-icon">🔢</span> Unit Conversions</div>
+                <div class="tool-item"><span class="tool-item-icon">📚</span> Resources <span class="coming-soon-tag">Expanding</span></div>
+            </div>
+        </div>
+
+        <div class="about-section">
+            <h3>Who is this for?</h3>
+            <p><strong style="color:#c8d8ee;">Students</strong> — explore planetary science concepts in a hands-on, visual way that goes beyond textbook diagrams.</p>
+            <p><strong style="color:#c8d8ee;">Educators</strong> — use the tools as classroom demonstrations or assign them as interactive exercises to bring astronomy lessons to life.</p>
+            <p><strong style="color:#c8d8ee;">Enthusiasts</strong> — dig into real data, compare obscure moons, and satisfy your curiosity about how different the solar system's worlds really are.</p>
+        </div>
+
+        <div class="about-section">
+            <h3>Data Sources</h3>
+            <p>Planetary data is drawn from <a href="https://ssd.jpl.nasa.gov/" target="_blank" rel="noopener" style="color:#4da3ff;">NASA Jet Propulsion Laboratory (JPL)</a>, NASA Science, and peer-reviewed astronomical sources. Texture maps for the 3D Planet Viewer are sourced from <a href="https://www.solarsystemscope.com/textures/" target="_blank" rel="noopener" style="color:#4da3ff;">Solar System Scope</a>.</p>
+        </div>
+
+    </div>
 
 </main>
 
+<footer class="site-footer">
+
+<p>
+KuiperSpace is an independent educational project focused on astronomy and planetary science.
+Data, simulations, calculations, and visualizations may contain inaccuracies or simplified approximations.
+</p>
+
+<div class="footer-links">
+<a href="terms.html">Terms</a>
+<a href="privacy.html">Privacy</a>
+<a href="disclaimer.html">Disclaimer</a>
+<a href="copyright.html">Copyright</a>
+<a href="affiliate.html">Affiliate Disclosure</a>
+</div>
+
+<p class="copyright">
+© 2026 KuiperSpace — thekuiperspace.com
+</p>
+
+</footer>
 
 </body>
 </html>
