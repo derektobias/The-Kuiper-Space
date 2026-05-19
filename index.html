@@ -3,51 +3,367 @@
 
 <head>
 <meta charset="UTF-8">
-<title>Planetary Comparison Lab</title>
-
+<title>The Planetary Lab</title>
 <link rel="stylesheet" href="css/styles.css">
+<style>
 
+    /* ── HERO ── */
+    .home-hero {
+        text-align: center;
+        padding: 90px 20px 60px;
+        max-width: 760px;
+        margin: 0 auto;
+    }
+
+    .home-hero-eyebrow {
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #4da3ff;
+        margin-bottom: 18px;
+    }
+
+    .home-hero h1 {
+        font-size: 52px;
+        font-weight: 800;
+        color: white;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        margin: 0 0 20px;
+    }
+
+    .home-hero h1 span { color: #4da3ff; }
+
+    .home-hero p {
+        font-size: 18px;
+        color: #8fa8cc;
+        line-height: 1.7;
+        margin: 0 auto 32px;
+        max-width: 560px;
+    }
+
+    .hero-cta {
+        display: inline-flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero-btn {
+        padding: 12px 28px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+
+    .hero-btn-primary {
+        background: #4da3ff;
+        color: white;
+    }
+
+    .hero-btn-primary:hover {
+        background: #3a8de0;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(77,163,255,0.35);
+    }
+
+    .hero-btn-secondary {
+        background: rgba(77,163,255,0.08);
+        color: #4da3ff;
+        border: 1px solid rgba(77,163,255,0.3);
+    }
+
+    .hero-btn-secondary:hover {
+        background: rgba(77,163,255,0.15);
+        border-color: #4da3ff;
+        transform: translateY(-2px);
+    }
+
+    .hero-divider {
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, #4da3ff, #a78bfa);
+        border-radius: 2px;
+        margin: 0 auto 28px;
+    }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+        display: flex;
+        justify-content: center;
+        gap: 48px;
+        padding: 28px 20px;
+        border-top: 1px solid #1c2d47;
+        border-bottom: 1px solid #1c2d47;
+        background: rgba(15,25,40,0.6);
+        flex-wrap: wrap;
+    }
+
+    .stat-item {
+        text-align: center;
+    }
+
+    .stat-number {
+        font-size: 28px;
+        font-weight: 800;
+        color: #4da3ff;
+        letter-spacing: -0.02em;
+    }
+
+    .stat-label {
+        font-size: 12px;
+        color: #5a7090;
+        margin-top: 2px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+
+    /* ── FEATURE GRID ── */
+    .features-section {
+        max-width: 1100px;
+        margin: 60px auto;
+        padding: 0 24px;
+    }
+
+    .features-label {
+        text-align: center;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #4da3ff;
+        margin-bottom: 40px;
+    }
+
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+    }
+
+    .feature-card {
+        background: linear-gradient(160deg, #0f1928, #121e30);
+        border: 1px solid #1c2d47;
+        border-radius: 16px;
+        padding: 28px 24px;
+        text-align: center;
+        text-decoration: none;
+        color: white;
+        transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: var(--card-accent, linear-gradient(90deg, #4da3ff, #7bc4ff));
+        opacity: 0;
+        transition: opacity 0.25s;
+    }
+
+    .feature-card:hover {
+        border-color: #2a3f5f;
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    }
+
+    .feature-card:hover::before { opacity: 1; }
+
+    .feature-card:nth-child(1) { --card-accent: linear-gradient(90deg, #4da3ff, #7bc4ff); }
+    .feature-card:nth-child(2) { --card-accent: linear-gradient(90deg, #f87171, #fca5a5); }
+    .feature-card:nth-child(3) { --card-accent: linear-gradient(90deg, #a78bfa, #c4b5fd); }
+    .feature-card:nth-child(4) { --card-accent: linear-gradient(90deg, #34d399, #6ee7b7); }
+    .feature-card:nth-child(5) { --card-accent: linear-gradient(90deg, #fb923c, #fdba74); }
+
+    .feature-icon {
+        font-size: 40px;
+        line-height: 1;
+    }
+
+    .feature-card h3 {
+        font-size: 16px;
+        font-weight: 700;
+        color: #e8edf5;
+        margin: 0;
+    }
+
+    .feature-card p {
+        font-size: 14px;
+        color: #6a85a8;
+        margin: 0;
+        line-height: 1.6;
+    }
+
+    /* ── FOOTER NOTE ── */
+    .home-footer {
+        text-align: center;
+        padding: 40px 20px;
+        font-size: 13px;
+        color: #3a4f6a;
+        border-top: 1px solid #1c2d47;
+    }
+
+    .home-footer a {
+        color: #4da3ff;
+        text-decoration: none;
+    }
+
+    .home-footer a:hover { text-decoration: underline; }
+
+</style>
 </head>
 
 <body>
 
 <header class="navbar">
 
-<h1 class="logo">Planetary Comparison Lab</h1>
+<a href="index.html" class="brand-container">
+
+    <img 
+        src="images/branding/kuiperspace_wordmark.png"
+        alt="KuiperSpace"
+        class="brand-wordmark"
+    >
+
+</a>
 
 <nav>
-<ul class="nav-links">
-<li><a href="../index.html">Home</a></li>
-<li><a href="about.html">About</a></li>
-<li><a href="tool.html">Planetary Properties</a></li>
-<li><a href="scenario.html">Scenario Comparisons</a></li>
-<li><a href="simulations.html">Simulations</a></li>
-<li><a href="conversion.html">Unit Conversions</a></li>
-<li><a href="resources.html">Resources</a></li>
-<li><a href="merch.html">Merch</a></li>
-<li><a href="support.html">Support</a></li>
-</ul>
+    <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="pages/about.html">About</a></li>
+        <li><a href="pages/tool.html">Planetary Properties</a></li>
+        <li><a href="pages/scenario.html">Scenario Comparisons</a></li>
+        <li><a href="pages/viewer.html">3D Planet Viewer</a></li>
+        <li><a href="pages/simulations.html">Orbit Simulator</a></li>
+        <li><a href="pages/conversion.html">Unit Conversions</a></li>
+        <li><a href="pages/resources.html">Resources</a></li>
+        <li><a href="pages/merch.html">Shop & Support</a></li>
+        <li><a href="pages/support.html">Contact</a></li>
+    </ul>
 </nav>
 
 </header>
 
 <main>
 
-<section class="hero">
+    <!-- ── HERO ── -->
+    <div class="home-hero">
+        <div class="home-hero-eyebrow">Interactive Planetary Science</div>
+        <h1>Explore the <span>Solar System</span></h1>
+        <div class="hero-divider"></div>
+        <p>Real astronomical data, interactive visualizations, and hands-on tools for students, educators, and space enthusiasts.</p>
+        <div class="hero-cta">
+            <a href="pages/viewer.html" class="hero-btn hero-btn-primary">🪐 Open 3D Planet Viewer</a>
+            <a href="pages/tool.html"   class="hero-btn hero-btn-secondary">Compare Planets</a>
+        </div>
+    </div>
 
-<h2>Explore and Compare Planetary Bodies</h2>
+    <!-- ── STATS BAR ── -->
+    <div class="stats-bar">
+        <div class="stat-item">
+            <div class="stat-number">26</div>
+            <div class="stat-label">Planetary Bodies</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">30+</div>
+            <div class="stat-label">Data Properties</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">12</div>
+            <div class="stat-label">Unit Categories</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">200+</div>
+            <div class="stat-label">Unit Conversions</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">5</div>
+            <div class="stat-label">Interactive Tools</div>
+        </div>
+    </div>
 
-<p>
-Analyze and experiment with planets, moons, dwarf planets, and asteroids with customizable scientific data.
-</p>
+    <!-- ── FEATURE CARDS ── -->
+    <div class="features-section">
+        <div class="features-label">What you can do</div>
+        <div class="feature-grid">
 
-<a href="pages/tool.html" class="button">Launch Tool</a>
+            <a href="pages/tool.html" class="feature-card">
+                <div class="feature-icon">🪐</div>
+                <h3>Planetary Properties</h3>
+                <p>Compare physical, orbital, and environmental data across planets, moons, dwarf planets, and asteroids.</p>
+            </a>
 
-</section>
+            <a href="pages/scenario.html" class="feature-card">
+                <div class="feature-icon">🏃</div>
+                <h3>Scenario Comparisons</h3>
+                <p>See how your weight, jump height, throw distance, and running speed would change on other worlds.</p>
+            </a>
+
+            <a href="pages/viewer.html" class="feature-card">
+                <div class="feature-icon">🌍</div>
+                <h3>3D Planet Viewer</h3>
+                <p>Explore photorealistic 8K rotating models of every planet, the Sun, and the Moon.</p>
+            </a>
+
+            <a href="pages/simulations.html" class="feature-card">
+                <div class="feature-icon">🌌</div>
+                <h3>Orbit Simulator</h3>
+                <p>Watch inner, full, and outer solar system orbits animate in real-time with accurate relative speeds.</p>
+            </a>
+
+            <a href="pages/conversion.html" class="feature-card">
+                <div class="feature-icon">🔢</div>
+                <h3>Unit Conversions</h3>
+                <p>Convert between hundreds of scientific and everyday units — from femtometers to parsecs.</p>
+            </a>
+
+            <a href="pages/resources.html" class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>Resources</h3>
+                <p>Keep up with science news, search databases, and learn more!.</p>
+            </a>
+
+        </div>
+    </div>
+
+    <div class="home-footer">
+        Built with real data from <a href="https://ssd.jpl.nasa.gov/" target="_blank" rel="noopener">NASA JPL</a> &nbsp;·&nbsp;
+        <a href="pages/resources.html">Explore more resources →</a>
+    </div>
 
 </main>
 
 <script src="js/app.js"></script>
+
+<footer class="site-footer">
+
+<p>
+KuiperSpace is an independent educational project focused on astronomy and planetary science.
+Data, simulations, calculations, and visualizations may contain inaccuracies or simplified approximations.
+</p>
+
+<div class="footer-links">
+<a href="pages/terms.html">Terms</a>
+<a href="pages/privacy.html">Privacy</a>
+<a href="pages/disclaimer.html">Disclaimer</a>
+<a href="pages/copyright.html">Copyright</a>
+<a href="pages/affiliate.html">Affiliate Disclosure</a>
+</div>
+
+<p class="copyright">
+© 2026 KuiperSpace — thekuiperspace.com
+</p>
+
+</footer>
 
 </body>
 </html>
