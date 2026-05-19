@@ -2,48 +2,438 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
-<title>Support</title>
-
+<title>Contact — The Planetary Lab</title>
 <link rel="stylesheet" href="../css/styles.css">
+<style>
 
+    /* ── HERO ── */
+    .contact-hero {
+        text-align: center;
+        padding: 52px 20px 28px;
+        max-width: 640px;
+        margin: 0 auto;
+    }
+
+    .contact-hero h1 {
+        font-size: 36px;
+        font-weight: 800;
+        color: white;
+        letter-spacing: -0.02em;
+        margin-bottom: 14px;
+    }
+
+    .contact-hero h1 span { color: #4da3ff; }
+
+    .hero-divider {
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, #4da3ff, #a78bfa);
+        border-radius: 2px;
+        margin: 0 auto 18px;
+    }
+
+    .contact-hero p {
+        font-size: 16px;
+        color: #8fa8cc;
+        line-height: 1.7;
+        margin: 0;
+    }
+
+    /* ── BODY LAYOUT ── */
+    .contact-body {
+        max-width: 900px;
+        margin: 40px auto 60px;
+        padding: 0 24px;
+        display: grid;
+        grid-template-columns: 1fr 1.6fr;
+        gap: 24px;
+        align-items: start;
+    }
+
+    @media (max-width: 700px) {
+        .contact-body {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #4da3ff;
+        margin: 0 0 16px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid rgba(77,163,255,0.2);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .section-header::before {
+        content: '';
+        width: 7px; height: 7px;
+        border-radius: 50%;
+        background: #4da3ff;
+        flex-shrink: 0;
+    }
+
+    /* ── INFO PANEL ── */
+    .info-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .info-card {
+        background: linear-gradient(160deg, #0f1928, #121e30);
+        border: 1px solid #1c2d47;
+        border-radius: 12px;
+        padding: 18px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .info-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 2px;
+        background: var(--accent, linear-gradient(90deg, #4da3ff, #7bc4ff));
+    }
+
+    .info-card-icon {
+        font-size: 22px;
+        margin-bottom: 2px;
+    }
+
+    .info-card h3 {
+        font-size: 13px;
+        font-weight: 700;
+        color: #c8d8ee;
+        margin: 0;
+    }
+
+    .info-card p, .info-card a {
+        font-size: 14px;
+        color: #6a85a8;
+        margin: 0;
+        line-height: 1.6;
+        text-decoration: none;
+    }
+
+    .info-card a {
+        color: #4da3ff;
+        transition: color 0.2s;
+    }
+
+    .info-card a:hover { color: #7bc4ff; }
+
+    /* ── FORM PANEL ── */
+    .form-panel {
+        background: linear-gradient(160deg, #0f1928, #121e30);
+        border: 1px solid #1c2d47;
+        border-radius: 14px;
+        padding: 28px 26px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .form-panel::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #4da3ff, #a78bfa);
+    }
+
+    /* ── FORM ELEMENTS ── */
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 16px;
+    }
+
+    .form-group:last-of-type { margin-bottom: 20px; }
+
+    .form-group label {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #6a85a8;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        background: #0a1020;
+        border: 1px solid #1e2e47;
+        border-radius: 8px;
+        padding: 10px 14px;
+        color: white;
+        font-size: 14px;
+        font-family: inherit;
+        box-sizing: border-box;
+        width: 100%;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        resize: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #4da3ff;
+        box-shadow: 0 0 0 2px rgba(77,163,255,0.15);
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: #2a3f5f; }
+
+    .form-group select option { background: #0a1020; }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+    }
+
+    @media (max-width: 500px) {
+        .form-row { grid-template-columns: 1fr; }
+    }
+
+    /* ── SUBMIT BUTTON ── */
+    .submit-btn {
+        width: 100%;
+        background: #4da3ff;
+        border: none;
+        border-radius: 8px;
+        padding: 12px;
+        color: white;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+
+    .submit-btn:hover {
+        background: #3a8de0;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(77,163,255,0.3);
+    }
+
+    .submit-btn:active { transform: translateY(0); }
+
+    /* ── FORM NOTE ── */
+    .form-note {
+        font-size: 12px;
+        color: #3a4f6a;
+        margin-top: 12px;
+        text-align: center;
+        line-height: 1.5;
+    }
+
+    .form-note a { color: #4da3ff; text-decoration: none; }
+    .form-note a:hover { text-decoration: underline; }
+
+    /* ── SUCCESS STATE (shown after submit via URL param) ── */
+    .success-banner {
+        display: none;
+        background: rgba(74,222,128,0.08);
+        border: 1px solid rgba(74,222,128,0.25);
+        border-radius: 8px;
+        padding: 14px 18px;
+        font-size: 14px;
+        color: #4ade80;
+        font-weight: 600;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+</style>
 </head>
 
 <body>
 
 <header class="navbar">
 
-<h1 class="logo">Support</h1>
+<a href="support.html" class="brand-container">
 
-<nav>
-<ul class="nav-links">
-<li><a href="../index.html">Home</a></li>
-<li><a href="about.html">About</a></li>
-<li><a href="tool.html">Planetary Properties</a></li>
-<li><a href="scenario.html">Scenario Comparisons</a></li>
-<li><a href="simulations.html">Simulations</a></li>
-<li><a href="conversion.html">Unit Conversions</a></li>
-<li><a href="resources.html">Resources</a></li>
-<li><a href="merch.html">Merch</a></li>
-<li><a href="support.html">Support</a></li>
-</ul>
+    <img 
+        src="../images/branding/kuiperspace_wordmark.png"
+        alt="KuiperSpace"
+        class="brand-wordmark"
+    >
+
+</a>
+
+    <nav>
+    <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="tool.html">Planetary Properties</a></li>
+        <li><a href="scenario.html">Scenario Comparisons</a></li>
+        <li><a href="viewer.html">3D Planet Viewer</a></li>
+        <li><a href="simulations.html">Orbit Simulator</a></li>
+        <li><a href="conversion.html">Unit Conversions</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="merch.html">Shop & Support</a></li>
+        <li><a href="support.html">Contact</a></li>
+    </ul>
 </nav>
-
 </header>
 
 <main>
 
-<h2>Support</h2>
+    <!-- ── HERO ── -->
+    <div class="contact-hero">
+        <h1>Contact <span>&amp; Feedback</span></h1>
+        <div class="hero-divider"></div>
+        <p>Have a question, found a bug, or want to suggest a new feature? We'd love to hear from you! Here at KuiperSpace, we're always trying to improve and provide practical tools you'll actually use.</p>
+    </div>
 
-<p>
-If you encounter issues or want to suggest improvements, please contact us.
-</p>
+    <div class="contact-body">
 
-<h2 class="logo">COMING SOON!!!</h2>
+        <!-- ── LEFT: INFO ── -->
+        <div class="info-panel">
+
+            <div class="info-card" style="--accent: linear-gradient(90deg, #4da3ff, #7bc4ff);">
+                <div class="info-card-icon">✉️</div>
+                <h3>Email</h3>
+                <!-- Replace with your actual email when ready -->
+                <a href="mailto:hello@theplanetarylab.com">hello@theplanetarylab.com</a>
+            </div>
+
+            <div class="info-card" style="--accent: linear-gradient(90deg, #34d399, #6ee7b7);">
+                <div class="info-card-icon">⏱️</div>
+                <h3>Response Time</h3>
+                <p>We typically respond within 2–3 business days.</p>
+            </div>
+
+            <div class="info-card" style="--accent: linear-gradient(90deg, #a78bfa, #c4b5fd);">
+                <div class="info-card-icon">🐛</div>
+                <h3>Found a Bug?</h3>
+                <p>Please describe what happened and which page/tool it occurred on. Screenshots help a lot!</p>
+            </div>
+
+            <div class="info-card" style="--accent: linear-gradient(90deg, #fb923c, #fdba74);">
+                <div class="info-card-icon">💡</div>
+                <h3>Feature Requests</h3>
+                <p>Have an idea for a new tool or improvement? We build based on what users actually want — so tell us!</p>
+            </div>
+
+        </div>
+
+        <!-- ── RIGHT: FORM ── -->
+        <div class="form-panel">
+
+            <div class="section-header">Send a Message</div>
+
+            <!-- Success banner — shown if Formspree redirects back with ?success=true -->
+            <div class="success-banner" id="successBanner">
+                ✓ Message sent! Thank you — we'll get back to you soon.
+            </div>
+
+            <!--
+                HOW TO ACTIVATE:
+                1. Go to formspree.io and create a free account
+                2. Create a new form and copy your endpoint URL
+                3. Replace "https://formspree.io/f/YOUR_FORM_ID" below with your real endpoint
+                4. Optionally set the redirect URL in Formspree to: support.html?success=true
+            -->
+            <form
+                action="https://formspree.io/f/YOUR_FORM_ID"
+                method="POST"
+                id="contactForm"
+            >
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="type">Message Type</label>
+                    <select id="type" name="type">
+                        <option value="feedback">General Feedback</option>
+                        <option value="feature">Feature Request</option>
+                        <option value="bug">Bug Report</option>
+                        <option value="question">Question</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" placeholder="Brief summary">
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="6" placeholder="Tell us what's on your mind..." required></textarea>
+                </div>
+
+                <!-- Hidden field to help identify source -->
+                <input type="hidden" name="_subject" value="New message from The Planetary Lab">
+
+                <button type="submit" class="submit-btn">Send Message →</button>
+
+            </form>
+
+            <p class="form-note">
+                Your email is only used to reply to your message and is never shared.<br>
+                Prefer email? Reach us directly at <a href="mailto:hello@theplanetarylab.com">hello@theplanetarylab.com</a>
+            </p>
+
+        </div>
+
+    </div>
 
 </main>
 
+<script>
+    // Show success banner if redirected back from Formspree with ?success=true
+    if (window.location.search.includes("success=true")) {
+        document.getElementById("successBanner").style.display = "block";
+        // Clean up the URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+</script>
+
+<footer class="site-footer">
+
+<p>
+KuiperSpace is an independent educational project focused on astronomy and planetary science.
+Data, simulations, calculations, and visualizations may contain inaccuracies or simplified approximations.
+</p>
+
+<div class="footer-links">
+<a href="terms.html">Terms</a>
+<a href="privacy.html">Privacy</a>
+<a href="disclaimer.html">Disclaimer</a>
+<a href="copyright.html">Copyright</a>
+<a href="affiliate.html">Affiliate Disclosure</a>
+</div>
+
+<p class="copyright">
+© 2026 KuiperSpace — thekuiperspace.com
+</p>
+
+</footer>
 
 </body>
 </html>
