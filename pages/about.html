@@ -144,31 +144,35 @@
 <body>
 
 <header class="navbar">
-
-<a href="about.html" class="brand-container">
-
-    <img 
-        src="../images/branding/kuiperspace_wordmark.png"
-        alt="KuiperSpace"
-        class="brand-wordmark"
-    >
-
-</a>
-
-<nav>
+ 
+  <a href="../index.html" class="brand-container">
+    <img src="../images/branding/kuiperspace_wordmark.png"
+         alt="KuiperSpace" class="brand-wordmark">
+  </a>
+ 
+  <!-- Hamburger button (hidden on desktop, shown on mobile) -->
+  <button class="nav-toggle" id="nav-toggle"
+          aria-label="Toggle navigation" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+ 
+  <nav id="main-nav">
     <ul class="nav-links">
-        <li><a href="../index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="tool.html">Planetary Properties</a></li>
-        <li><a href="scenario.html">Scenario Comparisons</a></li>
-        <li><a href="viewer.html">3D Planet Viewer</a></li>
-        <li><a href="simulations.html">Orbit Simulator</a></li>
-        <li><a href="conversion.html">Unit Conversions</a></li>
-        <li><a href="resources.html">Resources</a></li>
-        <li><a href="merch.html">Shop & Support</a></li>
-        <li><a href="support.html">Contact</a></li>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="tool.html">Planetary Properties</a></li>
+      <li><a href="scenario.html">Scenario Comparisons</a></li>
+      <li><a href="viewer.html">3D Planet Viewer</a></li>
+      <li><a href="simulations.html">Orbit Simulator</a></li>
+      <li><a href="conversion.html">Unit Conversions</a></li>
+      <li><a href="resources.html">Resources</a></li>
+      <li><a href="merch.html">Shop &amp; Support</a></li>
+      <li><a href="support.html">Contact</a></li>
     </ul>
-</nav>
+  </nav>
+ 
 </header>
 
 <main>
@@ -235,6 +239,42 @@ Data, simulations, calculations, and visualizations may contain inaccuracies or 
 </p>
 
 </footer>
+
+<script>
+(function () {
+  const toggle = document.getElementById('nav-toggle');
+  const nav    = document.getElementById('main-nav');
+  if (!toggle || !nav) return;
+ 
+  toggle.addEventListener('click', function () {
+    const isOpen = nav.classList.toggle('open');
+    toggle.classList.toggle('open', isOpen);
+    toggle.setAttribute('aria-expanded', isOpen);
+    // Prevent body scroll while menu is open
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+ 
+  // Close menu when a nav link is tapped
+  nav.querySelectorAll('a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      nav.classList.remove('open');
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
+ 
+  // Close menu on Escape key
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && nav.classList.contains('open')) {
+      nav.classList.remove('open');
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+  });
+})();
+</script>
 
 </body>
 </html>
