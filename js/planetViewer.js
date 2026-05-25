@@ -344,6 +344,59 @@ renderer.domElement.addEventListener("mousemove",  (e) => {
 });
 
 // ================================
+// TOUCH DRAG TO SPIN
+// ================================
+renderer.domElement.addEventListener("touchstart", (e) => {
+    isDragging            = true;
+    previousMousePosition = {
+        x: e.touches[0].clientX,
+        y: e.touches[0].clientY
+    };
+}, { passive: true });
+
+renderer.domElement.addEventListener("touchend", () => {
+    isDragging = false;
+}, { passive: true });
+
+renderer.domElement.addEventListener("touchmove", (e) => {
+    if (!isDragging || !planet) return;
+    planet.rotation.y += (e.touches[0].clientX - previousMousePosition.x) * 0.005;
+    planet.rotation.x += (e.touches[0].clientY - previousMousePosition.y) * 0.005;
+    previousMousePosition = {
+        x: e.touches[0].clientX,
+        y: e.touches[0].clientY
+    };
+}, { passive: true });
+
+// Pinch to zoom
+renderer.domElement.addEventListener("touchstart", (e) => {
+    if (e.touches.length === 2) {
+        isDragging = false; // disable drag while pinching
+    }
+}, { passive: true });
+
+let lastPinchDistance = null;
+
+renderer.domElement.addEventListener("touchmove", (e) => {
+    if (e.touches.length === 2) {
+        const dx   = e.touches[0].clientX - e.touches[1].clientX;
+        const dy   = e.touches[0].clientY - e.touches[1].clientY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (lastPinchDistance !== null) {
+            const delta = lastPinchDistance - dist;
+            camera.position.z = Math.max(1, Math.min(30, camera.position.z + delta * 0.05));
+        }
+        lastPinchDistance = dist;
+    } else {
+        lastPinchDistance = null;
+    }
+}, { passive: true });
+
+renderer.domElement.addEventListener("touchend", () => {
+    lastPinchDistance = null;
+}, { passive: true });
+
+// ================================
 // RESIZE
 // ================================
 window.addEventListener("resize", () => {
