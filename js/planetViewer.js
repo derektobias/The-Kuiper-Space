@@ -344,40 +344,47 @@ renderer.domElement.addEventListener("mousemove",  (e) => {
 });
 
 // ================================
-// TOUCH DRAG TO SPIN
+// TOUCH DRAG TO SPIN (planet-only hit test)
 // ================================
-renderer.domElement.addEventListener("touchstart", (e) => {
-    isDragging            = true;
-    previousMousePosition = {
-        x: e.touches[0].clientX,
-        y: e.touches[0].clientY
-    };
-}, { passive: true });
+const raycaster = new THREE.Raycaster();
 
-renderer.domElement.addEventListener("touchend", () => {
-    isDragging = false;
-}, { passive: true });
+function getTouchNDC(touch) {
+    const rect = renderer.domElement.getBoundingClientRect();
+    return new THREE.Vector2(
+        ((touch.clientX - rect.left) / rect.width)  *  2 - 1,
+        ((touch.clientY - rect.top)  / rect.height) * -2 + 1
+    );
+}
 
-renderer.domElement.addEventListener("touchmove", (e) => {
-    if (!isDragging || !planet) return;
-    planet.rotation.y += (e.touches[0].clientX - previousMousePosition.x) * 0.005;
-    planet.rotation.x += (e.touches[0].clientY - previousMousePosition.y) * 0.005;
-    previousMousePosition = {
-        x: e.touches[0].clientX,
-        y: e.touches[0].clientY
-    };
-}, { passive: true });
+function touchHitsPlanet(touch) {
+    if (!planet) return false;
+    raycaster.setFromCamera(getTouchNDC(touch), camera);
+    return raycaster.intersectObject(planet, true).length > 0;
+}
 
-// Pinch to zoom
 renderer.domElement.addEventListener("touchstart", (e) => {
     if (e.touches.length === 2) {
-        isDragging = false; // disable drag while pinching
+        isDragging        = false;
+        lastPinchDistance = null;
+        return;
     }
+    if (touchHitsPlanet(e.touches[0])) {
+        isDragging = true;
+        previousMousePosition = {
+            x: e.touches[0].clientX,
+            y: e.touches[0].clientY
+        };
+        e.preventDefault(); // block page scroll only when on planet
+    }
+}, { passive: false }); // must be false so preventDefault() works
+
+renderer.domElement.addEventListener("touchend", () => {
+    isDragging        = false;
+    lastPinchDistance = null;
 }, { passive: true });
 
-let lastPinchDistance = null;
-
 renderer.domElement.addEventListener("touchmove", (e) => {
+    // Pinch to zoom
     if (e.touches.length === 2) {
         const dx   = e.touches[0].clientX - e.touches[1].clientX;
         const dy   = e.touches[0].clientY - e.touches[1].clientY;
@@ -387,14 +394,21 @@ renderer.domElement.addEventListener("touchmove", (e) => {
             camera.position.z = Math.max(1, Math.min(30, camera.position.z + delta * 0.05));
         }
         lastPinchDistance = dist;
-    } else {
-        lastPinchDistance = null;
+        return;
     }
-}, { passive: true });
 
-renderer.domElement.addEventListener("touchend", () => {
-    lastPinchDistance = null;
-}, { passive: true });
+    // Single finger drag — only if we confirmed a planet hit on touchstart
+    if (!isDragging || !planet) return;
+    planet.rotation.y += (e.touches[0].clientX - previousMousePosition.x) * 0.005;
+    planet.rotation.x += (e.touches[0].clientY - previousMousePosition.y) * 0.005;
+    previousMousePosition = {
+        x: e.touches[0].clientX,
+        y: e.touches[0].clientY
+    };
+    e.preventDefault(); // block scroll while spinning
+}, { passive: false }); // must be false so preventDefault() works
+
+let lastPinchDistance = null;
 
 // ================================
 // RESIZE
