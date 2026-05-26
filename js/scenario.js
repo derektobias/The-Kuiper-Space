@@ -1,5 +1,6 @@
 let useMetric = false;
 let planets = [];
+let gravityMode = "surface";
 let currentScenario = "weight";
 let selectedPlanet = null;
 
@@ -49,6 +50,24 @@ function updateButtons() {
         if (!btn) return;
         btn.classList.toggle("active-btn", currentScenario === type);
     });
+}
+
+const G = 6.674e-11;
+const R_EARTH = 6.371e6; // meters
+
+function getGravity(p) {
+    if (gravityMode === "total") {
+        return (G * p.mass_kg) / (R_EARTH * R_EARTH);
+    }
+    return p.gravity_m_s2;
+}
+
+function setGravityMode(mode) {
+    gravityMode = mode;
+    document.getElementById("btn-gravity-surface").classList.toggle("active-gravity", mode === "surface");
+    document.getElementById("btn-gravity-total").classList.toggle("active-gravity", mode === "total");
+    updateAnimation();
+    updateDataTable();
 }
 
 // =========================
@@ -128,7 +147,7 @@ function updateAnimation() {
         return;
     }
 
-    const g     = selectedPlanet.gravity_m_s2;
+    const g = getGravity(selectedPlanet);
     const ratio = g / earthG;
 
     const weight    = parseFloat(document.getElementById("userWeight").value);
@@ -146,65 +165,150 @@ function updateAnimation() {
 
         const weightKg       = useMetric ? weight : weight * 0.453592;
         const planetWeightKg = weightKg * ratio;
+        const displayEarth   = useMetric ? weightKg : weight;
         const displayPlanet  = useMetric ? planetWeightKg : planetWeightKg / 0.453592;
         const unit           = useMetric ? "kg" : "lbs";
 
-        // Color: blue (low g) → white (1g) → orange-red (high g)
-        const hue  = ratio < 1 ? 200 : Math.max(0, 30 - (ratio - 1) * 25);
-        const sat  = 80;
-        const lit  = ratio < 1 ? 60 + (1 - ratio) * 10 : Math.max(45, 60 - (ratio - 1) * 8);
-        const blobColor = `hsl(${hue}, ${sat}%, ${lit}%)`;
+        // ROYGBIV color: violet=much lighter, green=same, red=much heavier
+        // ratio < 1 → violet side (270°), ratio = 1 → green (120°), ratio > 1 → red (0°)
+        let hue;
+        if (ratio <= 1) {
+            // green (120°) → blue → violet (270°) as ratio goes 1 → 0
+            hue = 120 + (1 - ratio) * 150;
+        } else {
+            // green (120°) → yellow → red (0°) as ratio goes 1 → ~3+
+            hue = Math.max(0, 120 - (ratio - 1) * 60);
+        }
+        const planetColor = `hsl(${hue}, 80%, 55%)`;
+        const planetGlow  = `hsla(${hue}, 80%, 55%, 0.5)`;
 
-        const scaleY = Math.max(0.35, Math.min(2.5, 1 / ratio));
-        const glowColor = ratio > 1 ? "rgba(255,100,50,0.5)" : "rgba(77,163,255,0.5)";
+        // Tilt: negative = left side down (planet lighter), positive = right side down (planet heavier)
+        // Cap at ±25 degrees
+        const rawTilt  = (ratio - 1) * 20;
+        const maxTilt  = 25;
+        const tiltDeg  = Math.max(-maxTilt, Math.min(maxTilt, rawTilt));
 
         container.innerHTML = `
-            <div style="display:flex; flex-direction:column; align-items:center; gap:28px; width:100%;">
-                <div style="display:flex; align-items:center; justify-content:center; gap:50px;">
+            <div style="display:flex; flex-direction:column; align-items:center; gap:16px; width:100%; padding: 10px 0;">
 
-                    <div style="display:flex; flex-direction:column; align-items:center; gap:10px;">
-                        <div style="font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#4a5a78;">Earth</div>
-                        <div id="earth-blob" style="
-                            width:70px; height:70px;
-                            background: hsl(200,70%,55%);
-                            border-radius:50%;
-                            box-shadow: 0 0 20px rgba(77,163,255,0.4);
-                        "></div>
-                        <div style="font-size:13px; color:#8fa8cc;">${(useMetric ? weightKg : weight).toFixed(1)} ${unit}</div>
-                    </div>
+                <!-- SCALE SVG -->
+                <div style="position:relative; width:100%; max-width:320px; height:180px;">
 
-                    <div style="display:flex; flex-direction:column; align-items:center; gap:10px;">
-                        <div style="font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#4a5a78;">${selectedPlanet.name}</div>
-                        <div id="weight-blob" style="
-                            width:70px; height:70px;
-                            background:${blobColor};
-                            border-radius:50%;
-                            box-shadow: 0 0 25px ${glowColor};
-                            transform: scaleY(1);
+                    <!-- Pivot point -->
+                    <div style="
+                        position:absolute; left:50%; top:30px;
+                        transform:translateX(-50%);
+                        width:14px; height:14px;
+                        background:#4a5a78;
+                        border-radius:50%;
+                        z-index:3;
+                    "></div>
+
+                    <!-- Stand -->
+                    <div style="
+                        position:absolute; left:50%; top:36px;
+                        transform:translateX(-50%);
+                        width:4px; height:90px;
+                        background:#2a3a55;
+                        z-index:1;
+                    "></div>
+
+                    <!-- Base -->
+                    <div style="
+                        position:absolute; left:50%; bottom:0;
+                        transform:translateX(-50%);
+                        width:80px; height:10px;
+                        background:#2a3a55;
+                        border-radius:5px;
+                        z-index:1;
+                    "></div>
+
+                    <!-- Beam (rotates) -->
+                    <div id="scale-beam" style="
+                        position:absolute; left:50%; top:37px;
+                        transform:rotate(0deg);
+                        transform-origin: center center;
+                        width:260px; height:4px;
+                        background: linear-gradient(90deg, #2a3a55, #4a6a8a, #2a3a55);
+                        border-radius:2px;
+                        z-index:2;
+                        margin-left:-130px;
+                        transition: transform 0.05s linear;
+                    ">
+                        <!-- Left pan string -->
+                        <div style="
+                            position:absolute; left:8px; top:4px;
+                            width:2px; height:30px;
+                            background:#2a3a55;
                         "></div>
-                        <div style="font-size:13px; color:#8fa8cc;">${displayPlanet.toFixed(1)} ${unit}</div>
+
+                        <!-- Right pan string -->
+                        <div style="
+                            position:absolute; right:8px; top:4px;
+                            width:2px; height:30px;
+                            background:#2a3a55;
+                        "></div>
+
+                        <!-- Left blob (Earth) -->
+                        <div style="
+                            position:absolute; left:-13px; top:34px;
+                            width:44px; height:44px;
+                            background: hsl(120, 70%, 45%);
+                            border-radius:50%;
+                            box-shadow: 0 0 16px rgba(80,200,80,0.5);
+                            display:flex; align-items:center; justify-content:center;
+                            font-size:9px; color:rgba(255,255,255,0.7); font-weight:700;
+                            text-transform:uppercase; letter-spacing:0.05em;
+                        ">🌍</div>
+
+                        <!-- Right blob (Planet) -->
+                        <div style="
+                            position:absolute; right:-13px; top:34px;
+                            width:44px; height:44px;
+                            background: ${planetColor};
+                            border-radius:50%;
+                            box-shadow: 0 0 16px ${planetGlow};
+                            display:flex; align-items:center; justify-content:center;
+                            font-size:9px; color:rgba(255,255,255,0.7); font-weight:700;
+                            text-transform:uppercase; letter-spacing:0.05em;
+                        ">🪐</div>
                     </div>
 
                 </div>
 
+                <!-- LABELS -->
+                <div style="display:flex; justify-content:space-between; width:100%; max-width:280px; margin-top:-8px;">
+                    <div style="text-align:center; min-width:80px;">
+                        <div style="font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#4a5a78;">Earth</div>
+                        <div style="font-size:13px; color:#8fa8cc; margin-top:2px;">${displayEarth.toFixed(1)} ${unit}</div>
+                    </div>
+                    <div style="text-align:center; min-width:80px;">
+                        <div style="font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#4a5a78;">${selectedPlanet.name}</div>
+                        <div style="font-size:13px; color:#8fa8cc; margin-top:2px;">${displayPlanet.toFixed(1)} ${unit}</div>
+                    </div>
+                </div>
+
+                <!-- STATS -->
                 <div style="display:flex; gap:24px; justify-content:center; flex-wrap:wrap;">
                     <div class="anim-stat">Gravity: <span class="highlight">${ratio.toFixed(2)}× Earth</span></div>
                     <div class="anim-stat">You would feel <span class="highlight">${ratio > 1 ? "heavier" : ratio < 1 ? "lighter" : "the same"}</span></div>
                 </div>
+
             </div>
         `;
 
-        const blob = document.getElementById("weight-blob");
-        let start = null;
-        function animateBlob(ts) {
+        // Animate the beam tilting
+        const beam = document.getElementById("scale-beam");
+        let start  = null;
+        function animateScale(ts) {
             if (!start) start = ts;
-            const p      = Math.min((ts - start) / 900, 1);
-            const eased  = 1 - Math.pow(1 - p, 3);
-            const scale  = 1 + (scaleY - 1) * eased;
-            blob.style.transform = `scaleY(${scale})`;
-            if (p < 1) requestAnimationFrame(animateBlob);
+            const p     = Math.min((ts - start) / 900, 1);
+            const eased = 1 - Math.pow(1 - p, 3);
+            const angle = tiltDeg * eased;
+            beam.style.transform = `rotate(${angle}deg)`;
+            if (p < 1) requestAnimationFrame(animateScale);
         }
-        requestAnimationFrame(animateBlob);
+        requestAnimationFrame(animateScale);
     }
 
     // =====================
@@ -481,7 +585,7 @@ function updateDataTable() {
     const speed      = parseFloat(document.getElementById("userSpeed").value);
 
     planets.forEach(p => {
-        const g = p.gravity_m_s2;
+        const g = getGravity(p);
         if (!g) return;
 
         const ratio = g / earthG;
