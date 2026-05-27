@@ -13,6 +13,24 @@ async function loadPlanets() {
     renderPlanetGrid(planets);
 }
 
+function formatValue(value) {
+    if (value === null || value === undefined) return "Unknown";
+    if (typeof value === "string") return value;
+    if (Array.isArray(value)) return value[0] + " to " + value[1];
+    if (typeof value !== "number") return value;
+
+    const abs = Math.abs(value);
+    if (abs === 0) return "0";
+
+    // Scientific notation for very large (≥100,000) or very small (<0.001) numbers
+    if (abs >= 1e5 || (abs < 0.001 && abs > 0)) {
+        return value.toExponential(3);
+    }
+
+    // Normal range — strip unnecessary trailing zeros
+    return parseFloat(value.toPrecision(5)).toString();
+}
+
 // ================================
 // RENDER PLANET GRID
 // Applies .selected and .disabled states visually
@@ -140,13 +158,28 @@ function getValueWithUnits(planet, prop) {
     if (prop === "semi_major_axis") return isMoon ? planet.semi_major_axis_km : planet.semi_major_axis_au;
 
     const value = planet[prop];
+    if (value === null || value === undefined) return "Unknown";
     if (Array.isArray(value)) return value[0] + " to " + value[1];
-    return value ?? "Unknown";
+    return value;
 }
 
 function getSelectedProperties() {
     return Array.from(document.querySelectorAll("#property-controls input:checked"))
                 .map(cb => cb.value);
+}
+
+// ================================
+// SELECT ALL / DESELECT ALL
+// ================================
+let allSelected = false;
+
+function toggleSelectAll() {
+    allSelected = !allSelected;
+    const checkboxes = document.querySelectorAll("#property-controls input[type='checkbox']");
+    checkboxes.forEach(cb => cb.checked = allSelected);
+    const btn = document.getElementById("select-all-btn");
+    if (btn) btn.textContent = allSelected ? "Deselect All" : "Select All";
+    displayComparison();
 }
 
 // ================================
@@ -186,7 +219,8 @@ function displayComparison() {
             }
 
             const label = getDynamicLabel(planet, prop);
-            const val   = getValueWithUnits(planet, prop);
+            const raw = getValueWithUnits(planet, prop);
+            const val = formatValue(raw);
 
             propertyHTML += `
                 <p class="${className}">

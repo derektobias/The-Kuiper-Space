@@ -140,7 +140,11 @@
 
 }
 
-#expand-tab:hover { background: #3a8de0; }
+#expand-tab:hover { 
+    background: rgba(77,163,255,0.65);
+    border-color: #4da3ff;
+    color: white;
+ }
 
 .sidebar-collapsed #expand-tab { display: block; }
 
@@ -203,6 +207,7 @@
 #toggle-sidebar:hover {
     background: rgba(77,163,255,0.65);
     border-color: #4da3ff;
+    color: white;
 }
 
 /* ── PLANET GRID ── */
@@ -262,6 +267,27 @@
 }
 
 /* ── PROPERTY GROUPS ── */
+.select-all-btn {
+    background: rgba(77,163,255,0.05);
+    border: 2px solid rgba(77,163,255,0.65);
+    border-radius: 8px;
+    padding: 3px 10px;
+    color: #4da3ff;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: background 0.25s, border-color 0.25s, color 0.25s;
+    white-space: nowrap;
+}
+
+.select-all-btn:hover {
+    background: rgba(77,163,255,0.65);
+    border-color: #4da3ff;
+    color: white;
+}
+
 .property-group {
     background: #0f1a2e;
     border: 1px solid #1c2d47;
@@ -289,23 +315,26 @@
 }
 
 .group-grid label {
-    display: flex;
-    align-items: flex-end;
-    gap: 5px;
+    display: grid;
+    grid-template-columns: 16px 1fr;
+    align-items: start;
+    gap: 6px;
     font-size: 14px;
     color: #8fa8cc;
     cursor: pointer;
     line-height: 1.4;
     transition: color 0.25s;
+    text-align: left;
 }
 
 .group-grid label:hover { color: #c8d8ee; }
 
 .group-grid input[type="checkbox"] {
-    accent-color: #4da3ff;
     margin-top: 2px;
+    accent-color: #4da3ff;
     width: 13px;
     height: 13px;
+    flex-shrink: 0;
 }
 
 /* ── DISPLAY AREA ── */
@@ -545,8 +574,11 @@
             <div id="planet-grid"></div>
         </div>
 
-        <div class="sidebar-section">
-            <div class="sidebar-label">Data Properties</div>
+        <div class="sidebar-section" style="margin-top: 10px;">
+            <div class="sidebar-label" style="display:flex; align-items:center; justify-content:space-between;">
+                Data Properties
+                <button id="select-all-btn" class="select-all-btn" onclick="toggleSelectAll()">Select All</button>
+            </div>
             <div id="property-controls">
 
                 <div class="property-group">

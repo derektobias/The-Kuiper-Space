@@ -817,7 +817,7 @@
 "magnetism_gauss":"None",
 "atmospheric_density_kg_m3":"None",
 "atmospheric_pressure_bar":"None",
-"atmospheric_composition":"None; OSIRIS-REx mission detected particle ejection events (cm-sized rocks) — not an atmosphere but active surface processes",
+"atmospheric_composition":"None; OSIRIS-REx mission detected particle ejection events (cm-sized rocks). No atmosphere, but active surface processes",
 "scale_height_km":"Unknown",
 "surface_composition":"B-type carbonaceous chondrite; hydrated silicates/phyllosilicates (~40%), carbon-rich material (~30%), magnetite (~15%), olivine and pyroxene (~10%), organics (~5%); OSIRIS-REx sample return (2023) confirmed abundant carbon and water-bearing minerals",
 "albedo":0.04,
