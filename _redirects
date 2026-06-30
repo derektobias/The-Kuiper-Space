@@ -1,0 +1,13 @@
+# ============================================================
+# KuiperSpace — Netlify _redirects
+# Maps old page URLs to new renamed URLs (301 permanent redirect)
+# Place this file at the ROOT of your site (same level as index.html)
+# Netlify automatically detects and applies a file named "_redirects"
+# ============================================================
+
+/pages/tool.html                 /pages/planetary-properties.html      301
+/pages/scenario.html             /pages/scenario-comparisons.html      301
+/pages/viewer.html                /pages/planet-viewer.html             301
+/pages/simulations.html           /pages/orbit-simulator.html           301
+/pages/conversion.html            /pages/unit-conversions.html          301
+/pages/support.html               /pages/contact.html                   301
