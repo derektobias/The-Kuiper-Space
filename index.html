@@ -2,43 +2,67 @@
 <html lang="en">
 
 <head>
-
+ 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Home — KuiperSpace</title>
-
+ 
+<title>KuiperSpace — Interactive Planetary Science Tools & Solar System Explorer</title>
+ 
+<meta name="description" content="Free interactive astronomy tools for students and space enthusiasts. Compare planets, simulate orbits, explore 3D models, convert scientific units, and more — all powered by real NASA JPL data.">
+<meta name="keywords" content="planetary science, astronomy tools, solar system explorer, planet comparison, orbit simulator, 3D planet viewer, space education, NASA data">
+<meta name="author" content="KuiperSpace">
+<meta name="robots" content="index, follow">
+ 
+<link rel="canonical" href="https://thekuiperspace.com/">
+ 
 <link rel="icon" type="image/png" href="/favicon-96x96.png?v=20260525" sizes="96x96">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20260525">
 <link rel="shortcut icon" href="/favicon.ico?v=20260525">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=20260525">
-
 <meta name="apple-mobile-web-app-title" content="KuiperSpace">
-
-<meta name="description" content="Interactive astronomy and planetary science tools, simulations, visualizations, and educational resources.">
-
-<meta name="keywords" content="astronomy, planetary science, space, planets, orbit simulator, planet viewer, conversions">
-
-<meta name="author" content="KuiperSpace">
-
-<meta property="og:title" content="KuiperSpace">
-<meta property="og:description" content="Interactive planetary science tools and simulations.">
+<link rel="manifest" href="/site.webmanifest?v=20260525">
+<meta name="theme-color" content="#0b0f1a">
+ 
+<meta property="og:title" content="KuiperSpace — Interactive Planetary Science Tools">
+<meta property="og:description" content="Free interactive astronomy tools powered by real NASA JPL data. Compare planets, simulate orbits, explore 3D models, and convert scientific units.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://thekuiperspace.com">
-
-<!-- Google tag (gtag.js) -->
+<meta property="og:url" content="https://thekuiperspace.com/">
+<meta property="og:image" content="https://thekuiperspace.com/assets/og/home.jpg">
+<meta property="og:site_name" content="KuiperSpace">
+ 
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="KuiperSpace — Interactive Planetary Science Tools">
+<meta name="twitter:description" content="Free interactive astronomy tools powered by real NASA JPL data. Compare planets, simulate orbits, explore 3D models.">
+<meta name="twitter:image" content="https://thekuiperspace.com/assets/og/home.jpg">
+ 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "KuiperSpace",
+  "url": "https://thekuiperspace.com",
+  "description": "Free interactive planetary science tools for students, educators, and space enthusiasts, powered by real NASA JPL data.",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://thekuiperspace.com/pages/planetary-properties.html?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "KuiperSpace",
+    "url": "https://thekuiperspace.com"
+  }
+}
+</script>
+ 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-J4BENPDDHF"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-J4BENPDDHF');
 </script>
-
-<link rel="manifest" href="/site.webmanifest?v=20260525">
-
+ 
 <link rel="stylesheet" href="css/styles.css">
 
 <style>
@@ -278,14 +302,14 @@
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="pages/about.html">About</a></li>
-      <li><a href="pages/tool.html">Planetary Properties</a></li>
-      <li><a href="pages/scenario.html">Scenario Comparisons</a></li>
-      <li><a href="pages/viewer.html">3D Planet Viewer</a></li>
-      <li><a href="pages/simulations.html">Orbit Simulator</a></li>
-      <li><a href="pages/conversion.html">Unit Conversions</a></li>
+      <li><a href="pages/planetary-properties.html">Planetary Properties</a></li>
+      <li><a href="pages/scenario-comparisons.html">Scenario Comparisons</a></li>
+      <li><a href="pages/planet-viewer.html">3D Planet Viewer</a></li>
+      <li><a href="pages/orbit-simulator.html">Orbit Simulator</a></li>
+      <li><a href="pages/unit-conversions.html">Unit Conversions</a></li>
       <li><a href="pages/resources.html">Resources</a></li>
-      <li><a href="pages/merch.html">Shop &amp; Support</a></li>
-      <li><a href="pages/support.html">Contact</a></li>
+      <li><a href="pages/shop.html">Shop &amp; Support</a></li>
+      <li><a href="pages/contact.html">Contact</a></li>
     </ul>
   </nav>
 
@@ -300,8 +324,8 @@
         <div class="hero-divider"></div>
         <p>Real astronomical data, interactive visualizations, and hands-on tools for students, educators, and space enthusiasts.</p>
         <div class="hero-cta">
-            <a href="pages/viewer.html" class="hero-btn hero-btn-primary">🪐 Open 3D Planet Viewer</a>
-            <a href="pages/tool.html"   class="hero-btn hero-btn-secondary">Compare Planets</a>
+            <a href="pages/planet-viewer.html" class="hero-btn hero-btn-primary">🪐 Open 3D Planet Viewer</a>
+            <a href="pages/planetary-properties.html"   class="hero-btn hero-btn-secondary">Compare Planets</a>
         </div>
     </div>
 
@@ -334,31 +358,31 @@
         <div class="features-label">What you can do</div>
         <div class="feature-grid">
 
-            <a href="pages/tool.html" class="feature-card">
+            <a href="pages/planetary-properties.html" class="feature-card">
                 <div class="feature-icon">🪐</div>
                 <h3>Planetary Properties</h3>
                 <p>Compare physical, orbital, and environmental data across planets, moons, dwarf planets, and asteroids.</p>
             </a>
 
-            <a href="pages/scenario.html" class="feature-card">
+            <a href="pages/scenario-comparisons.html" class="feature-card">
                 <div class="feature-icon">🏃</div>
                 <h3>Scenario Comparisons</h3>
                 <p>See how your weight, jump height, throw distance, and running speed would change on other worlds.</p>
             </a>
 
-            <a href="pages/viewer.html" class="feature-card">
+            <a href="pages/planet-viewer.html" class="feature-card">
                 <div class="feature-icon">🌍</div>
                 <h3>3D Planet Viewer</h3>
                 <p>Explore photorealistic 8K rotating models of every planet, the Sun, and the Moon.</p>
             </a>
 
-            <a href="pages/simulations.html" class="feature-card">
+            <a href="pages/orbit-simulator.html" class="feature-card">
                 <div class="feature-icon">🌌</div>
                 <h3>Orbit Simulator</h3>
                 <p>Watch inner, full, and outer solar system orbits animate in real-time with accurate relative speeds.</p>
             </a>
 
-            <a href="pages/conversion.html" class="feature-card">
+            <a href="pages/unit-conversions.html" class="feature-card">
                 <div class="feature-icon">🔢</div>
                 <h3>Unit Conversions</h3>
                 <p>Convert between hundreds of scientific and everyday units — from femtometers to parsecs.</p>
@@ -380,7 +404,7 @@
 
 </main>
 
-<script src="js/app.js"></script>
+<script src="js/planetary-properties.js"></script>
 
 <footer class="site-footer">
 

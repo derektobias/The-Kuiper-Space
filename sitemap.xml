@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
   <loc>https://thekuiperspace.com/</loc>
@@ -10,23 +10,23 @@
 </url>
 
 <url>
-  <loc>https://thekuiperspace.com/pages/tool.html</loc>
+  <loc>https://thekuiperspace.com/pages/planetary-properties.html</loc>
 </url>
 
 <url>
-  <loc>https://thekuiperspace.com/pages/scenario.html</loc>
+  <loc>https://thekuiperspace.com/pages/scenario-comparisons.html</loc>
 </url>
 
 <url>
-  <loc>https://thekuiperspace.com/pages/viewer.html</loc>
+  <loc>https://thekuiperspace.com/pages/planet-viewer.html</loc>
 </url>
 
 <url>
-  <loc>https://thekuiperspace.com/pages/simulations.html</loc>
+  <loc>https://thekuiperspace.com/pages/orbit-simulator.html</loc>
 </url>
 
 <url>
-  <loc>https://thekuiperspace.com/pages/conversion.html</loc>
+  <loc>https://thekuiperspace.com/pages/unit-conversions.html</loc>
 </url>
 
 <url>
@@ -34,11 +34,11 @@
 </url>
 
 <url>
-  <loc>https://thekuiperspace.com/pages/merch.html</loc>
+  <loc>https://thekuiperspace.com/pages/shop.html</loc>
 </url>
 
 <url>
-  <loc>https://thekuiperspace.com/pages/support.html</loc>
+  <loc>https://thekuiperspace.com/pages/contact.html</loc>
 </url>
 
 </urlset>

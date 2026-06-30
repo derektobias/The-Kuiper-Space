@@ -128,7 +128,7 @@
 "scale_height_km":11.1,
 "surface_composition":"Iron(III) oxide dust/regolith (~15–30%); basaltic rock: pyroxene (~30%), feldspar (~25%), olivine (~10%), magnetite (~5%), perchlorate salts (~0.5–1%), trace sulfates and chlorides",
 "albedo":0.25,
-"image":"../images/planets/mars.jpg"
+"image":"../images/planets/mars.png"
 },
 
 {
@@ -524,7 +524,7 @@
 "scale_height_km":20,
 "surface_composition":"Water ice bedrock beneath thick organic (tholin) sediment layer; liquid methane/ethane lakes and seas near poles; dunes of solid organic particles (~40%), water ice crust (~35%), organic sand and sediment (~20%), liquid CH₄/C₂H₆ (polar regions)",
 "albedo":0.22,
-"image":"../images/moons/titan.jpg"
+"image":"../images/moons/titan.png"
 },
 
 {
