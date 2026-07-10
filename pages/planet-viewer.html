@@ -4,7 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <title>3D Planet Viewer — Interactive Solar System Simulation | KuiperSpace</title>
 
@@ -291,9 +291,15 @@
 
 </main>
 
-<!-- Three.js -->
-<script src="https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.min.js"></script>
-<script src="../js/planet-viewer.js"></script>
+<!-- Three.js r165 via importmap -->
+<script type="importmap">
+{
+    "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js"
+    }
+}
+</script>
+<script type="module" src="../js/planet-viewer.js"></script>
 
 <footer class="site-footer">
 

@@ -4,7 +4,7 @@
 <head>
  
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
  
 <title>Scenario Comparisons — How Would You Feel on Other Planets? | KuiperSpace</title>
  
@@ -497,6 +497,23 @@
 .scenario-card p strong {
     color: #8fa8cc;
     font-weight: 600;
+}
+
+@media (max-width: 600px) {
+
+    .input-section {
+        padding: 20px 16px;
+        margin: 0 12px 20px;
+    }
+
+    .input-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .input-row input {
+        width: 100%;
+    }
 }
 
 </style>
