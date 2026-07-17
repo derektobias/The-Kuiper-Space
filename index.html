@@ -6,10 +6,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-<title>The Kuiper Space — Interactive Planetary Science Tools & Solar System Explorer</title>
+<title>The Kuiper Space — Planetary & Exoplanet Science Tools, Solar System Explorer</title>
  
-<meta name="description" content="Free interactive astronomy tools for students and space enthusiasts. Compare planets, simulate orbits, explore 3D models, convert scientific units, and more — all powered by real NASA JPL data.">
-<meta name="keywords" content="planetary science, astronomy tools, solar system explorer, planet comparison, orbit simulator, 3D planet viewer, space education, NASA data">
+<meta name="description" content="Free interactive astronomy tools. Compare planets, search 6,000+ confirmed exoplanets, simulate orbits, and explore 3D models — all powered by real NASA data.">
+<meta name="keywords" content="planetary science, exoplanet database, astronomy tools, solar system explorer, planet comparison, orbit simulator, 3D planet viewer, space education, NASA data, NASA Exoplanet Archive">
 <meta name="author" content="The Kuiper Space">
 <meta name="robots" content="index, follow">
  
@@ -24,7 +24,7 @@
 <meta name="theme-color" content="#0b0f1a">
  
 <meta property="og:title" content="The Kuiper Space — Interactive Planetary Science Tools">
-<meta property="og:description" content="Free interactive astronomy tools powered by real NASA JPL data. Compare planets, simulate orbits, explore 3D models, and convert scientific units.">
+<meta property="og:description" content="Free interactive astronomy tools powered by real NASA data. Compare planets, search 6,000+ confirmed exoplanets, simulate orbits, and explore 3D models.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://thekuiperspace.com/">
 <meta property="og:image" content="https://thekuiperspace.com/assets/og/home.jpg">
@@ -32,7 +32,7 @@
  
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The Kuiper Space — Interactive Planetary Science Tools">
-<meta name="twitter:description" content="Free interactive astronomy tools powered by real NASA JPL data. Compare planets, simulate orbits, explore 3D models.">
+<meta name="twitter:description" content="Free interactive astronomy tools powered by real NASA data. Compare planets, search 6,000+ confirmed exoplanets, and explore 3D models.">
 <meta name="twitter:image" content="https://thekuiperspace.com/assets/og/home.jpg">
  
 <script type="application/ld+json">
@@ -41,7 +41,7 @@
   "@type": "WebSite",
   "name": "The Kuiper Space",
   "url": "https://thekuiperspace.com",
-  "description": "Free interactive planetary science tools for students, educators, and space enthusiasts, powered by real NASA JPL data.",
+  "description": "Free interactive planetary and exoplanet science tools for students, educators, and space enthusiasts, powered by real NASA data — including NASA JPL solar system data and NASA's Exoplanet Archive.",
   "potentialAction": {
     "@type": "SearchAction",
     "target": "https://thekuiperspace.com/pages/planetary-properties.html?q={search_term_string}",
@@ -200,8 +200,16 @@
 
     .feature-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        grid-template-columns: repeat(3, 1fr);
         gap: 20px;
+    }
+
+    @media (max-width: 820px) {
+        .feature-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 520px) {
+        .feature-grid { grid-template-columns: 1fr; }
     }
 
     .feature-card {
@@ -243,6 +251,10 @@
     .feature-card:nth-child(3) { --card-accent: linear-gradient(90deg, #a78bfa, #c4b5fd); }
     .feature-card:nth-child(4) { --card-accent: linear-gradient(90deg, #34d399, #6ee7b7); }
     .feature-card:nth-child(5) { --card-accent: linear-gradient(90deg, #fb923c, #fdba74); }
+    .feature-card:nth-child(6) { --card-accent: linear-gradient(90deg, #22d3ee, #67e8f9); }
+    .feature-card:nth-child(7) { --card-accent: linear-gradient(90deg, #94a3b8, #cbd5e1); }
+    .feature-card:nth-child(8) { --card-accent: linear-gradient(90deg, #f472b6, #f9a8d4); }
+    .feature-card:nth-child(9) { --card-accent: linear-gradient(90deg, #fbbf24, #fde68a); }
 
     .feature-icon {
         font-size: 40px;
@@ -292,17 +304,21 @@
     <!-- ── HERO ── -->
     <div class="home-hero">
         <div class="home-hero-eyebrow">Interactive Planetary Science</div>
-        <h1>Explore the <span>Solar System</span></h1>
+        <h1>Explore the Solar System <span>&amp; Beyond</span></h1>
         <div class="hero-divider"></div>
-        <p>Real astronomical data, interactive visualizations, and hands-on tools for students, educators, and space enthusiasts.</p>
+        <p>Real astronomical data, from our solar system to thousands of confirmed exoplanets, brought to life through interactive tools for students, educators, and space enthusiasts.</p>
         <div class="hero-cta">
-            <a href="pages/planet-viewer.html" class="hero-btn hero-btn-primary">🪐 Open 3D Planet Viewer</a>
-            <a href="pages/planetary-properties.html"   class="hero-btn hero-btn-secondary">Compare Planets</a>
+            <a href="pages/planetary-properties.html" class="hero-btn hero-btn-primary">🪐 Compare Planets</a>
+            <a href="pages/exoplanet-explorer.html" class="hero-btn hero-btn-secondary">🔭 Explore Exoplanets</a>
         </div>
     </div>
 
     <!-- ── STATS BAR ── -->
     <div class="stats-bar">
+        <div class="stat-item">
+            <div class="stat-number">6,000+</div>
+            <div class="stat-label">Confirmed Exoplanets</div>
+        </div>
         <div class="stat-item">
             <div class="stat-number">26</div>
             <div class="stat-label">Planetary Bodies</div>
@@ -312,15 +328,11 @@
             <div class="stat-label">Data Properties</div>
         </div>
         <div class="stat-item">
-            <div class="stat-number">12</div>
-            <div class="stat-label">Unit Categories</div>
-        </div>
-        <div class="stat-item">
             <div class="stat-number">200+</div>
             <div class="stat-label">Unit Conversions</div>
         </div>
         <div class="stat-item">
-            <div class="stat-number">5</div>
+            <div class="stat-number">6</div>
             <div class="stat-label">Interactive Tools</div>
         </div>
     </div>
@@ -345,7 +357,7 @@
             <a href="pages/planet-viewer.html" class="feature-card">
                 <div class="feature-icon">🌍</div>
                 <h3>3D Planet Viewer</h3>
-                <p>Explore photorealistic 8K rotating models of every planet, the Sun, and the Moon.</p>
+                <p>Explore photorealistic 8K rotating models of our Solar System's planets, Sun, and Moon.</p>
             </a>
 
             <a href="pages/orbit-simulator.html" class="feature-card">
@@ -360,17 +372,35 @@
                 <p>Convert between hundreds of scientific and everyday units — from femtometers to parsecs.</p>
             </a>
 
+            <a href="pages/exoplanet-explorer.html" class="feature-card">
+                <div class="feature-icon">🔭</div>
+                <h3>Exoplanet Explorer</h3>
+                <p>Search and compare 6,000+ confirmed exoplanets from NASA's Exoplanet Archive, with real measurement uncertainties.</p>
+            </a>
+
             <a href="pages/resources.html" class="feature-card">
                 <div class="feature-icon">📚</div>
                 <h3>Resources</h3>
-                <p>Keep up with science news, search databases, and learn more!.</p>
+                <p>Keep up with science news, search astronomy databases, and learn more.</p>
+            </a>
+
+            <a href="pages/shop.html" class="feature-card">
+                <div class="feature-icon">🛍️</div>
+                <h3>Shop &amp; Support</h3>
+                <p>Explore space-themed merchandise and help support Kuiper Space while you shop.</p>
+            </a>
+
+            <a href="pages/contact.html" class="feature-card">
+                <div class="feature-icon">✉️</div>
+                <h3>Contact</h3>
+                <p>Have feedback, a collaboration idea, or a question? We'd love to hear from you!</p>
             </a>
 
         </div>
     </div>
 
     <div class="home-footer">
-        Built with real data from <a href="https://ssd.jpl.nasa.gov/" target="_blank" rel="noopener">NASA JPL</a> &nbsp;·&nbsp;
+        Built with real data from <a href="https://ssd.jpl.nasa.gov/" target="_blank" rel="noopener">NASA JPL</a> and NASA's <a href="https://exoplanetarchive.ipac.caltech.edu/" target="_blank" rel="noopener">Exoplanet Archive</a> &nbsp;·&nbsp;
         <a href="pages/resources.html">Explore more resources →</a>
     </div>
 

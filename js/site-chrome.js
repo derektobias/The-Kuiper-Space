@@ -104,7 +104,7 @@
     placeholder.innerHTML = `
 <header class="navbar">
   <a href="${assetPath("index.html")}" class="brand-container">
-    <img src="${assetPath("images/branding/kuiperspace_combined.png")}" alt="KuiperSpace" class="brand-combined">
+    <img src="${assetPath("images/branding/kuiperspace_combined.png")}" alt="The Kuiper Space" class="brand-combined">
   </a>
   <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
     <span></span><span></span><span></span>
@@ -129,11 +129,11 @@
     placeholder.innerHTML = `
 <footer class="site-footer">
   <p>
-    KuiperSpace is an independent educational project focused on astronomy and planetary science.
+    The Kuiper Space is an independent educational project focused on astronomy and planetary science.
     Data, simulations, calculations, and visualizations may contain inaccuracies or simplified approximations.
   </p>
   <div class="footer-links">${links}</div>
-  <p class="copyright">&copy; ${year} KuiperSpace &mdash; thekuiperspace.com</p>
+  <p class="copyright">&copy; ${year} The Kuiper Space &mdash; thekuiperspace.com</p>
 </footer>`;
   }
 
