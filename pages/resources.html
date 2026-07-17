@@ -230,37 +230,8 @@
 
 <body>
 
-<header class="navbar">
- 
-  <a href="../index.html" class="brand-container">
-    <img src="../images/branding/kuiperspace_combined.png"
-         alt="KuiperSpace" class="brand-combined">
-  </a>
- 
-  <!-- Hamburger button (hidden on desktop, shown on mobile) -->
-  <button class="nav-toggle" id="nav-toggle"
-          aria-label="Toggle navigation" aria-expanded="false">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
- 
-  <nav id="main-nav">
-    <ul class="nav-links">
-      <li><a href="../index.html">Home</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="planetary-properties.html">Planetary Properties</a></li>
-      <li><a href="scenario-comparisons.html">Scenario Comparisons</a></li>
-      <li><a href="planet-viewer.html">3D Planet Viewer</a></li>
-      <li><a href="orbit-simulator.html">Orbit Simulator</a></li>
-      <li><a href="unit-conversions.html">Unit Conversions</a></li>
-      <li><a href="resources.html">Resources</a></li>
-      <li><a href="shop.html">Shop &amp; Support</a></li>
-      <li><a href="contact.html">Contact</a></li>
-    </ul>
-  </nav>
- 
-</header>
+<script>const SITE_CONTEXT = "pages";</script>
+<div id="nav-placeholder"></div>
 
 <main>
 
@@ -428,62 +399,9 @@
 
 </main>
 
-<footer class="site-footer">
+<div id="footer-placeholder"></div>
 
-<p>
-KuiperSpace is an independent educational project focused on astronomy and planetary science.
-Data, simulations, calculations, and visualizations may contain inaccuracies or simplified approximations.
-</p>
-
-<div class="footer-links">
-<a href="terms.html">Terms</a>
-<a href="privacy.html">Privacy</a>
-<a href="disclaimer.html">Disclaimer</a>
-<a href="copyright.html">Copyright</a>
-<a href="affiliate.html">Affiliate Disclosure</a>
-</div>
-
-<p class="copyright">
-© 2026 KuiperSpace — thekuiperspace.com
-</p>
-
-</footer>
-
-<script>
-(function () {
-  const toggle = document.getElementById('nav-toggle');
-  const nav    = document.getElementById('main-nav');
-  if (!toggle || !nav) return;
- 
-  toggle.addEventListener('click', function () {
-    const isOpen = nav.classList.toggle('open');
-    toggle.classList.toggle('open', isOpen);
-    toggle.setAttribute('aria-expanded', isOpen);
-    // Prevent body scroll while menu is open
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-  });
- 
-  // Close menu when a nav link is tapped
-  nav.querySelectorAll('a').forEach(function (link) {
-    link.addEventListener('click', function () {
-      nav.classList.remove('open');
-      toggle.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    });
-  });
- 
-  // Close menu on Escape key
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && nav.classList.contains('open')) {
-      nav.classList.remove('open');
-      toggle.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    }
-  });
-})();
-</script>
+<script src="../js/site-chrome.js"></script>
 
 </body>
 </html>

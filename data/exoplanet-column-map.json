@@ -1,0 +1,240 @@
+{
+  "_meta": {
+    "source_table": "pscomppars",
+    "notes": "Maps NASA Exoplanet Archive column names to display info. Use `category` to group fields in detail views/tooltips. `precision` is a suggested decimal-place count for display. `nullLabel` is what to show when the value is missing. `siConversion` (where present) drives the hover-icon tooltip: multiply the raw archive value by `multiplier` to get the SI value in `unit`. Use `useScientificNotation: true` to format as e.g. 1.52e7 rather than a long decimal string \u2014 astronomical SI values are usually too large/small to read as plain decimals. Fields without a `siConversion` are either already in a base-ish unit (K, degrees, dimensionless) or non-physical (names, flags, counts), so no SI toggle applies. `errorFields` (where present) points to the archive's asymmetric-uncertainty columns for that measurement \u2014 `upper` is the field holding the positive (+) error, `lower` holds the negative (\u2212) error. Per archive convention the raw lower-error value is stored as a negative number; display code should take its absolute value.",
+    "docs": "https://exoplanetarchive.ipac.caltech.edu/docs/API_PS_columns.html"
+  },
+  "fields": {
+    "pl_name": {
+      "label": "Planet Name",
+      "category": "identification",
+      "unit": null,
+      "tooltip": "Official designation, usually the host star name plus a letter (e.g. Kepler-22 b).",
+      "nullLabel": "\u2014"
+    },
+    "hostname": {
+      "label": "Host Star",
+      "category": "identification",
+      "unit": null,
+      "tooltip": "The star this planet orbits.",
+      "nullLabel": "\u2014"
+    },
+    "sy_pnum": {
+      "label": "Planets in System",
+      "category": "identification",
+      "unit": "count",
+      "tooltip": "Number of known planets orbiting the same host star.",
+      "nullLabel": "\u2014"
+    },
+    "sy_snum": {
+      "label": "Stars in System",
+      "category": "identification",
+      "unit": "count",
+      "tooltip": "Number of stars in the system (1 = single star, 2+ = binary/multiple star system).",
+      "nullLabel": "\u2014"
+    },
+    "discoverymethod": {
+      "label": "Discovery Method",
+      "category": "discovery",
+      "unit": null,
+      "tooltip": "How the planet was detected \u2014 e.g. Transit (dimming starlight), Radial Velocity (stellar wobble), Direct Imaging, Microlensing.",
+      "nullLabel": "Unknown"
+    },
+    "disc_year": {
+      "label": "Discovery Year",
+      "category": "discovery",
+      "unit": "year",
+      "tooltip": "Year the discovery was published.",
+      "nullLabel": "\u2014"
+    },
+    "disc_facility": {
+      "label": "Discovery Facility",
+      "category": "discovery",
+      "unit": null,
+      "tooltip": "Observatory or mission that made the discovery (e.g. Kepler, TESS, K2, various ground-based telescopes).",
+      "nullLabel": "Unknown"
+    },
+    "pl_orbper": {
+      "label": "Orbital Period",
+      "category": "orbit",
+      "unit": "days",
+      "precision": 2,
+      "tooltip": "Time for one full orbit around its star \u2014 the planet's 'year'.",
+      "nullLabel": "Not measured",
+      "siConversion": { "unit": "s", "multiplier": 86400, "useScientificNotation": true },
+      "errorFields": { "upper": "pl_orbpererr1", "lower": "pl_orbpererr2" }
+    },
+    "pl_orbsmax": {
+      "label": "Orbit Distance",
+      "category": "orbit",
+      "unit": "AU",
+      "precision": 3,
+      "tooltip": "Average distance from the planet to its star, in Astronomical Units (1 AU = Earth-Sun distance).",
+      "nullLabel": "Not measured",
+      "siConversion": { "unit": "m", "multiplier": 1.495978707e11, "useScientificNotation": true },
+      "errorFields": { "upper": "pl_orbsmaxerr1", "lower": "pl_orbsmaxerr2" }
+    },
+    "pl_orbeccen": {
+      "label": "Orbital Eccentricity",
+      "category": "orbit",
+      "unit": null,
+      "precision": 2,
+      "tooltip": "How elliptical the orbit is. 0 = perfectly circular, closer to 1 = highly elongated.",
+      "nullLabel": "Not measured",
+      "errorFields": { "upper": "pl_orbeccenerr1", "lower": "pl_orbeccenerr2" }
+    },
+    "pl_rade": {
+      "label": "Radius",
+      "category": "physical",
+      "unit": "Earth radii",
+      "precision": 2,
+      "tooltip": "Planet's radius compared to Earth (1.0 = same size as Earth).",
+      "nullLabel": "Not measured",
+      "altUnitField": "pl_radj",
+      "altUnitLabel": "Jupiter radii",
+      "siConversion": { "unit": "m", "multiplier": 6.371e6, "useScientificNotation": true },
+      "errorFields": { "upper": "pl_radeerr1", "lower": "pl_radeerr2" }
+    },
+    "pl_bmasse": {
+      "label": "Mass",
+      "category": "physical",
+      "unit": "Earth masses",
+      "precision": 2,
+      "tooltip": "Best-available planet mass compared to Earth (1.0 = same mass as Earth). 'Best' means the archive's preferred value where multiple measurement types exist (true mass or minimum mass from radial velocity).",
+      "nullLabel": "Not measured",
+      "altUnitField": "pl_bmassj",
+      "altUnitLabel": "Jupiter masses",
+      "siConversion": { "unit": "kg", "multiplier": 5.972e24, "useScientificNotation": true },
+      "errorFields": { "upper": "pl_bmasseerr1", "lower": "pl_bmasseerr2" }
+    },
+    "pl_dens": {
+      "label": "Density",
+      "category": "physical",
+      "unit": "g/cm\u00b3",
+      "precision": 2,
+      "tooltip": "Bulk density. For reference: Earth \u2248 5.5, Jupiter \u2248 1.3, water = 1.0.",
+      "nullLabel": "Not measured",
+      "siConversion": { "unit": "kg/m\u00b3", "multiplier": 1000, "useScientificNotation": false },
+      "errorFields": { "upper": "pl_denserr1", "lower": "pl_denserr2" }
+    },
+    "pl_eqt": {
+      "label": "Equilibrium Temperature",
+      "category": "physical",
+      "unit": "K",
+      "precision": 0,
+      "tooltip": "Estimated surface/atmosphere temperature assuming no atmosphere effects (like greenhouse warming). A rough guide, not a measured surface temperature.",
+      "nullLabel": "Not estimated"
+    },
+    "pl_insol": {
+      "label": "Insolation",
+      "category": "physical",
+      "unit": "Earth flux",
+      "precision": 2,
+      "tooltip": "Amount of starlight the planet receives compared to Earth (1.0 = same as Earth receives from the Sun).",
+      "nullLabel": "Not estimated"
+    },
+    "st_teff": {
+      "label": "Star Temperature",
+      "category": "host_star",
+      "unit": "K",
+      "precision": 0,
+      "tooltip": "Effective surface temperature of the host star. Sun \u2248 5,772 K.",
+      "nullLabel": "Not measured",
+      "errorFields": { "upper": "st_tefferr1", "lower": "st_tefferr2" }
+    },
+    "st_rad": {
+      "label": "Star Radius",
+      "category": "host_star",
+      "unit": "Solar radii",
+      "precision": 2,
+      "tooltip": "Host star's radius compared to the Sun.",
+      "nullLabel": "Not measured",
+      "siConversion": { "unit": "m", "multiplier": 6.957e8, "useScientificNotation": true },
+      "errorFields": { "upper": "st_raderr1", "lower": "st_raderr2" }
+    },
+    "st_mass": {
+      "label": "Star Mass",
+      "category": "host_star",
+      "unit": "Solar masses",
+      "precision": 2,
+      "tooltip": "Host star's mass compared to the Sun.",
+      "nullLabel": "Not measured",
+      "siConversion": { "unit": "kg", "multiplier": 1.989e30, "useScientificNotation": true },
+      "errorFields": { "upper": "st_masserr1", "lower": "st_masserr2" }
+    },
+    "st_spectype": {
+      "label": "Spectral Type",
+      "category": "host_star",
+      "unit": null,
+      "tooltip": "Star classification (e.g. G2V for a Sun-like star, M-dwarfs are cooler and redder).",
+      "nullLabel": "Unclassified"
+    },
+    "st_met": {
+      "label": "Star Metallicity",
+      "category": "host_star",
+      "unit": "dex [Fe/H]",
+      "precision": 2,
+      "tooltip": "Relative abundance of elements heavier than hydrogen/helium in the star, compared to the Sun (0 = same as Sun).",
+      "nullLabel": "Not measured",
+      "errorFields": { "upper": "st_meterr1", "lower": "st_meterr2" }
+    },
+    "sy_dist": {
+      "label": "Distance from Earth",
+      "category": "position",
+      "unit": "parsecs",
+      "precision": 1,
+      "tooltip": "Distance from Earth to the system. 1 parsec \u2248 3.26 light-years.",
+      "nullLabel": "Not measured",
+      "displayConversion": { "toUnit": "light-years", "multiplier": 3.2616 },
+      "siConversion": { "unit": "m", "multiplier": 3.0857e16, "useScientificNotation": true },
+      "errorFields": { "upper": "sy_disterr1", "lower": "sy_disterr2" }
+    },
+    "sy_vmag": {
+      "label": "Apparent Brightness",
+      "category": "position",
+      "unit": "V magnitude",
+      "precision": 2,
+      "tooltip": "How bright the host star appears from Earth. Lower numbers = brighter. Naked-eye limit is roughly 6.",
+      "nullLabel": "Not measured"
+    },
+    "ra": {
+      "label": "Right Ascension",
+      "category": "position",
+      "unit": "degrees",
+      "precision": 4,
+      "tooltip": "Sky coordinate, the celestial equivalent of longitude.",
+      "nullLabel": "\u2014"
+    },
+    "dec": {
+      "label": "Declination",
+      "category": "position",
+      "unit": "degrees",
+      "precision": 4,
+      "tooltip": "Sky coordinate, the celestial equivalent of latitude.",
+      "nullLabel": "\u2014"
+    },
+    "tran_flag": {
+      "label": "Transits Its Star",
+      "category": "flags",
+      "unit": "boolean",
+      "tooltip": "Whether the planet is observed passing in front of its star from our vantage point.",
+      "nullLabel": "Unknown"
+    },
+    "pl_controv_flag": {
+      "label": "Disputed Detection",
+      "category": "flags",
+      "unit": "boolean",
+      "tooltip": "Flagged by the archive as a contested or unconfirmed detection in the literature. Worth a caution badge in the UI rather than hiding it.",
+      "nullLabel": "No"
+    }
+  },
+  "categories": {
+    "identification": "Identification",
+    "discovery": "Discovery",
+    "orbit": "Orbit",
+    "physical": "Physical Characteristics",
+    "host_star": "Host Star",
+    "position": "Position & Distance",
+    "flags": "Data Notes"
+  }
+}

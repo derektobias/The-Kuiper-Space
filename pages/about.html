@@ -105,24 +105,62 @@
         padding: 0 24px;
         display: flex;
         flex-direction: column;
-        gap: 30px;
+        gap: 34px;
+        position: relative;
+    }
+
+    /* Connecting "orbit trail" line threading the sections together */
+    .about-body::before {
+        content: '';
+        position: absolute;
+        top: 6px;
+        bottom: 6px;
+        left: 59px;
+        width: 2px;
+        background: linear-gradient(180deg, #4da3ff, #a78bfa, #4da3ff, #a78bfa, #4da3ff);
+        opacity: 0.32;
     }
 
     .about-section {
         background: linear-gradient(160deg, #0f1928, #121e30);
         border: 1px solid #1c2d47;
         border-radius: 14px;
-        padding: 28px 30px;
+        padding: 28px 30px 28px 78px;
         position: relative;
-        overflow: hidden;
+        transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
     }
 
-    .about-section::before {
-        content: '';
+    .about-section:hover {
+        border-color: rgba(77,163,255,0.35);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 28px rgba(0,0,0,0.28);
+    }
+
+    /* Icon "node" marking each section on the orbit trail */
+    .section-node {
         position: absolute;
-        top: 0; left: 0; right: 0;
-        height: 3px;
-        background: linear-gradient(90deg, #4da3ff, #a78bfa);
+        left: 16px;
+        top: -18px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 17px;
+        border: 4px solid #0b0f1a;
+        z-index: 2;
+        line-height: 1;
+    }
+
+    .about-section:nth-child(odd) .section-node {
+        background: linear-gradient(135deg, #4da3ff, #2d7dd2);
+        box-shadow: 0 0 14px rgba(77,163,255,0.45);
+    }
+
+    .about-section:nth-child(even) .section-node {
+        background: linear-gradient(135deg, #a78bfa, #7c5cd4);
+        box-shadow: 0 0 14px rgba(167,139,250,0.45);
     }
 
     .about-section h3 {
@@ -183,6 +221,12 @@
         font-size: 14px;
         color: #c8d8ee;
         font-weight: 600;
+        transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .tool-item:hover {
+        border-color: rgba(77,163,255,0.4);
+        background: rgba(77,163,255,0.1);
     }
 
     .tool-item-icon { font-size: 20px; }
@@ -216,6 +260,12 @@
         border: 1px solid #1c2d47;
         border-radius: 10px;
         padding: 18px 16px;
+        transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .audience-card:hover {
+        border-color: rgba(77,163,255,0.3);
+        transform: translateY(-2px);
     }
 
     .audience-card strong {
@@ -248,13 +298,14 @@
         font-size: 14px;
         font-weight: 700;
         text-decoration: none;
-        transition: background 0.2s, border-color 0.2s;
+        transition: background 0.2s, border-color 0.2s, transform 0.2s;
     }
 
     .educator-cta:hover {
         background: rgba(77,163,255,0.16);
         border-color: #4da3ff;
         text-decoration: none;
+        transform: translateY(-1px);
     }
 
     /* ── HIGHLIGHT QUOTE ── */
@@ -267,41 +318,28 @@
         font-size: 14px !important;
     }
 
+    /* ── MOBILE: collapse the orbit trail into a simple inline badge ── */
+    @media (max-width: 600px) {
+        .about-body::before { display: none; }
+
+        .about-section {
+            padding: 26px 22px;
+        }
+
+        .section-node {
+            position: static;
+            display: inline-flex;
+            margin-bottom: 12px;
+        }
+    }
+
 </style>
 </head>
 
 <body>
 
-<header class="navbar">
- 
-  <a href="../index.html" class="brand-container">
-    <img src="../images/branding/kuiperspace_combined.png"
-         alt="KuiperSpace" class="brand-combined">
-  </a>
- 
-  <button class="nav-toggle" id="nav-toggle"
-          aria-label="Toggle navigation" aria-expanded="false">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
- 
-  <nav id="main-nav">
-    <ul class="nav-links">
-      <li><a href="../index.html">Home</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="planetary-properties.html">Planetary Properties</a></li>
-      <li><a href="scenario-comparisons.html">Scenario Comparisons</a></li>
-      <li><a href="planet-viewer.html">3D Planet Viewer</a></li>
-      <li><a href="orbit-simulator.html">Orbit Simulator</a></li>
-      <li><a href="unit-conversions.html">Unit Conversions</a></li>
-      <li><a href="resources.html">Resources</a></li>
-      <li><a href="shop.html">Shop &amp; Support</a></li>
-      <li><a href="contact.html">Contact</a></li>
-    </ul>
-  </nav>
- 
-</header>
+<script>const SITE_CONTEXT = "pages";</script>
+<div id="nav-placeholder"></div>
 
 <main>
 
@@ -315,6 +353,7 @@
 
         <!-- WHAT IS THIS -->
         <div class="about-section">
+            <span class="section-node" aria-hidden="true">🔍</span>
             <h3>What is this?</h3>
             <p>KuiperSpace is an interactive planetary science platform that makes it easier to explore, compare, and understand the worlds around us through scientific data, visualizations, and hands-on tools.</p>
             <p>Instead of reading static tables, you can compare planets side by side, simulate scenarios in different gravitational environments, watch orbits animate in real time, and explore photorealistic 3D models of every planet. All data is sourced from NASA, JPL, and other authoritative scientific institutions, and is updated periodically to reflect the latest discoveries.</p>
@@ -322,6 +361,7 @@
 
         <!-- THE STORY -->
         <div class="about-section">
+            <span class="section-node" aria-hidden="true">📖</span>
             <h3>The Story Behind KuiperSpace</h3>
             <p>KuiperSpace began from my own experience as a college student. While learning about planetary science, I frequently found myself searching through multiple websites to answer questions such as:</p>
             <ul>
@@ -335,6 +375,7 @@
 
         <!-- BACKGROUND -->
         <div class="about-section">
+            <span class="section-node" aria-hidden="true">🌋</span>
             <h3>A Background in Planetary Science</h3>
             <p>My interest in planetary science began during my first planetary geology course, where I became fascinated by the processes that shape worlds beyond Earth. That experience led me to continue studying the field and eventually conduct two years of undergraduate research studying volcanism on Io — Jupiter's volcanically active moon.</p>
             <p>I studied physics and astronomy at BYU, along with a minor in geology. My background in both physical science and computation has shaped the goal behind KuiperSpace: making complex planetary information easier to access, understand, and explore.</p>
@@ -342,6 +383,7 @@
 
         <!-- TOOLS -->
         <div class="about-section">
+            <span class="section-node" aria-hidden="true">🔧</span>
             <h3>Tools &amp; Features<span class="coming-soon-tag">Expanding</span></h3>
             <p>KuiperSpace brings together planetary data, interactive visualizations, scientific calculators, and educational resources for exploration and learning.</p>
             <div class="tools-grid">
@@ -356,6 +398,7 @@
 
         <!-- WHO IS THIS FOR -->
         <div class="about-section">
+            <span class="section-node" aria-hidden="true">🎯</span>
             <h3>Who is this for?</h3>
             <div class="audience-grid">
                 <div class="audience-card">
@@ -375,6 +418,7 @@
 
         <!-- FOR EDUCATORS -->
         <div class="about-section">
+            <span class="section-node" aria-hidden="true">🏫</span>
             <h3>For Educators</h3>
             <p>KuiperSpace was built with learners and educators in mind. Interactive experiences can help students better understand planetary science by allowing them to compare worlds, visualize scientific concepts, and explore ideas beyond what static images and textbooks can provide.</p>
             <p>I am currently interested in connecting with educators who want to use KuiperSpace in their classrooms and provide feedback on future features and resources. If you are an educator, professor, or science communicator interested in collaborating, I would love to hear from you.</p>
@@ -383,6 +427,7 @@
 
         <!-- SCIENTIFIC APPROACH -->
         <div class="about-section">
+            <span class="section-node" aria-hidden="true">🔬</span>
             <h3>Scientific Approach</h3>
             <p>KuiperSpace aims to present planetary information in an accurate, organized, and accessible way by using reliable scientific data sources and emphasizing exploration through evidence-based tools and visualizations.</p>
             <p>The goal is not just to provide facts about space, but to help people develop a deeper understanding of the processes that shape planets, moons, and other worlds.</p>
@@ -391,6 +436,7 @@
 
         <!-- FUTURE -->
         <div class="about-section">
+            <span class="section-node" aria-hidden="true">🚀</span>
             <h3>The Future of KuiperSpace</h3>
             <p>The long-term vision for KuiperSpace is to become an interactive planetary science laboratory — a place where students, educators, and explorers can investigate worlds beyond Earth through experimentation, comparison, and discovery.</p>
             <p>As KuiperSpace continues to grow, future development will focus on expanding interactive experiences, creating more educational resources, and making planetary science accessible to more people around the world.</p>
@@ -398,6 +444,7 @@
 
         <!-- DATA SOURCES -->
         <div class="about-section">
+            <span class="section-node" aria-hidden="true">📡</span>
             <h3>Data Sources</h3>
             <p>Planetary data is drawn from <a href="https://ssd.jpl.nasa.gov/" target="_blank" rel="noopener">NASA Jet Propulsion Laboratory (JPL)</a>, NASA Science, and peer-reviewed astronomical sources. Texture maps for the 3D Planet Viewer are sourced from <a href="https://www.solarsystemscope.com/textures/" target="_blank" rel="noopener">Solar System Scope</a>.</p>
         </div>
@@ -406,59 +453,9 @@
 
 </main>
 
-<footer class="site-footer">
+<div id="footer-placeholder"></div>
 
-<p>
-KuiperSpace is an independent educational project focused on astronomy and planetary science.
-Data, simulations, calculations, and visualizations may contain inaccuracies or simplified approximations.
-</p>
-
-<div class="footer-links">
-<a href="terms.html">Terms</a>
-<a href="privacy.html">Privacy</a>
-<a href="disclaimer.html">Disclaimer</a>
-<a href="copyright.html">Copyright</a>
-<a href="affiliate.html">Affiliate Disclosure</a>
-</div>
-
-<p class="copyright">
-© 2026 KuiperSpace — thekuiperspace.com
-</p>
-
-</footer>
-
-<script>
-(function () {
-  const toggle = document.getElementById('nav-toggle');
-  const nav    = document.getElementById('main-nav');
-  if (!toggle || !nav) return;
- 
-  toggle.addEventListener('click', function () {
-    const isOpen = nav.classList.toggle('open');
-    toggle.classList.toggle('open', isOpen);
-    toggle.setAttribute('aria-expanded', isOpen);
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-  });
- 
-  nav.querySelectorAll('a').forEach(function (link) {
-    link.addEventListener('click', function () {
-      nav.classList.remove('open');
-      toggle.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    });
-  });
- 
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && nav.classList.contains('open')) {
-      nav.classList.remove('open');
-      toggle.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    }
-  });
-})();
-</script>
+<script src="../js/site-chrome.js"></script>
 
 </body>
 </html>
