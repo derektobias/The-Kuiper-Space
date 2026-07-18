@@ -11,7 +11,7 @@
  * 1. Tell it how deep the page is nested, BEFORE including this script,
  *    so links resolve correctly either way:
  *
- *      <script>const SITE_CONTEXT = "root";</script>    <!-- index.html -->
+ *      <script>const SITE_CONTEXT = "root";</script>    <!-- index -->
  *      <script>const SITE_CONTEXT = "pages";</script>   <!-- anything in /pages/ -->
  *
  * 2. Add empty placeholder elements where the nav/footer should render:
@@ -38,7 +38,7 @@
 (function () {
   const context = typeof SITE_CONTEXT !== "undefined" ? SITE_CONTEXT : "pages";
 
-  // Resolves a path to a root-level asset (index.html, images/, etc).
+  // Resolves a path to a root-level asset (index, images/, etc).
   function assetPath(path) {
     return context === "root" ? path : "../" + path;
   }
@@ -50,37 +50,37 @@
 
   // ---- Edit these to change what appears in the nav ----
   const NAV_GROUPS = [
-    { type: "link", label: "Home", href: assetPath("index.html") },
-    { type: "link", label: "About", href: pagePath("about.html") },
+    { type: "link", label: "Home", href: assetPath("index") },
+    { type: "link", label: "About", href: pagePath("about") },
     {
       type: "dropdown", label: "Tools",
       items: [
-        { label: "Planetary Properties", href: pagePath("planetary-properties.html") },
-        { label: "Scenario Comparisons", href: pagePath("scenario-comparisons.html") },
-        { label: "3D Planet Viewer", href: pagePath("planet-viewer.html") },
-        { label: "Orbit Simulator", href: pagePath("orbit-simulator.html") },
-        { label: "Unit Conversions", href: pagePath("unit-conversions.html") }
+        { label: "Planetary Properties", href: pagePath("planetary-properties") },
+        { label: "Scenario Comparisons", href: pagePath("scenario-comparisons") },
+        { label: "3D Planet Viewer", href: pagePath("planet-viewer") },
+        { label: "Orbit Simulator", href: pagePath("orbit-simulator") },
+        { label: "Unit Conversions", href: pagePath("unit-conversions") }
       ]
     },
     {
       type: "dropdown", label: "Catalogs",
       items: [
-        { label: "Exoplanet Explorer", href: pagePath("exoplanet-explorer.html") }
+        { label: "Exoplanet Explorer", href: pagePath("exoplanet-explorer") }
         // Future catalog-style pages go here.
       ]
     },
-    { type: "link", label: "Resources", href: pagePath("resources.html") },
-    { type: "link", label: "Shop & Support", href: pagePath("shop.html") },
-    { type: "link", label: "Contact", href: pagePath("contact.html") }
+    { type: "link", label: "Resources", href: pagePath("resources") },
+    { type: "link", label: "Shop & Support", href: pagePath("shop") },
+    { type: "link", label: "Contact", href: pagePath("contact") }
   ];
 
   // ---- Edit these to change what appears in the footer ----
   const FOOTER_LINKS = [
-    { label: "Terms", href: pagePath("terms.html") },
-    { label: "Privacy", href: pagePath("privacy.html") },
-    { label: "Disclaimer", href: pagePath("disclaimer.html") },
-    { label: "Copyright", href: pagePath("copyright.html") },
-    { label: "Affiliate Disclosure", href: pagePath("affiliate.html") }
+    { label: "Terms", href: pagePath("terms") },
+    { label: "Privacy", href: pagePath("privacy") },
+    { label: "Disclaimer", href: pagePath("disclaimer") },
+    { label: "Copyright", href: pagePath("copyright") },
+    { label: "Affiliate Disclosure", href: pagePath("affiliate") }
   ];
 
   function renderNavItem(item) {
@@ -103,7 +103,7 @@
 
     placeholder.innerHTML = `
 <header class="navbar">
-  <a href="${assetPath("index.html")}" class="brand-container">
+  <a href="${assetPath("index")}" class="brand-container">
     <img src="${assetPath("images/branding/kuiperspace_combined.png")}" alt="The Kuiper Space" class="brand-combined">
   </a>
   <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">

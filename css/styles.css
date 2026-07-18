@@ -286,7 +286,7 @@ img {
 
 
 /* ============================================================
-   FEATURE GRID (index.html)
+   FEATURE GRID (index)
    ============================================================ */
 .feature-grid {
     display: grid;
@@ -383,7 +383,7 @@ img {
 
 
 /* ============================================================
-   TOOL LAYOUT (tool.html — Planetary Properties)
+   PLANETARY PROPERTIES LAYOUT (planetary-properties.html)
    ============================================================ */
 .tool-layout {
     display: flex;
