@@ -20,18 +20,18 @@
 # Every current page: requesting the .html version redirects to the
 # extensionless version, so that's the only URL that ever shows up in the
 # address bar, gets indexed, or gets linked to.
-/pages/about.html                    /pages/about                    301
-/pages/exoplanet-explorer.html       /pages/exoplanet-explorer       301
-/pages/planetary-properties.html     /pages/planetary-properties     301
-/pages/scenario-comparisons.html     /pages/scenario-comparisons     301
-/pages/planet-viewer.html            /pages/planet-viewer            301
-/pages/orbit-simulator.html          /pages/orbit-simulator          301
-/pages/unit-conversions.html         /pages/unit-conversions         301
-/pages/resources.html                /pages/resources                301
-/pages/shop.html                     /pages/shop                     301
-/pages/contact.html                  /pages/contact                  301
-/pages/terms.html                    /pages/terms                    301
-/pages/privacy.html                  /pages/privacy                  301
-/pages/disclaimer.html               /pages/disclaimer               301
-/pages/copyright.html                /pages/copyright                301
-/pages/affiliate.html                /pages/affiliate                301
+/pages/about.html                    /pages/about                    301!
+/pages/exoplanet-explorer.html       /pages/exoplanet-explorer       301!
+/pages/planetary-properties.html     /pages/planetary-properties     301!
+/pages/scenario-comparisons.html     /pages/scenario-comparisons     301!
+/pages/planet-viewer.html            /pages/planet-viewer            301!
+/pages/orbit-simulator.html          /pages/orbit-simulator          301!
+/pages/unit-conversions.html         /pages/unit-conversions         301!
+/pages/resources.html                /pages/resources                301!
+/pages/shop.html                     /pages/shop                     301!
+/pages/contact.html                  /pages/contact                  301!
+/pages/terms.html                    /pages/terms                    301!
+/pages/privacy.html                  /pages/privacy                  301!
+/pages/disclaimer.html               /pages/disclaimer               301!
+/pages/copyright.html                /pages/copyright                301!
+/pages/affiliate.html                /pages/affiliate                301!
