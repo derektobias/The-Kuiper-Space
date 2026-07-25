@@ -112,4 +112,4 @@ This project is licensed under Creative Commons Attribution-NonCommercial 4.0 In
 
 ## Author
 
-Built by Derek Tobias — physics and astronomy graduate, Brigham Young University. [linkedin.com/in/derektobias](https://linkedin.com/in/derektobias)
+Built by Derek Tobias — physics and astronomy graduate, Brigham Young University. [linkedin.com/in/derek-tobias](https://linkedin.com/in/derek-tobias)
