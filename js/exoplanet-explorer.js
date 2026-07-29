@@ -147,12 +147,7 @@ function columnHeaderLabel(field) {
 // ================================
 function formatNumber(value, precision, scientific) {
     if (scientific) {
-        const exp = value.toExponential(2);
-        const [mantissa, power] = exp.split("e");
-        const sup = { "0":"\u2070","1":"\u00b9","2":"\u00b2","3":"\u00b3","4":"\u2074","5":"\u2075","6":"\u2076","7":"\u2077","8":"\u2078","9":"\u2079" };
-        const sign = power.startsWith("-") ? "\u2212" : "";
-        const digits = power.replace("-", "").replace("+", "").split("").map(d => sup[d] || d).join("");
-        return `${mantissa} \u00d7 10${sign}${digits}`;
+        return value.toExponential(2);
     }
     return Number(value).toLocaleString(undefined, { minimumFractionDigits: precision, maximumFractionDigits: precision });
 }

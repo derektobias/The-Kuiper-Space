@@ -1,0 +1,38 @@
+name: Refresh catalog data
+
+on:
+  schedule:
+    # Every Monday at 09:00 UTC. Runs both the exoplanet and asteroid
+    # fetches, then does ONE commit/push covering both — this is the
+    # combined workflow that replaces the two separate ones, so a single
+    # production deploy covers both catalogs' weekly refresh instead of two.
+    - cron: "0 9 * * 1"
+  workflow_dispatch: {} # lets you trigger it manually from the Actions tab
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Fetch latest exoplanet data
+        run: node scripts/fetch-exoplanet-data.js
+
+      - name: Fetch latest asteroid data
+        run: node scripts/fetch-asteroid-data.js
+        env:
+          NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/exoplanets.json data/asteroids.json
+          git diff --quiet --cached || (
+            git commit -m "chore: refresh exoplanet and asteroid data"
+            git push
+          )

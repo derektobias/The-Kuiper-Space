@@ -148,8 +148,6 @@ class OrbitSim {
     }
 
     tick() {
-        if (paused) return;
-
         const { ctx, canvas } = this;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -157,8 +155,13 @@ class OrbitSim {
         this.drawSun();
 
         this.planets.forEach(p => {
-            // Speed: 1 year = baseSpeed * speedMultiplier radians per frame
-            p.angle += (this.baseSpeed / p.period) * globalSpeed;
+            // Speed: 1 year = baseSpeed * speedMultiplier radians per frame.
+            // Only advance while playing — but always draw, paused or not,
+            // so actions like Reset are visible immediately rather than
+            // waiting for the sim to be unpaused first.
+            if (!paused) {
+                p.angle += (this.baseSpeed / p.period) * globalSpeed;
+            }
             this.drawPlanet(p);
         });
     }
@@ -176,6 +179,10 @@ function togglePause() {
 
 function resetPositions() {
     allSims.forEach(s => s.reset());
+
+    globalSpeed = 1.0;
+    document.getElementById("speedSlider").value = 1;
+    document.getElementById("speedVal").textContent = globalSpeed.toFixed(1) + "×";
 }
 
 document.getElementById("speedSlider").addEventListener("input", function () {

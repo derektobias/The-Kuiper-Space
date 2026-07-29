@@ -325,6 +325,30 @@ shadowToggle.addEventListener("change", () => {
 document.getElementById("zoomInBtn").onclick  = () => { camera.position.z = Math.max(1,  camera.position.z - 1); };
 document.getElementById("zoomOutBtn").onclick = () => { camera.position.z = Math.min(30, camera.position.z + 1); };
 
+// ================================
+// RESET SETTINGS
+// Restores zoom, speed, and the two display toggles to their defaults —
+// leaves the current planet selection alone, since switching bodies isn't
+// really part of "reset the viewer settings." Reloading the current planet
+// after resetting realisticScale is what correctly recalculates zoom too,
+// since loadPlanet() already contains the body-specific default camera
+// distance logic — no need to duplicate it here.
+// ================================
+function resetViewerSettings() {
+    timeScale = 1;
+    speedSelector.value = "1";
+
+    realisticScale = false;
+    scaleToggle.checked = false;
+
+    shadowsEnabled = true;
+    shadowToggle.checked = true;
+
+    loadPlanet(selector.value);
+}
+
+document.getElementById("resetViewerBtn").addEventListener("click", resetViewerSettings);
+
 renderer.domElement.addEventListener("wheel", (e) => {
     camera.position.z = Math.max(1, Math.min(30, camera.position.z + e.deltaY * 0.02));
 }, { passive: true });

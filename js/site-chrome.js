@@ -65,7 +65,8 @@
     {
       type: "dropdown", label: "Catalogs",
       items: [
-        { label: "Exoplanet Explorer", href: pagePath("exoplanet-explorer") }
+        { label: "Exoplanet Explorer", href: pagePath("exoplanet-explorer") },
+        { label: "Asteroid Tracker", href: pagePath("asteroid-tracker") }
         // Future catalog-style pages go here.
       ]
     },

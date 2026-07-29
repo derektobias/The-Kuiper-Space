@@ -8,7 +8,7 @@ Interactive planetary and exoplanet science platform for exploring real astronom
 
 ## Overview
 
-The Kuiper Space started as a small tool for comparing planets side by side and has grown into a set of six interactive tools spanning the solar system and, more recently, a searchable database of thousands of confirmed exoplanets sourced directly from NASA's Exoplanet Archive.
+The Kuiper Space started as a small tool for comparing planets side by side and has grown into seven interactive tools — five spanning the solar system, plus two live-refreshed catalogs: thousands of confirmed exoplanets from NASA's Exoplanet Archive, and hundreds of tracked near-Earth asteroid close approaches from NASA's NeoWs database.
 
 ---
 
@@ -56,15 +56,22 @@ Searches and compares 6,000+ confirmed exoplanets pulled directly from NASA's Ex
   <img src="assets/og/exoplanet-explorer.png" width="800"/>
 </p>
 
+### Asteroid Tracker
+Browses near-Earth asteroid close approaches over a rolling 120-day window (30 days past, 90 days ahead), sourced directly from NASA's NeoWs (Near Earth Object Web Service). Supports sorting, a configurable column picker, potentially-hazardous flagging, curated quick lists (closest, largest, fastest, hazardous), and side-by-side comparison. Data refreshes automatically on a weekly schedule — see [Data Automation](#data-automation) below.
+
+<p align="center">
+  <img src="assets/og/asteroid-tracker.png" width="800"/>
+</p>
+
 ---
 
 ## Tech Stack
 
 - **Frontend:** Vanilla JavaScript (ES6+), HTML5, CSS3 — no framework
 - **Visualization:** Canvas API (2D scale/orbit rendering), Three.js r165 (3D planet viewer)
-- **Data:** JSON-based, config-driven architecture — a single schema file drives table columns, units, and tooltips across tools
-- **External data source:** [NASA Exoplanet Archive](https://exoplanetarchive.ipac.caltech.edu/) via its TAP/ADQL query service
-- **Automation:** Node.js fetch script, scheduled weekly via GitHub Actions
+- **Data:** JSON-based, config-driven architecture — a single schema file per catalog drives table columns, units, and tooltips
+- **External data sources:** [NASA Exoplanet Archive](https://exoplanetarchive.ipac.caltech.edu/) via its TAP/ADQL query service, and [NASA NeoWs](https://api.nasa.gov/) for near-Earth asteroid data
+- **Automation:** Node.js fetch scripts, scheduled weekly via a single combined GitHub Actions workflow
 - **Hosting/Deployment:** Netlify, with custom redirect rules (clean, extensionless URLs)
 - **SEO:** JSON-LD structured data, XML sitemap, Open Graph/Twitter meta tags
 - **Shared UI:** A single `site-chrome.js` file injects the nav bar and footer across every page, rather than duplicating that markup per file
@@ -73,13 +80,16 @@ Searches and compares 6,000+ confirmed exoplanets pulled directly from NASA's Ex
 
 ## Data Automation
 
-`scripts/fetch-exoplanet-data.js` pulls the current confirmed-planet dataset from NASA's Exoplanet Archive and writes it to `data/exoplanets.json`. This runs automatically once a week via the GitHub Actions workflow in `.github/workflows/refresh-exoplanet-data.yml`, which commits the refreshed file only if the data actually changed.
+`scripts/fetch-exoplanet-data.js` pulls the current confirmed-planet dataset from NASA's Exoplanet Archive and writes it to `data/exoplanets.json`. `scripts/fetch-asteroid-data.js` pulls near-Earth asteroid close-approach data from NASA's NeoWs feed endpoint (chunked into 7-day requests, NeoWs's per-request limit) and writes it to `data/asteroids.json`.
 
-To run it manually:
+Both run automatically once a week via the single combined GitHub Actions workflow in `.github/workflows/refresh-catalog-data.yml`, which commits both files together in one push. This keeps the cost to one Netlify deployment per week covering both catalogs, rather than two.
+
+To run either manually:
 ```
 node scripts/fetch-exoplanet-data.js
+NASA_API_KEY=your_key_here node scripts/fetch-asteroid-data.js
 ```
-Requires Node 18+ (uses the built-in `fetch`).
+Requires Node 18+ (uses the built-in `fetch`). The asteroid script requires a free API key from [api.nasa.gov](https://api.nasa.gov). The exoplanet script does not require an API key.
 
 ---
 
@@ -100,7 +110,7 @@ netlify dev
 
 ## A Note on Data
 
-Astronomical data displayed by this project (solar system data via NASA JPL, exoplanet data via NASA's Exoplanet Archive) is sourced from public NASA resources and is not covered by this project's own license below — it belongs to its original source and is used here for educational purposes with attribution.
+Astronomical data displayed by this project (solar system data via NASA JPL, exoplanet data via NASA's Exoplanet Archive, near-Earth asteroid data via NASA's NeoWs) is sourced from public NASA resources and is not covered by this project's own license below — it belongs to its original source and is used here for educational purposes with attribution.
 
 ---
 

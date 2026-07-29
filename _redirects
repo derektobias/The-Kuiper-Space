@@ -22,6 +22,7 @@
 # address bar, gets indexed, or gets linked to.
 /pages/about.html                    /pages/about                    301!
 /pages/exoplanet-explorer.html       /pages/exoplanet-explorer       301!
+/pages/asteroid-tracker.html         /pages/asteroid-tracker         301!
 /pages/planetary-properties.html     /pages/planetary-properties     301!
 /pages/scenario-comparisons.html     /pages/scenario-comparisons     301!
 /pages/planet-viewer.html            /pages/planet-viewer            301!

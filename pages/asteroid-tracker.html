@@ -6,14 +6,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-<title>Exoplanet Explorer — Search NASA's Exoplanet Archive | The Kuiper Space</title>
+<title>Asteroid Tracker — Near-Earth Object Close Approaches | The Kuiper Space</title>
 
-<meta name="description" content="Search, sort, and compare 6,000+ confirmed exoplanets from NASA's Exoplanet Archive, with measurement uncertainties, host star data, and unit conversions built in.">
-<meta name="keywords" content="NASA Exoplanet Archive, exoplanet database, confirmed exoplanets, exoplanet search tool, compare exoplanets, exoplanet radius mass data, host star metallicity, measurement uncertainty, planetary systems composite parameters, TESS Kepler K2 exoplanets, astronomy research tool">
+<meta name="description" content="Track near-Earth asteroids and their close approaches to Earth, sourced directly from NASA's NeoWs database — miss distance, size, velocity, and hazard status, refreshed weekly.">
+<meta name="keywords" content="asteroid tracker, near earth object, NEO, NASA NeoWs, potentially hazardous asteroid, close approach, asteroid miss distance, asteroid diameter, planetary defense">
 <meta name="author" content="The Kuiper Space">
 <meta name="robots" content="index, follow">
 
-<link rel="canonical" href="https://thekuiperspace.com/pages/exoplanet-explorer">
+<link rel="canonical" href="https://thekuiperspace.com/pages/asteroid-tracker">
 
 <link rel="icon" type="image/png" href="../favicon-96x96.png?v=20260525" sizes="96x96">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg?v=20260525">
@@ -23,30 +23,30 @@
 <link rel="manifest" href="../site.webmanifest?v=20260525">
 <meta name="theme-color" content="#0b0f1a">
 
-<meta property="og:title" content="Exoplanet Explorer — Search NASA's Exoplanet Archive | The Kuiper Space">
-<meta property="og:description" content="Search, sort, and compare 6,000+ confirmed exoplanets from NASA's Exoplanet Archive — radius, mass, orbit, host star data, measurement uncertainties, and unit conversions, all benchmarked against Earth.">
+<meta property="og:title" content="Asteroid Tracker — Near-Earth Object Close Approaches | The Kuiper Space">
+<meta property="og:description" content="Track near-Earth asteroids and their close approaches to Earth — miss distance, size, velocity, and hazard status, sourced directly from NASA's NeoWs database.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://thekuiperspace.com/pages/exoplanet-explorer">
-<meta property="og:image" content="https://thekuiperspace.com/assets/og/exoplanet-explorer.png">
+<meta property="og:url" content="https://thekuiperspace.com/pages/asteroid-tracker">
+<meta property="og:image" content="https://thekuiperspace.com/assets/og/asteroid-tracker.png">
 <meta property="og:site_name" content="The Kuiper Space">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Exoplanet Explorer — NASA Exoplanet Archive Data | The Kuiper Space">
-<meta name="twitter:description" content="Search, sort, and compare 6,000+ confirmed exoplanets from NASA's Exoplanet Archive, with measurement uncertainties and unit conversions built in.">
-<meta name="twitter:image" content="https://thekuiperspace.com/assets/og/exoplanet-explorer.png">
+<meta name="twitter:title" content="Asteroid Tracker — The Kuiper Space">
+<meta name="twitter:description" content="Track near-Earth asteroids and their close approaches to Earth, refreshed weekly from NASA's NeoWs database.">
+<meta name="twitter:image" content="https://thekuiperspace.com/assets/og/asteroid-tracker.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "Exoplanet Explorer",
+  "name": "Asteroid Tracker",
   "applicationCategory": "EducationalApplication",
   "operatingSystem": "Web Browser",
-  "url": "https://thekuiperspace.com/pages/exoplanet-explorer",
-  "description": "Interactive tool to search, sort, and compare confirmed exoplanets sourced from NASA's Exoplanet Archive (Planetary Systems Composite Parameters table), including radius, mass, orbit, host star properties, measurement uncertainties, and discovery details.",
-  "featureList": "Search and sort 6,000+ confirmed exoplanets, 20+ toggleable data columns across physical, orbital, host-star, and discovery categories, measurement uncertainty display, curated quick lists, per-planet detail pages, side-by-side comparison against Earth, instant SI unit conversions",
+  "url": "https://thekuiperspace.com/pages/asteroid-tracker",
+  "description": "Interactive tool to browse, sort, and compare near-Earth asteroid close approaches sourced from NASA's NeoWs (Near Earth Object Web Service), including miss distance, diameter, velocity, and hazard status.",
+  "featureList": "Browse close-approach events across a rolling 120-day window, sortable columns, potentially-hazardous flagging, per-object detail pages, side-by-side comparison, curated quick lists",
   "isAccessibleForFree": true,
-  "isBasedOn": "https://exoplanetarchive.ipac.caltech.edu/",
+  "isBasedOn": "https://api.nasa.gov/",
   "audience": {
     "@type": "Audience",
     "audienceType": "Students, educators, astronomy enthusiasts, and amateur researchers"
@@ -67,42 +67,28 @@
   gtag('config', 'G-J4BENPDDHF');
 </script>
 
-<link rel="manifest" href="../site.webmanifest?v=20260525">
 <link rel="stylesheet" href="../css/styles.css">
 
 <style>
 
 /* ── HERO ── */
-.tool-hero {
-    text-align: center;
-    padding: 60px 20px 30px;
-    max-width: 700px;
-    margin: 0 auto;
-}
+.tool-hero { text-align: center; padding: 60px 20px 30px; max-width: 700px; margin: 0 auto; }
 .tool-hero h1 { font-size: 36px; font-weight: 800; color: white; letter-spacing: -0.02em; margin-bottom: 12px; }
 .tool-hero h1 span { color: #4da3ff; }
 .tool-hero p { font-size: 16px; color: #8fa8cc; line-height: 1.65; margin: 0; }
 .hero-divider { width: 60px; height: 3px; background: linear-gradient(90deg, #4da3ff, #a78bfa); border-radius: 2px; margin: 16px auto 20px; }
 
-/* Nav-dropdown styling (.nav-dropdown, .nav-caret, etc.) now lives in the
-   shared css/styles.css, since every page uses the same injected nav via
-   js/site-chrome.js — no need to duplicate it per page anymore. */
-
-/* ── LAYOUT (matches planetary-properties) ── */
+/* ── LAYOUT (matches exoplanet-explorer / planetary-properties) ── */
 .tool-layout { display: flex; min-height: calc(100vh - 60px); position: relative; }
 
 #sidebar {
-    width: 300px;
-    min-width: 300px;
+    width: 300px; min-width: 300px;
     background: linear-gradient(180deg, #0d1525 0%, #0a1020 100%);
     border: 2px solid #4da3ff;
     padding: 20px 14px;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow-y: auto; overflow-x: hidden;
     transition: width 0.25s ease, min-width 0.25s ease, padding 0.25s ease;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    display: flex; flex-direction: column; gap: 16px;
     box-sizing: border-box;
 }
 #sidebar::-webkit-scrollbar { width: 8px; }
@@ -112,21 +98,11 @@
 
 #expand-tab {
     display: none;
-    position: fixed;
-    left: 0; top: 50%;
-    transform: translateY(-50%);
-    background: rgba(77,163,255,0.05);
-    border: 2px solid rgba(77,163,255,0.65);
-    border-radius: 8px;
-    color: #4da3ff;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    writing-mode: vertical-rl;
-    padding: 14px 7px;
-    cursor: pointer;
-    z-index: 200;
-    transition: background 0.25s;
+    position: fixed; left: 0; top: 50%; transform: translateY(-50%);
+    background: rgba(77,163,255,0.05); border: 2px solid rgba(77,163,255,0.65);
+    border-radius: 8px; color: #4da3ff; font-size: 13px; font-weight: 700;
+    letter-spacing: 0.08em; writing-mode: vertical-rl; padding: 14px 7px;
+    cursor: pointer; z-index: 200; transition: background 0.25s;
 }
 #expand-tab:hover { background: rgba(77,163,255,0.65); border-color: #4da3ff; color: white; }
 .sidebar-collapsed #expand-tab { display: block; }
@@ -154,7 +130,6 @@
 }
 #toggle-sidebar:hover { background: rgba(77,163,255,0.65); border-color: #4da3ff; color: white; }
 
-/* Quick-list buttons — reuses .scenario-btn's visual language from styles.css */
 .quicklist-btn-row { display: flex; flex-direction: column; gap: 6px; }
 .quicklist-btn {
     background: #0f1928; border: 1px solid #1c2d47; border-radius: 8px;
@@ -167,21 +142,10 @@
     box-shadow: 0 0 16px rgba(77,163,255,0.15);
 }
 
-.checkbox-row { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #8fa8cc; cursor: pointer; }
-.checkbox-row input { accent-color: #4da3ff; }
-
 .select-all-btn {
-    background: rgba(77,163,255,0.05);
-    border: 2px solid rgba(77,163,255,0.65);
-    border-radius: 8px;
-    padding: 3px 10px;
-    color: #4da3ff;
-    font-size: 11px;
-    font-weight: 700;
-    cursor: pointer;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    transition: background 0.25s, border-color 0.25s, color 0.25s;
+    background: rgba(77,163,255,0.05); border: 2px solid rgba(77,163,255,0.65); border-radius: 8px;
+    padding: 3px 10px; color: #4da3ff; font-size: 11px; font-weight: 700; cursor: pointer;
+    letter-spacing: 0.05em; text-transform: uppercase; transition: background 0.25s, border-color 0.25s, color 0.25s;
     white-space: nowrap;
 }
 .select-all-btn:hover { background: rgba(77,163,255,0.65); border-color: #4da3ff; color: white; }
@@ -189,44 +153,21 @@
 #column-picker { display: flex; flex-direction: column; gap: 10px; }
 
 .property-group {
-    background: #0f1a2e;
-    border: 1px solid #1c2d47;
-    border-radius: 10px;
-    padding: 10px 12px;
-    box-sizing: border-box;
-    width: 100%;
+    background: #0f1a2e; border: 1px solid #1c2d47; border-radius: 10px;
+    padding: 10px 12px; box-sizing: border-box; width: 100%;
 }
 .property-group h4 {
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #4da3ff;
-    margin: 0 0 8px;
-    padding-bottom: 5px;
-    border-bottom: 2px solid rgba(77,163,255,0.65);
+    font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
+    color: #4da3ff; margin: 0 0 8px; padding-bottom: 5px; border-bottom: 2px solid rgba(77,163,255,0.65);
 }
 .group-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px 6px; }
 .group-grid label {
-    display: grid;
-    grid-template-columns: 16px 1fr;
-    align-items: start;
-    gap: 6px;
-    font-size: 14px;
-    color: #8fa8cc;
-    cursor: pointer;
-    line-height: 1.4;
-    transition: color 0.25s;
-    text-align: left;
+    display: grid; grid-template-columns: 16px 1fr; align-items: start; gap: 6px;
+    font-size: 14px; color: #8fa8cc; cursor: pointer; line-height: 1.4;
+    transition: color 0.25s; text-align: left;
 }
 .group-grid label:hover { color: #c8d8ee; }
-.group-grid input[type="checkbox"] {
-    margin-top: 2px;
-    accent-color: #4da3ff;
-    width: 13px;
-    height: 13px;
-    flex-shrink: 0;
-}
+.group-grid input[type="checkbox"] { margin-top: 2px; accent-color: #4da3ff; width: 13px; height: 13px; flex-shrink: 0; }
 
 #sidebar-compare-summary { font-size: 13px; color: #8fa8cc; }
 #sidebar-compare-summary .count { color: #4da3ff; font-weight: 700; }
@@ -242,19 +183,11 @@
 }
 .display-section-title::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #4da3ff; flex-shrink: 0; }
 
-.data-source-note {
-    font-size: 12px;
-    color: #6a85a8;
-    margin: -6px 0 16px;
-    line-height: 1.5;
-}
+.data-source-note { font-size: 12px; color: #6a85a8; margin: -6px 0 16px; line-height: 1.5; }
 .data-source-note a { color: #4da3ff; text-decoration: none; }
 .data-source-note a:hover { text-decoration: underline; }
 
 /* ── BROWSE TABLE ── */
-/* Pages hold 20 rows, but max-height caps the visible pane to roughly 8 at
-   a time — this is also what gives position:sticky a scrolling ancestor to
-   stick within, for both the header row and the first column. */
 .browse-table-wrap { max-height: 560px; overflow: auto; border: 1px solid #1c2d47; border-radius: 10px; }
 table.browse-table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 640px; }
 
@@ -269,17 +202,22 @@ table.browse-table thead th:hover { color: white; background: #142238; }
 table.browse-table thead th.num, table.browse-table td.num { text-align: right; }
 table.browse-table tbody td { padding: 10px 14px; border-top: 1px solid #1c2d47; }
 table.browse-table tbody tr:hover { background: #0f1a2e; }
-.planet-link { color: #4da3ff; cursor: pointer; font-weight: 600; text-decoration: none; }
-.planet-link:hover { text-decoration: underline; }
+.asteroid-link { color: #4da3ff; cursor: pointer; font-weight: 600; text-decoration: none; }
+.asteroid-link:hover { text-decoration: underline; }
 .muted { color: #6a85a8; }
 
-/* Sticky first column — header corner cell needs top+left, body cells just left */
 .sticky-col { position: sticky; left: 0; z-index: 1; width: 190px; min-width: 190px; }
 th.sticky-col { z-index: 4; background: #0f1a2e; }
 td.sticky-col { background: #101a2c; }
 table.browse-table tbody tr:hover td.sticky-col { background: #16233a; }
 
-.planet-cell { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; }
+.asteroid-cell { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; }
+
+.hazard-badge {
+    display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 999px; background: rgba(248,113,113,0.12); color: #f87171;
+    border: 1px solid rgba(248,113,113,0.35);
+}
 
 button.compare-toggle-btn {
     background: #0f1928; border: 1px solid #1c2d47; border-radius: 6px;
@@ -295,10 +233,6 @@ button.compare-toggle-btn.active-btn { background: rgba(77,163,255,0.12); border
 }
 .info-dot:hover, .info-dot.pinned { border-color: #4da3ff; color: #4da3ff; background: rgba(77,163,255,0.12); }
 
-/* Shared tooltip element — fixed position, JS-positioned next to whichever
-   dot is hovered/pinned. Appears instantly (no CSS transition delay).
-   white-space:pre-line renders the \n between an uncertainty line and an
-   SI-conversion line (when a field has both) as separate lines. */
 #info-tooltip {
     position: fixed; z-index: 500; max-width: 260px;
     background: #0f1a2e; border: 1px solid #4da3ff; border-radius: 8px;
@@ -355,37 +289,22 @@ table.detail-table td:last-child { text-align: right; color: white; }
 #compare-add-another:hover { background: rgba(77,163,255,0.65); color: white; }
 
 .compare-table-wrap { overflow-x: auto; border: 1px solid #1c2d47; border-radius: 10px; }
-
-table.compare-table { width: 100%; min-width: 660px; border-collapse: collapse; font-size: 14px; table-layout: fixed; }
+table.compare-table { width: 100%; min-width: 560px; border-collapse: collapse; font-size: 14px; table-layout: fixed; }
 table.compare-table thead th {
     text-align: left; padding: 14px 16px; border-right: 1px solid #1c2d47; border-bottom: 2px solid rgba(77,163,255,0.65);
     background: #0f1a2e; vertical-align: top; font-weight: 400;
 }
-table.compare-table thead th.pinned { background: rgba(77,163,255,0.12); }
 table.compare-table thead th.compare-label-col { background: #0f1a2e; width: 140px; }
-.compare-head-top { display: flex; justify-content: space-between; align-items: flex-start; }
 .compare-head-name { font-weight: 800; font-size: 15px; color: white; }
-table.compare-table thead th.pinned .compare-head-name { color: #4da3ff; }
 .compare-head-sub { font-size: 11px; color: #6a85a8; margin-top: 2px; }
-.pinned-label { font-size: 10px; color: #4da3ff; font-weight: 700; text-transform: uppercase; }
 .compare-remove { cursor: pointer; color: #6a85a8; font-size: 15px; }
 .compare-remove:hover { color: #f87171; }
 
 table.compare-table td { padding: 10px 16px; border-right: 1px solid #1c2d47; border-top: 1px solid #1c2d47; }
 table.compare-table td.compare-label-col { color: #8fa8cc; background: #0f1a2e; width: 140px; }
-table.compare-table td.pinned { background: rgba(77,163,255,0.08); }
 .compare-section-row td { background: #0f1a2e; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #4da3ff; font-weight: 700; }
 
-/* Size comparison strip within compare view */
-#compare-scale { display: flex; align-items: flex-end; gap: 40px; padding: 20px 4px; flex-wrap: wrap; min-height: 180px; margin-top: 28px; }
-.scale-planet-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-.scale-planet { border-radius: 50%; flex-shrink: 0; }
-.scale-planet-label { font-size: 13px; font-weight: 700; color: white; text-align: center; line-height: 1.4; }
-
 /* ── COMPARE TRAY ── */
-/* Normal in-flow block (not sticky) — sits right after whichever view is
-   showing, naturally bounded to display-area's own content width so it
-   can't span underneath the sidebar. */
 #compare-tray {
     margin-top: 20px;
     background: #0d1525; border: 2px solid #4da3ff; border-radius: 12px;
@@ -397,7 +316,6 @@ table.compare-table td.pinned { background: rgba(77,163,255,0.08); }
     font-size: 12px; padding: 5px 10px; border-radius: 999px; background: #0f1a2e;
     border: 1px solid #1c2d47; display: flex; align-items: center; gap: 6px; color: #c8d8ee;
 }
-.tray-chip.pinned { background: rgba(77,163,255,0.12); border-color: #4da3ff; color: #4da3ff; }
 .tray-remove { cursor: pointer; opacity: 0.6; }
 .tray-remove:hover { opacity: 1; color: #f87171; }
 #view-compare-btn {
@@ -413,11 +331,9 @@ table.compare-table td.pinned { background: rgba(77,163,255,0.08); }
     #display-area { padding: 20px; }
     .detail-columns { grid-template-columns: 1fr; }
 }
-
 @media (max-width: 768px) {
     #compare-tray { flex-direction: column; align-items: stretch; }
     #view-compare-btn { width: 100%; }
-    #compare-scale { flex-direction: column; align-items: center; gap: 28px; }
 }
 
 </style>
@@ -429,9 +345,9 @@ table.compare-table td.pinned { background: rgba(77,163,255,0.08); }
 <div id="nav-placeholder"></div>
 
 <div class="tool-hero">
-    <h1>Exoplanet <span>Explorer</span></h1>
+    <h1>Asteroid <span>Tracker</span></h1>
     <div class="hero-divider"></div>
-    <p>Search, sort, and compare 6,000+ confirmed exoplanets sourced directly from NASA's Exoplanet Archive, including measurement uncertainties, host star properties, and instant unit conversions. Data is refreshed weekly directly from the archive.</p>
+    <p>Browse near-Earth asteroids and their close approaches to Earth over a rolling 120-day window, sourced directly from NASA's NeoWs database, including miss distance, size, velocity, and hazard status. Data is refreshed weekly.</p>
 </div>
 
 <button id="expand-tab" onclick="expandSidebar()">Expand &#9654;</button>
@@ -447,16 +363,16 @@ table.compare-table td.pinned { background: rgba(77,163,255,0.08); }
 
         <div class="sidebar-section">
             <div class="sidebar-label">Search & Filter</div>
-            <input type="text" id="planet-search" placeholder="Search by planet or star...">
+            <input type="text" id="asteroid-search" placeholder="Search by designation...">
         </div>
 
         <div class="sidebar-section">
             <div class="sidebar-label">Quick Lists</div>
             <div class="quicklist-btn-row">
-                <button type="button" class="quicklist-btn" data-list="closest">Closest to Earth</button>
-                <button type="button" class="quicklist-btn" data-list="recent">Recently discovered</button>
-                <button type="button" class="quicklist-btn" data-list="rocky">Potentially rocky (&le; 1.8 R&#8853;)</button>
-                <button type="button" class="quicklist-btn" data-list="sunlike">Sun-like hosts (G spectral type)</button>
+                <button type="button" class="quicklist-btn" data-list="closest">Closest approaches</button>
+                <button type="button" class="quicklist-btn" data-list="hazardous">Potentially hazardous</button>
+                <button type="button" class="quicklist-btn" data-list="largest">Largest</button>
+                <button type="button" class="quicklist-btn" data-list="fastest">Fastest</button>
             </div>
         </div>
 
@@ -470,7 +386,7 @@ table.compare-table td.pinned { background: rgba(77,163,255,0.08); }
 
         <div class="sidebar-section">
             <div class="sidebar-label">Comparison</div>
-            <p id="sidebar-compare-summary">Add planets from the table to compare them against Earth.</p>
+            <p id="sidebar-compare-summary">Add asteroids from the table to compare them.</p>
         </div>
 
     </div>
@@ -480,10 +396,10 @@ table.compare-table td.pinned { background: rgba(77,163,255,0.08); }
 
         <!-- BROWSE VIEW -->
         <div id="browse-view">
-            <div class="display-section-title">Browse Confirmed Exoplanets</div>
+            <div class="display-section-title">Browse Close Approaches</div>
             <p class="data-source-note">
-                Data sourced from NASA's <a href="https://exoplanetarchive.ipac.caltech.edu/" target="_blank" rel="noopener">Exoplanet Archive</a>
-                (Planetary Systems Composite Parameters table), operated by Caltech/IPAC under contract with NASA.
+                Data sourced from NASA's <a href="https://cneos.jpl.nasa.gov/" target="_blank" rel="noopener">Center for Near Earth Object Studies (CNEOS)</a> via the NeoWs API,
+                covering close approaches from 30 days ago through 90 days ahead. Refreshed weekly.
             </p>
             <div class="browse-table-wrap">
                 <table class="browse-table">
@@ -512,7 +428,7 @@ table.compare-table td.pinned { background: rgba(77,163,255,0.08); }
             <div class="metric-grid" id="metric-grid"></div>
             <div class="detail-columns" id="detail-columns"></div>
             <div class="archive-note">
-                Full record and citation data on the <a href="https://exoplanetarchive.ipac.caltech.edu/" target="_blank" rel="noopener">NASA Exoplanet Archive</a>.
+                Full record on <a id="detail-jpl-link" href="#" target="_blank" rel="noopener">NASA JPL's Small-Body Database</a>.
             </div>
         </div>
 
@@ -520,7 +436,7 @@ table.compare-table td.pinned { background: rgba(77,163,255,0.08); }
         <div id="compare-view" class="hidden">
             <div class="compare-header-row">
                 <div>
-                    <div class="display-section-title" style="margin-bottom:4px; border-bottom:none; padding-bottom:0;">Compare Planets</div>
+                    <div class="display-section-title" style="margin-bottom:4px; border-bottom:none; padding-bottom:0;">Compare Asteroids</div>
                     <span id="compare-count" class="muted"></span>
                 </div>
                 <button type="button" id="compare-add-another">+ Add another</button>
@@ -533,12 +449,9 @@ table.compare-table td.pinned { background: rgba(77,163,255,0.08); }
                     <tbody id="compare-tbody"></tbody>
                 </table>
             </div>
-            <div class="display-section-title" style="margin-top:28px;">Size Comparison</div>
-            <div id="compare-scale"></div>
         </div>
 
-        <!-- COMPARE TRAY — sits right below whichever view is showing, bounded to
-             display-area's own width so it never spans under the sidebar -->
+        <!-- COMPARE TRAY -->
         <div id="compare-tray" class="hidden">
             <div class="tray-chips" id="tray-chips"></div>
             <button type="button" id="view-compare-btn">View comparison</button>
@@ -548,10 +461,9 @@ table.compare-table td.pinned { background: rgba(77,163,255,0.08); }
 
 </main>
 
-<!-- Shared SI-tooltip element — positioned via JS next to whichever info-dot is hovered or pinned -->
 <div id="info-tooltip" class="hidden"></div>
 
-<script src="../js/exoplanet-explorer.js"></script>
+<script src="../js/asteroid-tracker.js"></script>
 
 <div id="footer-placeholder"></div>
 

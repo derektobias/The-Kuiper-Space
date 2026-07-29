@@ -1,0 +1,113 @@
+{
+  "_meta": {
+    "source_api": "NASA NeoWs (Near Earth Object Web Service) — feed endpoint",
+    "notes": "Maps NeoWs field names to display info, matching the same structure as data/exoplanet-column-map.json for consistency across tools. Each row in data/asteroids.json represents one CLOSE-APPROACH EVENT, not one asteroid — the same asteroid can appear on multiple rows if it makes more than one close approach within the tracked window. `category` groups fields in detail views/tooltips. `precision` is a suggested decimal-place count for display. `nullLabel` is what to show when a value is missing. `siConversion` (where present) drives the hover-icon tooltip the same way it does in the exoplanet tool.",
+    "docs": "https://api.nasa.gov/"
+  },
+  "fields": {
+    "name": {
+      "label": "Designation",
+      "category": "identification",
+      "unit": null,
+      "tooltip": "The asteroid's official NASA/JPL designation.",
+      "nullLabel": "\u2014"
+    },
+    "is_potentially_hazardous": {
+      "label": "Potentially Hazardous",
+      "category": "identification",
+      "unit": "boolean",
+      "tooltip": "NASA classifies an asteroid as potentially hazardous if it's larger than ~140 m AND its orbit brings it within 7.5 million km of Earth \u2014 a broad screening threshold, not a prediction of impact.",
+      "nullLabel": "Unknown"
+    },
+    "absolute_magnitude_h": {
+      "label": "Absolute Magnitude (H)",
+      "category": "physical",
+      "unit": "H mag",
+      "precision": 1,
+      "tooltip": "A measure of how bright the asteroid would appear from a fixed reference distance. Lower numbers mean a larger object \u2014 this is the main way asteroid sizes are estimated, since a direct diameter measurement is rarely available.",
+      "nullLabel": "Not measured"
+    },
+    "estimated_diameter_km_min": {
+      "label": "Estimated Diameter (min)",
+      "category": "physical",
+      "unit": "km",
+      "precision": 3,
+      "tooltip": "Lower bound of the estimated diameter range. Actual asteroid diameters are usually inferred from brightness and are genuinely uncertain \u2014 hence a range rather than one number.",
+      "nullLabel": "Not estimated",
+      "siConversion": { "unit": "m", "multiplier": 1000, "useScientificNotation": false }
+    },
+    "estimated_diameter_km_max": {
+      "label": "Estimated Diameter (max)",
+      "category": "physical",
+      "unit": "km",
+      "precision": 3,
+      "tooltip": "Upper bound of the estimated diameter range.",
+      "nullLabel": "Not estimated",
+      "siConversion": { "unit": "m", "multiplier": 1000, "useScientificNotation": false }
+    },
+    "close_approach_date": {
+      "label": "Close Approach Date",
+      "category": "approach",
+      "unit": null,
+      "tooltip": "Date of this specific close approach to Earth.",
+      "nullLabel": "\u2014"
+    },
+    "close_approach_date_full": {
+      "label": "Close Approach Date & Time",
+      "category": "approach",
+      "unit": null,
+      "tooltip": "Full date and time (UTC) of closest approach.",
+      "nullLabel": "\u2014"
+    },
+    "relative_velocity_km_s": {
+      "label": "Relative Velocity",
+      "category": "approach",
+      "unit": "km/s",
+      "precision": 2,
+      "tooltip": "Speed of the asteroid relative to Earth at closest approach.",
+      "nullLabel": "Not measured",
+      "altUnitField": "relative_velocity_km_h",
+      "altUnitLabel": "km/h",
+      "siConversion": { "unit": "m/s", "multiplier": 1000, "useScientificNotation": false }
+    },
+    "miss_distance_km": {
+      "label": "Miss Distance",
+      "category": "approach",
+      "unit": "km",
+      "precision": 0,
+      "tooltip": "Closest distance between the asteroid and Earth's center during this approach.",
+      "nullLabel": "Not measured",
+      "altUnitField": "miss_distance_lunar",
+      "altUnitLabel": "lunar distances",
+      "displayConversion": { "toUnit": "lunar distances", "multiplier": 0.0026 },
+      "siConversion": { "unit": "m", "multiplier": 1000, "useScientificNotation": true }
+    },
+    "miss_distance_lunar": {
+      "label": "Miss Distance (lunar)",
+      "category": "approach",
+      "unit": "lunar distances",
+      "precision": 2,
+      "tooltip": "Miss distance expressed in multiples of the average Earth-Moon distance (\u2248384,400 km) \u2014 often a more intuitive scale than raw kilometers.",
+      "nullLabel": "Not measured"
+    },
+    "orbiting_body": {
+      "label": "Orbiting Body",
+      "category": "approach",
+      "unit": null,
+      "tooltip": "The body this close approach is measured relative to \u2014 almost always Earth for objects in this tracker.",
+      "nullLabel": "Unknown"
+    },
+    "nasa_jpl_url": {
+      "label": "JPL Reference",
+      "category": "identification",
+      "unit": null,
+      "tooltip": "Link to this object's full record on NASA JPL's Small-Body Database.",
+      "nullLabel": null
+    }
+  },
+  "categories": {
+    "identification": "Identification",
+    "physical": "Physical Characteristics",
+    "approach": "Close Approach"
+  }
+}

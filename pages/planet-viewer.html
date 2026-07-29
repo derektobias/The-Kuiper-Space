@@ -170,15 +170,31 @@
         cursor: pointer;
     }
 
+    /* ── VIEWER ── */
+    /* Constrained on larger screens so there's real page margin on either
+       side to scroll from — without this, the canvas spans edge-to-edge and
+       a mouse wheel movement anywhere on the screen at that vertical
+       position gets captured as zoom instead of page scroll. Reverts to
+       full width below the site's usual tablet/mobile breakpoint, since
+       touch devices don't have this scroll-vs-zoom conflict to begin with. */
     #viewer {
         width: 100%;
+        max-width: 1100px;
+        margin: 0 auto;
         height: 600px;
         cursor: grab;
     }
-
+ 
     #viewer:active {
         cursor: grabbing;
     }
+ 
+    @media (max-width: 860px) {
+        #viewer {
+            max-width: 100%;
+        }
+    }
+
 </style>
 </head>
 
@@ -255,13 +271,18 @@
             <input type="checkbox" id="shadowToggle" checked>
             Shadows
         </label>
-
+ 
+        <div class="control-divider"></div>
+ 
+        <!-- Reset -->
+        <button id="resetViewerBtn" class="viewer-btn" title="Reset zoom, speed, and display settings">↺ Reset</button>
+ 
     </div>
-
+ 
     <div id="viewer"></div>
-
+ 
 </main>
-
+ 
 <!-- Three.js r165 via importmap -->
 <script type="importmap">
 {
@@ -271,10 +292,10 @@
 }
 </script>
 <script type="module" src="../js/planet-viewer.js"></script>
-
+ 
 <div id="footer-placeholder"></div>
-
+ 
 <script src="../js/site-chrome.js"></script>
-
+ 
 </body>
 </html>
