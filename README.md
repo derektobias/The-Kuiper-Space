@@ -8,7 +8,7 @@ Interactive planetary and exoplanet science platform for exploring real astronom
 
 ## Overview
 
-The Kuiper Space started as a small tool for comparing planets side by side and has grown into seven interactive tools — five spanning the solar system, plus two live-refreshed catalogs: thousands of confirmed exoplanets from NASA's Exoplanet Archive, and hundreds of tracked near-Earth asteroid close approaches from NASA's NeoWs database.
+The Kuiper Space started as a small tool for comparing planets side by side and has grown into eight interactive tools — five spanning the solar system, plus three live-refreshed catalogs: thousands of confirmed exoplanets from NASA's Exoplanet Archive, hundreds of tracked near-Earth asteroid close approaches from NASA's NeoWs database, and 15,000+ IAU-approved named surface features from the USGS Gazetteer of Planetary Nomenclature. The site also includes Space Essentials, a curated page of externally-linked book and gear recommendations.
 
 ---
 
@@ -63,6 +63,20 @@ Browses near-Earth asteroid close approaches over a rolling 120-day window (30 d
   <img src="assets/og/asteroid-tracker.png" width="800"/>
 </p>
 
+### Planetary Gazetteer
+Searches and browses 15,000+ IAU-approved named surface features — craters, mountains, canyons, and more — across 27 planets, dwarf planets, and moons, sourced directly from the USGS Gazetteer of Planetary Nomenclature. Browse by a specific target body or across all bodies at once, filter by feature type, and use curated quick lists (largest features, recently approved). Includes a feature-type glossary explaining descriptor terms (crater, mons, chasma, patera, and others) with a real example for each. Data refreshes automatically on a weekly schedule — see [Data Automation](#data-automation) below.
+
+<p align="center">
+  <img src="assets/og/planetary-gazetteer.png" width="800"/>
+</p>
+
+### Space Essentials
+A personally curated collection of space and planetary science books (via Bookshop.org, which supports independent bookstores) and eclipse-viewing gear (via Eclipse Glasses / American Paper Optics, ISO 12312-2 certified). Unlike the tools above, this isn't backed by a data pipeline — it's hand-maintained affiliate content, with clear disclosure at the top of the page.
+
+<p align="center">
+  <img src="assets/og/space-essentials.png" width="800"/>
+</p>
+
 ---
 
 ## Tech Stack
@@ -70,7 +84,9 @@ Browses near-Earth asteroid close approaches over a rolling 120-day window (30 d
 - **Frontend:** Vanilla JavaScript (ES6+), HTML5, CSS3 — no framework
 - **Visualization:** Canvas API (2D scale/orbit rendering), Three.js r165 (3D planet viewer)
 - **Data:** JSON-based, config-driven architecture — a single schema file per catalog drives table columns, units, and tooltips
-- **External data sources:** [NASA Exoplanet Archive](https://exoplanetarchive.ipac.caltech.edu/) via its TAP/ADQL query service, and [NASA NeoWs](https://api.nasa.gov/) for near-Earth asteroid data
+- **External data sources:** [NASA Exoplanet Archive](https://exoplanetarchive.ipac.caltech.edu/) via its TAP/ADQL query service, [NASA NeoWs](https://api.nasa.gov/) for near-Earth asteroid data, and the [USGS Gazetteer of Planetary Nomenclature](https://planetarynames.wr.usgs.gov/) via per-target GIS shapefile downloads
+- **GIS/shapefile parsing:** `shapefile` and `adm-zip` npm packages (used only by the Gazetteer fetch script — every other fetch script is dependency-free, using Node's built-in `fetch`)
+- **Affiliate integrations:** [Bookshop.org](https://bookshop.org/) embeddable widgets and [Eclipse Glasses](https://www.eclipseglasses.com/) affiliate links, both used on the Space Essentials page — these are commercial partner integrations, not scientific data sources
 - **Automation:** Node.js fetch scripts, scheduled weekly via a single combined GitHub Actions workflow
 - **Hosting/Deployment:** Netlify, with custom redirect rules (clean, extensionless URLs)
 - **SEO:** JSON-LD structured data, XML sitemap, Open Graph/Twitter meta tags
@@ -80,16 +96,18 @@ Browses near-Earth asteroid close approaches over a rolling 120-day window (30 d
 
 ## Data Automation
 
-`scripts/fetch-exoplanet-data.js` pulls the current confirmed-planet dataset from NASA's Exoplanet Archive and writes it to `data/exoplanets.json`. `scripts/fetch-asteroid-data.js` pulls near-Earth asteroid close-approach data from NASA's NeoWs feed endpoint (chunked into 7-day requests, NeoWs's per-request limit) and writes it to `data/asteroids.json`.
+`scripts/fetch-exoplanet-data.js` pulls the current confirmed-planet dataset from NASA's Exoplanet Archive and writes it to `data/exoplanets.json`. `scripts/fetch-asteroid-data.js` pulls near-Earth asteroid close-approach data from NASA's NeoWs feed endpoint (chunked into 7-day requests, NeoWs's per-request limit) and writes it to `data/asteroids.json`. `scripts/fetch-gazetteer-data.js` downloads per-target GIS shapefiles from USGS (regenerated nightly on their end), parses them with the `shapefile` package, and writes the combined result to `data/gazetteer.json`.
 
-Both run automatically once a week via the single combined GitHub Actions workflow in `.github/workflows/refresh-catalog-data.yml`, which commits both files together in one push. This keeps the cost to one Netlify deployment per week covering both catalogs, rather than two.
+All three run automatically once a week via the single combined GitHub Actions workflow in `.github/workflows/refresh-catalog-data.yml`, which commits all three files together in one push. This keeps the cost to one Netlify deployment per week covering every catalog, rather than a separate deployment per catalog.
 
-To run either manually:
+To run any of them manually:
 ```
 node scripts/fetch-exoplanet-data.js
 NASA_API_KEY=your_key_here node scripts/fetch-asteroid-data.js
+npm install shapefile adm-zip
+node scripts/fetch-gazetteer-data.js
 ```
-Requires Node 18+ (uses the built-in `fetch`). The asteroid script requires a free API key from [api.nasa.gov](https://api.nasa.gov). The exoplanet script does not require an API key.
+Requires Node 18+ (uses the built-in `fetch`). The asteroid script requires a free API key from [api.nasa.gov](https://api.nasa.gov). The exoplanet script does not require an API key. The gazetteer script requires its two npm dependencies to be installed first (shown above) — it's the only fetch script on this project with any external dependencies. To test the gazetteer script against a single body instead of the full ~27-body run, set `GAZETTEER_TARGET` (e.g. `GAZETTEER_TARGET=IO node scripts/fetch-gazetteer-data.js`).
 
 ---
 
@@ -110,7 +128,9 @@ netlify dev
 
 ## A Note on Data
 
-Astronomical data displayed by this project (solar system data via NASA JPL, exoplanet data via NASA's Exoplanet Archive, near-Earth asteroid data via NASA's NeoWs) is sourced from public NASA resources and is not covered by this project's own license below — it belongs to its original source and is used here for educational purposes with attribution.
+Astronomical data displayed by this project (solar system data via NASA JPL, exoplanet data via NASA's Exoplanet Archive, near-Earth asteroid data via NASA's NeoWs, named surface feature data via the USGS Gazetteer of Planetary Nomenclature) is sourced from public NASA and USGS resources and is not covered by this project's own license below — it belongs to its original source and is used here for educational purposes with attribution.
+
+Product information and imagery on the Space Essentials page (books via Bookshop.org, eclipse-viewing gear via Eclipse Glasses / American Paper Optics) belongs to those respective merchants and is used under their affiliate programs' own terms, for the purpose of promoting their products through this site's affiliate links.
 
 ---
 

@@ -66,11 +66,13 @@
       type: "dropdown", label: "Catalogs",
       items: [
         { label: "Exoplanet Explorer", href: pagePath("exoplanet-explorer") },
-        { label: "Asteroid Tracker", href: pagePath("asteroid-tracker") }
+        { label: "Asteroid Tracker", href: pagePath("asteroid-tracker") },
+        { label: "Planetary Gazetteer", href: pagePath("planetary-gazetteer") }
         // Future catalog-style pages go here.
       ]
     },
     { type: "link", label: "Resources", href: pagePath("resources") },
+    { type: "link", label: "Space Essentials", href: pagePath("space-essentials") },
     { type: "link", label: "Shop & Support", href: pagePath("shop") },
     { type: "link", label: "Contact", href: pagePath("contact") }
   ];

@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<title>Planetary Gazetteer — Named Surface Features Across the Solar System | The Kuiper Space</title>
+
+<meta name="description" content="Search and browse 15,000+ IAU-approved named surface features — craters, mountains, canyons, and more — across every major planet, dwarf planet, and moon, sourced from the USGS Gazetteer of Planetary Nomenclature.">
+<meta name="keywords" content="planetary nomenclature, gazetteer of planetary nomenclature, named craters, IAU approved names, planetary surface features, USGS astrogeology, crater names, planetary feature database, moon craters, mars craters, feature origin names">
+<meta name="author" content="The Kuiper Space">
+<meta name="robots" content="index, follow">
+
+<link rel="canonical" href="https://thekuiperspace.com/pages/planetary-gazetteer">
+
+<link rel="icon" type="image/png" href="../favicon-96x96.png?v=20260525" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg?v=20260525">
+<link rel="shortcut icon" href="../favicon.ico?v=20260525">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png?v=20260525">
+<meta name="apple-mobile-web-app-title" content="Kuiper Space">
+<link rel="manifest" href="../site.webmanifest?v=20260525">
+<meta name="theme-color" content="#0b0f1a">
+
+<meta property="og:title" content="Planetary Gazetteer — Named Surface Features Across the Solar System | The Kuiper Space">
+<meta property="og:description" content="Search and browse 15,000+ IAU-approved named surface features across every major planet, dwarf planet, and moon, sourced from the USGS Gazetteer of Planetary Nomenclature.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thekuiperspace.com/pages/planetary-gazetteer">
+<meta property="og:image" content="https://thekuiperspace.com/assets/og/planetary-gazetteer.png">
+<meta property="og:site_name" content="The Kuiper Space">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Planetary Gazetteer — Named Surface Features | The Kuiper Space">
+<meta name="twitter:description" content="Search and browse 15,000+ IAU-approved named surface features across every major planet, dwarf planet, and moon.">
+<meta name="twitter:image" content="https://thekuiperspace.com/assets/og/planetary-gazetteer.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Planetary Gazetteer",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Web Browser",
+  "url": "https://thekuiperspace.com/pages/planetary-gazetteer",
+  "description": "Interactive tool to search and browse IAU-approved named surface features \u2014 craters, mountains, canyons, and more \u2014 across every major planet, dwarf planet, and moon, sourced from the USGS Gazetteer of Planetary Nomenclature.",
+  "featureList": "Search and browse 15,000+ named surface features across 27 solar system bodies, browse by target body or across all bodies at once, filter by feature type, curated quick lists, per-feature detail pages with naming origin and coordinates, direct links to official USGS records",
+  "isAccessibleForFree": true,
+  "isBasedOn": "https://planetarynames.wr.usgs.gov/",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Students, educators, astronomy enthusiasts, and amateur researchers"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "The Kuiper Space",
+    "url": "https://thekuiperspace.com"
+  }
+}
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J4BENPDDHF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-J4BENPDDHF');
+</script>
+
+<link rel="manifest" href="../site.webmanifest?v=20260525">
+<link rel="stylesheet" href="../css/styles.css">
+
+<style>
+
+/* ── HERO ── */
+.tool-hero {
+    text-align: center;
+    padding: 60px 20px 30px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+.tool-hero h1 { font-size: 36px; font-weight: 800; color: white; letter-spacing: -0.02em; margin-bottom: 12px; }
+.tool-hero h1 span { color: #4da3ff; }
+.tool-hero p { font-size: 16px; color: #8fa8cc; line-height: 1.65; margin: 0; }
+.hero-divider { width: 60px; height: 3px; background: linear-gradient(90deg, #4da3ff, #a78bfa); border-radius: 2px; margin: 16px auto 20px; }
+
+/* ── LAYOUT (matches exoplanet-explorer / planetary-properties) ── */
+.tool-layout { display: flex; min-height: calc(100vh - 60px); position: relative; }
+
+#sidebar {
+    width: 300px;
+    min-width: 300px;
+    background: linear-gradient(180deg, #0d1525 0%, #0a1020 100%);
+    border: 2px solid #4da3ff;
+    padding: 20px 14px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: width 0.25s ease, min-width 0.25s ease, padding 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-sizing: border-box;
+}
+#sidebar::-webkit-scrollbar { width: 8px; }
+#sidebar::-webkit-scrollbar-thumb { background: #1e2f47; border-radius: 4px; }
+
+.sidebar-collapsed #sidebar { width: 0; min-width: 0; padding: 0; overflow: hidden; border-right: none; }
+
+#expand-tab {
+    display: none;
+    position: fixed;
+    left: 0; top: 50%;
+    transform: translateY(-50%);
+    background: rgba(77,163,255,0.05);
+    border: 2px solid rgba(77,163,255,0.65);
+    border-radius: 8px;
+    color: #4da3ff;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    writing-mode: vertical-rl;
+    padding: 14px 7px;
+    cursor: pointer;
+    z-index: 200;
+    transition: background 0.25s;
+}
+#expand-tab:hover { background: rgba(77,163,255,0.65); border-color: #4da3ff; color: white; }
+.sidebar-collapsed #expand-tab { display: block; }
+
+.sidebar-section { display: flex; flex-direction: column; gap: 8px; }
+.sidebar-label {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: #4da3ff; padding-bottom: 6px; border-bottom: 2px solid rgba(77,163,255,0.65); white-space: nowrap;
+}
+
+#sidebar input[type="text"], #sidebar select {
+    width: 100%; background: #0a1020; border: 1px solid #1e2e47; border-radius: 8px;
+    padding: 8px 10px; color: white; font-size: 14px; box-sizing: border-box;
+    transition: border-color 0.25s, box-shadow 0.25s;
+}
+#sidebar input[type="text"]:focus, #sidebar select:focus {
+    outline: none; border-color: #4da3ff; box-shadow: 0 0 0 2px rgba(77,163,255,0.65);
+}
+#sidebar input::placeholder { color: #3a4f6a; }
+
+#toggle-sidebar {
+    background: rgba(77,163,255,0.05); border: 2px solid rgba(77,163,255,0.65); border-radius: 8px;
+    padding: 7px 14px; color: #4da3ff; font-size: 13px; font-weight: 700; letter-spacing: 0.05em;
+    cursor: pointer; transition: background 0.25s, border-color 0.25s; align-self: flex-start; white-space: nowrap;
+}
+#toggle-sidebar:hover { background: rgba(77,163,255,0.65); border-color: #4da3ff; color: white; }
+
+/* Quick-list / target-picker buttons — reuses .scenario-btn's visual language from styles.css */
+.quicklist-btn-row { display: flex; flex-direction: column; gap: 6px; }
+.quicklist-btn {
+    background: #0f1928; border: 1px solid #1c2d47; border-radius: 8px;
+    padding: 8px 12px; color: #6a85a8; font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: all 0.2s; text-align: left;
+}
+.quicklist-btn:hover { border-color: #2a4a6a; color: #c8d8ee; }
+.quicklist-btn.active-btn {
+    background: rgba(77,163,255,0.12); border-color: #4da3ff; color: #4da3ff;
+    box-shadow: 0 0 16px rgba(77,163,255,0.15);
+}
+
+/* "All Bodies" gets slightly more visual weight than a regular target
+   button, since it's the reset/default state, not just one option among 27. */
+.all-bodies-btn { font-weight: 800; letter-spacing: 0.02em; }
+
+/* Target picker gets its own 2-column grid — 27 individual body buttons
+   in a single column ran needlessly long down the sidebar. The #id
+   selector here naturally overrides .quicklist-btn-row's flex/column
+   rules for just this element, so the Quick Lists buttons elsewhere
+   (still using .quicklist-btn-row directly) stay single-column. */
+#target-picker {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+#target-picker .all-bodies-btn,
+#target-picker .target-group-label {
+    grid-column: 1 / -1;
+}
+
+/* Target picker groups (Planets / Dwarf Planets & Asteroids / Moons) reuse
+   .property-group's header styling for a consistent look with the column
+   picker below it, even though there are no checkboxes here. */
+.target-group-label {
+    font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+    color: #6a85a8; margin: 4px 0 2px;
+}
+
+.checkbox-row { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #8fa8cc; cursor: pointer; }
+.checkbox-row input { accent-color: #4da3ff; }
+
+.select-all-btn {
+    background: rgba(77,163,255,0.05);
+    border: 2px solid rgba(77,163,255,0.65);
+    border-radius: 8px;
+    padding: 3px 10px;
+    color: #4da3ff;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: background 0.25s, border-color 0.25s, color 0.25s;
+    white-space: nowrap;
+}
+.select-all-btn:hover { background: rgba(77,163,255,0.65); border-color: #4da3ff; color: white; }
+
+#column-picker { display: flex; flex-direction: column; gap: 10px; }
+
+.property-group {
+    background: #0f1a2e;
+    border: 1px solid #1c2d47;
+    border-radius: 10px;
+    padding: 10px 12px;
+    box-sizing: border-box;
+    width: 100%;
+}
+.property-group h4 {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #4da3ff;
+    margin: 0 0 8px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid rgba(77,163,255,0.65);
+}
+.group-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px 6px; }
+.group-grid label {
+    display: grid;
+    grid-template-columns: 16px 1fr;
+    align-items: start;
+    gap: 6px;
+    font-size: 14px;
+    color: #8fa8cc;
+    cursor: pointer;
+    line-height: 1.4;
+    transition: color 0.25s;
+    text-align: left;
+}
+.group-grid label:hover { color: #c8d8ee; }
+.group-grid input[type="checkbox"] {
+    margin-top: 2px;
+    accent-color: #4da3ff;
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+}
+
+#current-scope-summary { font-size: 13px; color: #8fa8cc; }
+#current-scope-summary .count { color: #4da3ff; font-weight: 700; }
+
+/* ── DISPLAY AREA ── */
+#display-area { flex: 1; padding: 28px 36px; overflow-y: auto; min-width: 0; }
+.hidden { display: none; }
+
+.display-section-title {
+    font-size: 14px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: #4da3ff; margin: 0 0 16px; padding-bottom: 8px; border-bottom: 2px solid rgba(77,163,255,0.65);
+    display: flex; align-items: center; gap: 10px;
+}
+.display-section-title::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #4da3ff; flex-shrink: 0; }
+
+.data-source-note {
+    font-size: 12px;
+    color: #6a85a8;
+    margin: -6px 0 16px;
+    line-height: 1.5;
+}
+.data-source-note a { color: #4da3ff; text-decoration: none; }
+.data-source-note a:hover { text-decoration: underline; }
+
+/* ── BROWSE TABLE ── */
+.browse-table-wrap { max-height: 560px; overflow: auto; border: 1px solid #1c2d47; border-radius: 10px; }
+/* width:auto (not 100%) so the table sizes to its actual content — with
+   few optional columns selected, forcing 100% width stretched the
+   remaining columns into awkward, disproportionate gaps. Horizontal
+   scroll (browse-table-wrap) still kicks in normally once enough columns
+   are selected to need more room than the container. */
+table.browse-table { width: auto; border-collapse: collapse; font-size: 14px; min-width: 640px; }
+
+table.browse-table thead th {
+    position: sticky; top: 0; z-index: 3;
+    text-align: left; padding: 12px 22px; background: #0f1a2e; color: #4da3ff;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700;
+    border-bottom: 2px solid rgba(77,163,255,0.65);
+    cursor: pointer; user-select: none; white-space: nowrap;
+}
+table.browse-table thead th:hover { color: white; background: #142238; }
+table.browse-table thead th.num, table.browse-table td.num { text-align: right; }
+table.browse-table tbody td { padding: 12px 22px; border-top: 1px solid #1c2d47; }
+table.browse-table tbody tr:hover { background: #0f1a2e; }
+.feature-link { color: #4da3ff; cursor: pointer; font-weight: 600; text-decoration: none; }
+.feature-link:hover { text-decoration: underline; }
+.muted { color: #6a85a8; }
+
+.sticky-col { position: sticky; left: 0; z-index: 1; width: 190px; min-width: 190px; }
+th.sticky-col { z-index: 4; background: #0f1a2e; }
+td.sticky-col { background: #101a2c; }
+table.browse-table tbody tr:hover td.sticky-col { background: #16233a; }
+
+.info-dot {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 14px; height: 14px; border-radius: 50%; border: 1px solid #3a4f6a;
+    color: #6a85a8; font-size: 10px; margin-left: 5px; cursor: pointer;
+}
+.info-dot:hover, .info-dot.pinned { border-color: #4da3ff; color: #4da3ff; background: rgba(77,163,255,0.12); }
+
+#info-tooltip {
+    position: fixed; z-index: 500; max-width: 260px;
+    background: #0f1a2e; border: 1px solid #4da3ff; border-radius: 8px;
+    padding: 8px 10px; font-size: 12px; line-height: 1.5; color: #c8d8ee;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    pointer-events: none; white-space: pre-line;
+}
+
+.empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 50px 20px; color: #3a4f6a; text-align: center; gap: 12px; }
+.empty-state-icon { font-size: 44px; }
+.empty-state p { font-size: 14px; color: #4da3ff; font-weight: 700; }
+
+.browse-footer-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+#result-count { font-size: 13px; color: #6a85a8; }
+
+.pagination { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.page-btn {
+    background: #0f1928; border: 1px solid #1c2d47; border-radius: 6px;
+    padding: 5px 11px; color: #8fa8cc; font-size: 12px; font-weight: 700; cursor: pointer;
+}
+.page-btn:hover:not(:disabled) { border-color: #4da3ff; color: #4da3ff; }
+.page-btn.active-page { background: rgba(77,163,255,0.15); border-color: #4da3ff; color: #4da3ff; }
+.page-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.page-ellipsis { color: #6a85a8; font-size: 12px; padding: 0 4px; }
+
+/* ── DETAIL VIEW ── */
+.detail-back { font-size: 13px; color: #6a85a8; cursor: pointer; margin-bottom: 8px; font-weight: 700; }
+.detail-back:hover { color: #4da3ff; }
+.detail-header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.detail-header-row h1 { font-size: 28px; margin: 0 0 4px; color: white; }
+.detail-header-row p { margin: 0; color: #8fa8cc; font-size: 14px; }
+
+.metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 28px; }
+.metric-card { background: #0f1a2e; border: 1px solid #1c2d47; border-radius: 10px; padding: 16px; }
+.metric-label { font-size: 12px; color: #8fa8cc; margin-bottom: 6px; }
+.metric-value { font-size: 22px; font-weight: 800; color: white; }
+.metric-sub { font-size: 11px; color: #4da3ff; margin-top: 4px; }
+
+.detail-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+table.detail-table { width: 100%; border-collapse: collapse; }
+table.detail-table td { padding: 6px 0; font-size: 14px; border: none; }
+table.detail-table td:first-child { color: #8fa8cc; }
+table.detail-table td:last-child { text-align: right; color: white; }
+
+.origin-note {
+    background: #0f1a2e; border: 1px solid #1c2d47; border-radius: 10px;
+    padding: 16px 18px; margin-bottom: 24px; font-size: 14px; line-height: 1.6; color: #c8d8ee;
+}
+.origin-note-label { font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #4da3ff; margin-bottom: 8px; }
+
+.archive-note { margin-top: 24px; padding-top: 16px; border-top: 1px solid #1c2d47; font-size: 12px; color: #6a85a8; }
+.archive-note a { color: #4da3ff; }
+
+/* ── MAP VIEW ── */
+.map-section { margin-top: 32px; }
+
+.map-empty-state {
+    padding: 50px 20px; text-align: center; color: #3a4f6a; font-size: 14px; font-weight: 700;
+    border: 1px dashed #1c2d47; border-radius: 10px;
+}
+
+.map-container {
+    position: relative;
+    width: 100%;
+    border: 1px solid #1c2d47;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #05070d;
+    line-height: 0; /* prevents a stray gap under the image */
+}
+.map-container img { width: 100%; height: auto; display: block; }
+
+/* Dots layer sits directly over the image at the same size — percentage
+   left/top on each dot map 1:1 onto the image's own longitude/latitude
+   grid (see projectFeatureToPercent() in the JS), so this layer must
+   never be offset or padded relative to the image beneath it. */
+.map-dots-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+.map-dot {
+    position: absolute;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #4da3ff;
+    border: 1px solid white;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    box-shadow: 0 0 4px rgba(77,163,255,0.8);
+    transition: transform 0.15s, background 0.15s;
+}
+.map-dot:hover { background: white; transform: translate(-50%, -50%) scale(1.6); z-index: 5; }
+
+/* Only rendered when the filtered set is small enough to stay readable
+   (see LABEL_VISIBILITY_THRESHOLD in the JS) — otherwise it's dots-only,
+   with the name available via the dot's native title-attribute tooltip. */
+.map-dot-label {
+    position: absolute;
+    transform: translate(8px, -50%);
+    font-size: 11px;
+    color: white;
+    background: rgba(10,16,32,0.85);
+    padding: 1px 5px;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 860px) {
+    .tool-layout { flex-direction: column; }
+    #sidebar { width: 100%; min-width: 0; border-right: none; }
+    #display-area { padding: 20px; }
+    .detail-columns { grid-template-columns: 1fr; }
+}
+
+</style>
+</head>
+
+<body>
+
+<script>const SITE_CONTEXT = "pages";</script>
+<div id="nav-placeholder"></div>
+
+<div class="tool-hero">
+    <h1>Planetary <span>Gazetteer</span></h1>
+    <div class="hero-divider"></div>
+    <p>Search and browse 15,000+ IAU-approved named surface features — craters, mountains, canyons, and more — across every major planet, dwarf planet, and moon, sourced directly from the USGS Gazetteer of Planetary Nomenclature.</p>
+</div>
+
+<button id="expand-tab" onclick="expandSidebar()">Expand &#9654;</button>
+
+<main class="tool-layout">
+
+    <!-- ── SIDEBAR ── -->
+    <div id="sidebar">
+
+        <div class="sidebar-section">
+            <button id="toggle-sidebar">&#10216; Collapse</button>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-label">Target Body</div>
+            <div class="quicklist-btn-row" id="target-picker"></div>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-label">Search & Filter</div>
+            <input type="text" id="feature-search" placeholder="Search by feature name...">
+            <select id="feature-type-filter">
+                <option value="">All feature types</option>
+            </select>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-label">Quick Lists</div>
+            <div class="quicklist-btn-row">
+                <button type="button" class="quicklist-btn" data-list="largest">Largest features</button>
+                <button type="button" class="quicklist-btn" data-list="recent">Recently approved</button>
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-label" style="display:flex; align-items:center; justify-content:space-between;">
+                Columns
+                <button type="button" id="select-all-columns-btn" class="select-all-btn">Deselect All</button>
+            </div>
+            <div id="column-picker"></div>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-label">Currently Browsing</div>
+            <p id="current-scope-summary"></p>
+        </div>
+
+    </div>
+
+    <!-- ── DISPLAY AREA ── -->
+    <div id="display-area">
+
+        <!-- BROWSE VIEW -->
+        <div id="browse-view">
+            <div class="display-section-title">Browse Named Features</div>
+            <p class="data-source-note">
+                Data sourced from the USGS <a href="https://planetarynames.wr.usgs.gov/" target="_blank" rel="noopener">Gazetteer of Planetary Nomenclature</a>,
+                maintained in cooperation with the IAU Working Group for Planetary System Nomenclature. Only currently-adopted names are shown.
+            </p>
+            <div class="browse-table-wrap">
+                <table class="browse-table">
+                    <thead>
+                        <tr id="browse-thead-row"></tr>
+                    </thead>
+                    <tbody id="browse-tbody"></tbody>
+                </table>
+            </div>
+            <div class="browse-footer-row">
+                <span id="result-count"></span>
+                <div id="browse-pagination" class="pagination"></div>
+            </div>
+
+            <!-- MAP VIEW — mirrors whatever the sidebar filters are
+                 currently set to; only renders for one specific target
+                 body at a time (see js/planetary-gazetteer.js renderMap()). -->
+            <div class="map-section">
+                <div class="display-section-title">Feature Map</div>
+                <div id="map-empty-state" class="map-empty-state"></div>
+                <div id="map-container" class="map-container hidden">
+                    <img id="map-image" alt="">
+                    <div id="map-dots-layer" class="map-dots-layer"></div>
+                </div>
+                <p id="map-caption" class="data-source-note"></p>
+            </div>
+        </div>
+
+        <!-- DETAIL VIEW -->
+        <div id="detail-view" class="hidden">
+            <div class="detail-back" id="detail-back">&larr; Back to browse</div>
+            <div class="detail-header-row">
+                <div>
+                    <h1 id="detail-name"></h1>
+                    <p id="detail-sub"></p>
+                </div>
+            </div>
+            <div class="metric-grid" id="metric-grid"></div>
+            <div class="origin-note" id="origin-note"></div>
+            <div class="detail-columns" id="detail-columns"></div>
+            <div class="archive-note" id="detail-archive-note"></div>
+        </div>
+
+    </div>
+
+</main>
+
+<!-- Shared info-dot tooltip element — positioned via JS -->
+<div id="info-tooltip" class="hidden"></div>
+
+<script src="../js/planetary-gazetteer.js"></script>
+
+<div id="footer-placeholder"></div>
+
+<script src="../js/site-chrome.js"></script>
+
+</body>
+</html>

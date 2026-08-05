@@ -1,0 +1,171 @@
+{
+  "_meta": {
+    "source": "USGS Gazetteer of Planetary Nomenclature, per-target GIS shapefile downloads (regenerated nightly)",
+    "notes": "Maps data/gazetteer.json fields to display info, same convention as exoplanet-column-map.json and asteroid-column-map.json. `category` groups fields in detail views/column pickers. `precision` is a suggested decimal-place count. `nullLabel` is what to show when a value is missing. No siConversion/errorFields here \u2014 diameter is already in km (no unit conversion needed) and the Gazetteer doesn't publish measurement uncertainty for feature coordinates/sizes. `continent_code` and `ethnicity_code` are raw USGS abbreviation codes (e.g. for computing international-representation stats) \u2014 their full meaning requires a separate USGS abbreviations lookup table that hasn't been built into this site yet; treat these two fields as raw/unexplained for now, shown as-is rather than translated.",
+    "verification_note": "Field presence was confirmed against USGS's field DEFINITIONS (planetarynames.wr.usgs.gov/Page/Specifics), not against an actually-opened shapefile's literal attribute keys (see fetch-gazetteer-data.js header). Run the fetch script once, check its console output against this file, and adjust nullLabel/tooltip coverage if any field consistently comes back empty for a body that should have it.",
+    "docs": "https://planetarynames.wr.usgs.gov/Page/Specifics"
+  },
+  "fields": {
+    "clean_name": {
+      "label": "Feature Name",
+      "category": "identification",
+      "unit": null,
+      "tooltip": "Official IAU-approved name, shown without diacritical marks (which can cause display issues in some contexts). The properly-spelled form with diacritics, where different, is available on the detail page.",
+      "nullLabel": "\u2014"
+    },
+    "feature_name": {
+      "label": "Feature Name (full spelling)",
+      "category": "identification",
+      "unit": null,
+      "tooltip": "The feature's name as spelled by the honoree or reference source, including diacritical marks.",
+      "nullLabel": "\u2014"
+    },
+    "target": {
+      "label": "Target Body",
+      "category": "identification",
+      "unit": null,
+      "tooltip": "The planet, moon, dwarf planet, or asteroid this feature is located on.",
+      "nullLabel": "\u2014"
+    },
+    "body_type": {
+      "label": "Body Type",
+      "category": "identification",
+      "unit": null,
+      "tooltip": "Planet, dwarf planet, moon, or asteroid \u2014 site-added classification (not part of the Gazetteer's own data) used to group the target picker.",
+      "nullLabel": "\u2014"
+    },
+    "feature_type": {
+      "label": "Feature Type",
+      "category": "identification",
+      "unit": null,
+      "tooltip": "The descriptor term for this kind of feature (e.g. crater, mons, chasma, planitia) \u2014 a controlled vocabulary of Latin/Greek terms the IAU uses to classify surface feature types.",
+      "nullLabel": "Unclassified"
+    },
+    "feature_type_code": {
+      "label": "Feature Type Code",
+      "category": "identification",
+      "unit": null,
+      "tooltip": "USGS's short internal code paired with the feature type descriptor term. Not yet translated to a full label on this site.",
+      "nullLabel": "\u2014"
+    },
+    "center_lat": {
+      "label": "Center Latitude",
+      "category": "location",
+      "unit": "degrees",
+      "precision": 2,
+      "tooltip": "Latitude of the feature's center point, in the IAU-approved coordinate system for this body (planetocentric, east longitude, per USGS's shapefile convention).",
+      "nullLabel": "Not available"
+    },
+    "center_lon": {
+      "label": "Center Longitude",
+      "category": "location",
+      "unit": "degrees",
+      "precision": 2,
+      "tooltip": "East longitude of the feature's center point, in the IAU-approved coordinate system for this body.",
+      "nullLabel": "Not available"
+    },
+    "min_lat": {
+      "label": "Southern Bound",
+      "category": "location",
+      "unit": "degrees",
+      "precision": 2,
+      "tooltip": "Southernmost latitude of the feature's extent.",
+      "nullLabel": "Not available"
+    },
+    "max_lat": {
+      "label": "Northern Bound",
+      "category": "location",
+      "unit": "degrees",
+      "precision": 2,
+      "tooltip": "Northernmost latitude of the feature's extent.",
+      "nullLabel": "Not available"
+    },
+    "min_lon": {
+      "label": "Western Bound",
+      "category": "location",
+      "unit": "degrees",
+      "precision": 2,
+      "tooltip": "Westernmost east-longitude of the feature's extent.",
+      "nullLabel": "Not available"
+    },
+    "max_lon": {
+      "label": "Eastern Bound",
+      "category": "location",
+      "unit": "degrees",
+      "precision": 2,
+      "tooltip": "Easternmost east-longitude of the feature's extent.",
+      "nullLabel": "Not available"
+    },
+    "diameter_km": {
+      "label": "Diameter",
+      "category": "physical",
+      "unit": "km",
+      "precision": 1,
+      "tooltip": "Approximate size of the feature across its widest extent.",
+      "nullLabel": "Not measured"
+    },
+    "origin": {
+      "label": "Name Origin",
+      "category": "naming",
+      "unit": null,
+      "tooltip": "Who or what the feature is named after \u2014 e.g. a scientist, explorer, or figure from mythology, per the naming theme established for this body/feature type.",
+      "nullLabel": "Not documented"
+    },
+    "continent_code": {
+      "label": "Continent Code",
+      "category": "naming",
+      "unit": null,
+      "tooltip": "USGS's raw abbreviation for the honoree's continent of origin, used internally to track international representation in naming. Not yet translated to a full label on this site.",
+      "nullLabel": "\u2014"
+    },
+    "ethnicity_code": {
+      "label": "Ethnic/Cultural Group Code",
+      "category": "naming",
+      "unit": null,
+      "tooltip": "USGS's raw abbreviation for the honoree's ethnic/cultural group or country, used internally to track international representation in naming. Not yet translated to a full label on this site.",
+      "nullLabel": "\u2014"
+    },
+    "approval_status": {
+      "label": "Approval Status",
+      "category": "reference",
+      "unit": null,
+      "tooltip": "Whether this name is currently adopted by the IAU. This site only displays currently-adopted names \u2014 dropped or never-approved names are filtered out at fetch time.",
+      "nullLabel": "Unknown"
+    },
+    "approval_date": {
+      "label": "Approval Date",
+      "category": "reference",
+      "unit": "date",
+      "tooltip": "Date the name was formally approved by the IAU Working Group for Planetary System Nomenclature.",
+      "nullLabel": "Not recorded"
+    },
+    "quad": {
+      "label": "Map Quadrangle",
+      "category": "reference",
+      "unit": null,
+      "tooltip": "The informal name of the reference map this feature's coordinates were taken from.",
+      "nullLabel": "\u2014"
+    },
+    "quad_code": {
+      "label": "Map Quadrangle Code",
+      "category": "reference",
+      "unit": null,
+      "tooltip": "USGS's short code for the reference map this feature's coordinates were taken from.",
+      "nullLabel": "\u2014"
+    },
+    "detail_url": {
+      "label": "Official USGS Record",
+      "category": "reference",
+      "unit": null,
+      "tooltip": "Direct link to this feature's official page in the Gazetteer of Planetary Nomenclature.",
+      "nullLabel": null
+    }
+  },
+  "categories": {
+    "identification": "Identification",
+    "location": "Location",
+    "physical": "Physical Characteristics",
+    "naming": "Naming & Origin",
+    "reference": "Reference & Provenance"
+  }
+}

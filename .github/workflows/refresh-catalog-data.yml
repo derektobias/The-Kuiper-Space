@@ -2,10 +2,10 @@ name: Refresh catalog data
 
 on:
   schedule:
-    # Every Monday at 09:00 UTC. Runs both the exoplanet and asteroid
-    # fetches, then does ONE commit/push covering both — this is the
-    # combined workflow that replaces the two separate ones, so a single
-    # production deploy covers both catalogs' weekly refresh instead of two.
+    # Every Monday at 09:00 UTC. Runs the exoplanet, asteroid, and gazetteer
+    # fetches, then does ONE commit/push covering all three — a single
+    # combined workflow so a single production deploy covers every
+    # catalog's weekly refresh instead of three separate ones.
     - cron: "0 9 * * 1"
   workflow_dispatch: {} # lets you trigger it manually from the Actions tab
 
@@ -27,12 +27,18 @@ jobs:
         env:
           NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
 
+      - name: Install gazetteer fetch dependencies
+        run: npm install shapefile adm-zip
+
+      - name: Fetch latest gazetteer data
+        run: node scripts/fetch-gazetteer-data.js
+
       - name: Commit if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/exoplanets.json data/asteroids.json
+          git add data/exoplanets.json data/asteroids.json data/gazetteer.json
           git diff --quiet --cached || (
-            git commit -m "chore: refresh exoplanet and asteroid data"
+            git commit -m "chore: refresh exoplanet, asteroid, and gazetteer data"
             git push
           )

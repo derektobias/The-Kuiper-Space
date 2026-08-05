@@ -8,8 +8,8 @@
 
 <title>The Kuiper Space — Planetary & Exoplanet Science Tools, Solar System Explorer</title>
  
-<meta name="description" content="Free interactive astronomy tools. Compare planets, search 6,000+ confirmed exoplanets, track near-Earth asteroids, simulate orbits, and explore 3D models — all powered by real NASA data.">
-<meta name="keywords" content="planetary science, exoplanet database, asteroid tracker, near earth object, astronomy tools, solar system explorer, planet comparison, orbit simulator, 3D planet viewer, space education, NASA data, NASA Exoplanet Archive">
+<meta name="description" content="Free interactive astronomy tools. Compare planets, search 6,000+ confirmed exoplanets, track near-Earth asteroids, browse 15,000+ named surface features, and simulate orbits, all powered by real NASA and USGS data.">
+<meta name="keywords" content="planetary science, exoplanet database, asteroid tracker, near earth object, planetary nomenclature, gazetteer, astronomy tools, solar system explorer, planet comparison, orbit simulator, 3D planet viewer, space education, NASA data, NASA Exoplanet Archive, USGS">
 <meta name="author" content="The Kuiper Space">
 <meta name="robots" content="index, follow">
  
@@ -24,7 +24,7 @@
 <meta name="theme-color" content="#0b0f1a">
  
 <meta property="og:title" content="The Kuiper Space — Interactive Planetary Science Tools">
-<meta property="og:description" content="Free interactive astronomy tools powered by real NASA data. Compare planets, search 6,000+ confirmed exoplanets, track near-Earth asteroids, simulate orbits, and explore 3D models.">
+<meta property="og:description" content="Free interactive astronomy tools powered by real NASA and USGS data. Compare planets, search 6,000+ confirmed exoplanets, track near-Earth asteroids, browse 15,000+ named surface features, simulate orbits, and explore 3D models.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://thekuiperspace.com/">
 <meta property="og:image" content="https://thekuiperspace.com/assets/og/home.png">
@@ -32,7 +32,7 @@
  
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The Kuiper Space — Interactive Planetary Science Tools">
-<meta name="twitter:description" content="Free interactive astronomy tools powered by real NASA data. Compare planets, search 6,000+ confirmed exoplanets, track near-Earth asteroids, and explore 3D models.">
+<meta name="twitter:description" content="Free interactive astronomy tools powered by real NASA and USGS data. Compare planets, search 6,000+ confirmed exoplanets, track near-Earth asteroids, browse named surface features, and explore 3D models.">
 <meta name="twitter:image" content="https://thekuiperspace.com/assets/og/home.png">
  
 <script type="application/ld+json">
@@ -41,7 +41,7 @@
   "@type": "WebSite",
   "name": "The Kuiper Space",
   "url": "https://thekuiperspace.com",
-  "description": "Free interactive planetary and exoplanet science tools for students, educators, and space enthusiasts, powered by real NASA data — including NASA JPL solar system data, NASA's Exoplanet Archive, and NASA's NeoWs near-Earth asteroid data.",
+  "description": "Free interactive planetary and exoplanet science tools for students, educators, and space enthusiasts, powered by real NASA and USGS data — including NASA JPL solar system data, NASA's Exoplanet Archive, NASA's NeoWs near-Earth asteroid data, and the USGS Gazetteer of Planetary Nomenclature.",
   "potentialAction": {
     "@type": "SearchAction",
     "target": "https://thekuiperspace.com/pages/planetary-properties?q={search_term_string}",
@@ -256,6 +256,8 @@
     .feature-card:nth-child(8) { --card-accent: linear-gradient(90deg, #94a3b8, #cbd5e1); }
     .feature-card:nth-child(9) { --card-accent: linear-gradient(90deg, #f472b6, #f9a8d4); }
     .feature-card:nth-child(10) { --card-accent: linear-gradient(90deg, #fbbf24, #fde68a); }
+    .feature-card:nth-child(11) { --card-accent: linear-gradient(90deg, #2dd4bf, #5eead4); }
+    .feature-card:nth-child(12) { --card-accent: linear-gradient(90deg, #fb7185, #fda4af); }
 
     .feature-icon {
         font-size: 40px;
@@ -333,8 +335,12 @@
             <div class="stat-label">Unit Conversions</div>
         </div>
         <div class="stat-item">
-            <div class="stat-number">7</div>
+            <div class="stat-number">8</div>
             <div class="stat-label">Interactive Tools</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">15,000+</div>
+            <div class="stat-label">Named Surface Features</div>
         </div>
     </div>
 
@@ -385,10 +391,22 @@
                 <p>Browse near-Earth asteroid close approaches, sourced directly from NASA's NeoWs database, with hazard flagging built in.</p>
             </a>
 
+            <a href="pages/planetary-gazetteer" class="feature-card">
+                <div class="feature-icon">🗺️</div>
+                <h3>Planetary Gazetteer</h3>
+                <p>Search 15,000+ IAU-approved named surface features — craters, mountains, canyons, and more — across 27 planets, dwarf planets, and moons.</p>
+            </a>
+
             <a href="pages/resources" class="feature-card">
                 <div class="feature-icon">📚</div>
                 <h3>Resources</h3>
                 <p>Keep up with science news, search astronomy databases, and learn more.</p>
+            </a>
+
+            <a href="pages/space-essentials" class="feature-card">
+                <div class="feature-icon">🧰</div>
+                <h3>Space Essentials</h3>
+                <p>A personally curated collection of space and planetary science books, plus recommended gear for eclipse viewing.</p>
             </a>
 
             <a href="pages/shop" class="feature-card">
@@ -407,7 +425,7 @@
     </div>
 
     <div class="home-footer">
-        Built with real data from <a href="https://ssd.jpl.nasa.gov/" target="_blank" rel="noopener">NASA JPL</a>, NASA's <a href="https://exoplanetarchive.ipac.caltech.edu/" target="_blank" rel="noopener">Exoplanet Archive</a>, and <a href="https://api.nasa.gov/" target="_blank" rel="noopener">NeoWs</a> &nbsp;·&nbsp;
+        Built with real data from <a href="https://ssd.jpl.nasa.gov/" target="_blank" rel="noopener">NASA JPL</a>, NASA's <a href="https://exoplanetarchive.ipac.caltech.edu/" target="_blank" rel="noopener">Exoplanet Archive</a>, <a href="https://api.nasa.gov/" target="_blank" rel="noopener">NeoWs</a>, and the <a href="https://planetarynames.wr.usgs.gov/" target="_blank" rel="noopener">USGS Gazetteer of Planetary Nomenclature</a> &nbsp;·&nbsp;
         <a href="pages/resources">Explore more resources →</a>
     </div>
 
