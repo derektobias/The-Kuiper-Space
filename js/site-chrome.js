@@ -109,7 +109,7 @@
 
   // How long a dismissal is remembered before the banner is willing to
   // show again to the same visitor.
-  const BANNER_DISMISS_DAYS = 0;
+  const BANNER_DISMISS_DAYS = 14;
   const BANNER_DISMISS_KEY = "kuiperBannerDismissedAt";
 
   function bannerHtml() {
