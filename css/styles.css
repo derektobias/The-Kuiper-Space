@@ -274,6 +274,74 @@ img {
 
 
 /* ============================================================
+   SUPPORT BANNER
+   Injected by js/site-chrome.js, directly below the fixed navbar.
+   Font sized and colored deliberately higher-contrast than something
+   like .data-source-note or .affiliate-disclosure — this is meant to
+   actually be noticed, not to quietly sit in the background.
+   ============================================================ */
+#site-banner {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 999; /* just below .navbar's 1000, so the mobile full-screen menu (1005) still overlays it correctly */
+    background: #12203a;
+    border-bottom: 1px solid rgba(77, 163, 255, 0.4);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+#site-banner p {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #e8edf5;
+    line-height: 1.5;
+}
+
+#site-banner a {
+    color: #4da3ff;
+    font-weight: 800;
+    text-decoration: underline;
+}
+
+#site-banner a:hover {
+    color: #7bc4ff;
+}
+
+#banner-dismiss {
+    background: none;
+    border: none;
+    color: #8fa8cc;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 4px;
+    flex-shrink: 0;
+    transition: color 0.2s;
+}
+
+#banner-dismiss:hover {
+    color: white;
+}
+
+@media (max-width: 600px) {
+    #site-banner {
+        padding: 10px 16px;
+        gap: 10px;
+    }
+    #site-banner p {
+        font-size: 12px;
+    }
+}
+
+
+/* ============================================================
    SHARED HERO DIVIDER
    ============================================================ */
 .hero-divider {

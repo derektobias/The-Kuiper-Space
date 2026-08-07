@@ -1,10 +1,11 @@
 /**
  * js/site-chrome.js
  *
- * Injects the shared navbar and footer into any page with the matching
- * placeholder elements. This replaces copy-pasting the same <header> and
- * <footer> markup into every HTML file — there's now exactly one place to
- * edit when a nav link, dropdown item, or footer link needs to change.
+ * Injects the shared navbar, a dismissible support banner, and the footer
+ * into any page with the matching placeholder elements. This replaces
+ * copy-pasting the same markup into every HTML file — there's now exactly
+ * one place to edit when a nav link, banner message, or footer link needs
+ * to change.
  *
  * HOW TO USE THIS ON A PAGE
  * --------------------------
@@ -20,19 +21,31 @@
  *      ...rest of the page...
  *      <div id="footer-placeholder"></div>
  *
+ * Either placeholder is optional — a page can include just #nav-placeholder,
+ * just #footer-placeholder, or both. Missing SITE_CONTEXT defaults to
+ * "pages", since that's where most pages live. The support banner renders
+ * as part of #nav-placeholder (directly below the navbar) — no extra
+ * placeholder needed for it.
+ *
  * 3. Include this script once, near the end of <body>:
  *
  *      <script src="js/site-chrome.js"></script>     <!-- from root pages -->
  *      <script src="../js/site-chrome.js"></script>   <!-- from /pages/ pages -->
  *
- * Either placeholder is optional — a page can include just #nav-placeholder,
- * just #footer-placeholder, or both. Missing SITE_CONTEXT defaults to
- * "pages", since that's where most pages live.
- *
  * TO ADD / RENAME / REMOVE A NAV OR FOOTER LINK
  * -----------------------------------------------
  * Edit NAV_GROUPS or FOOTER_LINKS below. Every page picks up the change on
  * next load — no per-page editing required.
+ *
+ * TO CHANGE THE BANNER MESSAGE, LINKS, OR WHICH PAGES SUPPRESS IT
+ * ------------------------------------------------------------------
+ * Edit BANNER_HTML_TEMPLATE and BANNER_SUPPRESSED_PATHS below.
+ *
+ * ⚠️ REQUIRES a matching CSS block in css/styles.css (#site-banner and its
+ * children, plus #banner-dismiss) — this file only builds the markup and
+ * measures/positions it; the actual look lives in the shared stylesheet,
+ * same convention as every other nav-related style (.navbar, .nav-dropdown,
+ * etc). See the CSS block provided alongside this file.
  */
 
 (function () {
@@ -86,6 +99,72 @@
     { label: "Affiliate Disclosure", href: pagePath("affiliate") }
   ];
 
+  // ================================
+  // SUPPORT BANNER
+  // ================================
+
+  // Slugs (no leading /pages/, no trailing slash or .html) where the
+  // banner should NOT show — the two pages it's actually pointing to.
+  const BANNER_SUPPRESSED_SLUGS = ["shop", "space-essentials"];
+
+  // How long a dismissal is remembered before the banner is willing to
+  // show again to the same visitor.
+  const BANNER_DISMISS_DAYS = 0;
+  const BANNER_DISMISS_KEY = "kuiperBannerDismissedAt";
+
+  function bannerHtml() {
+    return `
+<div id="site-banner">
+  <p>Enjoy the free tools? Consider <a href="${pagePath("shop")}">donating</a>, or check out our <a href="${pagePath("space-essentials")}">Space Essentials</a> picks. 🙂</p>
+  <button type="button" id="banner-dismiss" aria-label="Dismiss">&times;</button>
+</div>`;
+  }
+
+  // Matches the current URL against BANNER_SUPPRESSED_SLUGS, tolerant of
+  // a trailing slash or .html suffix (either could show up depending on
+  // whether a redirect has already resolved).
+  function isSuppressedPage() {
+    const path = window.location.pathname.replace(/\/$/, "").replace(/\.html$/, "");
+    const slug = path.split("/").pop();
+    return BANNER_SUPPRESSED_SLUGS.includes(slug);
+  }
+
+  function isBannerDismissed() {
+    const raw = localStorage.getItem(BANNER_DISMISS_KEY);
+    if (!raw) return false;
+    const dismissedAt = parseInt(raw, 10);
+    if (isNaN(dismissedAt)) return false;
+    const daysSince = (Date.now() - dismissedAt) / (1000 * 60 * 60 * 24);
+    return daysSince < BANNER_DISMISS_DAYS;
+  }
+
+  // Measures the real rendered heights of whatever's currently in
+  // #nav-placeholder (navbar, and the banner if present) and pushes the
+  // page's content down by exactly that much — rather than hardcoding a
+  // pixel value that would drift out of sync whenever the navbar's own
+  // height changes (e.g. the mobile breakpoint already uses a shorter
+  // navbar than desktop).
+  function syncBodyPadding() {
+    const placeholder = document.getElementById("nav-placeholder");
+    if (!placeholder) return;
+    const totalHeight = Array.from(placeholder.children).reduce(
+      (sum, el) => sum + el.offsetHeight, 0
+    );
+    document.body.style.paddingTop = totalHeight + "px";
+  }
+
+  function wireBannerBehavior() {
+    const banner = document.getElementById("site-banner");
+    const dismissBtn = document.getElementById("banner-dismiss");
+    if (!banner || !dismissBtn) return;
+
+    dismissBtn.addEventListener("click", function () {
+      localStorage.setItem(BANNER_DISMISS_KEY, String(Date.now()));
+      banner.remove();
+      syncBodyPadding();
+    });
+  }
+
   function renderNavItem(item) {
     if (item.type === "dropdown") {
       const subitems = item.items.map(
@@ -104,6 +183,8 @@
     const placeholder = document.getElementById("nav-placeholder");
     if (!placeholder) return;
 
+    const showBanner = !isSuppressedPage() && !isBannerDismissed();
+
     placeholder.innerHTML = `
 <header class="navbar">
   <a href="${assetPath("index")}" class="brand-container">
@@ -117,9 +198,32 @@
       ${NAV_GROUPS.map(renderNavItem).join("")}
     </ul>
   </nav>
-</header>`;
+</header>${showBanner ? bannerHtml() : ""}`;
 
+    // The banner is positioned fixed, directly below the navbar — needs
+    // the navbar's real rendered height, which is only known after it's
+    // actually in the DOM (hence doing this here, not in CSS).
+    const navbarEl = placeholder.querySelector(".navbar");
+    const bannerEl = document.getElementById("site-banner");
+    if (bannerEl && navbarEl) {
+      bannerEl.style.top = navbarEl.offsetHeight + "px";
+    }
+
+    syncBodyPadding();
     wireNavBehavior();
+    wireBannerBehavior();
+
+    // Navbar height (and therefore banner position + body padding) can
+    // change across the mobile/desktop breakpoint — re-sync on resize
+    // rather than assuming whatever was measured on load stays correct.
+    window.addEventListener("resize", function () {
+      const currentBanner = document.getElementById("site-banner");
+      const currentNavbar = placeholder.querySelector(".navbar");
+      if (currentBanner && currentNavbar) {
+        currentBanner.style.top = currentNavbar.offsetHeight + "px";
+      }
+      syncBodyPadding();
+    });
   }
 
   function renderFooter() {

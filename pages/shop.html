@@ -8,8 +8,8 @@
  
 <title>Shop & Support — Space Merchandise & Astronomy Gear | The Kuiper Space</title>
  
-<meta name="description" content="Support Kuiper Space and explore space-themed merchandise. Browse astronomy gear, telescopes, and space gifts from trusted affiliate partners, plus Kuiper Space original items.">
-<meta name="keywords" content="space merchandise, astronomy gifts, telescope shop, space gifts, astronomy gear, space themed products, support Kuiper Space">
+<meta name="description" content="Support Kuiper Space with a donation, and check out original Kuiper Space merchandise, coming soon.">
+<meta name="keywords" content="support Kuiper Space, donate, space merchandise, astronomy gifts, space themed products">
 <meta name="author" content="The Kuiper Space">
 <meta name="robots" content="index, follow">
  
@@ -24,7 +24,7 @@
 <meta name="theme-color" content="#0b0f1a">
  
 <meta property="og:title" content="Shop & Support — Space Merchandise & Astronomy Gear | The Kuiper Space">
-<meta property="og:description" content="Explore space-themed merchandise and astronomy gear. Support Kuiper Space while shopping for space gifts from trusted partners.">
+<meta property="og:description" content="Support Kuiper Space with a donation, and check out original Kuiper Space merchandise, coming soon.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://thekuiperspace.com/pages/shop">
 <meta property="og:image" content="https://thekuiperspace.com/assets/og/shop.png">
@@ -32,7 +32,7 @@
  
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Shop & Support — The Kuiper Space">
-<meta name="twitter:description" content="Space-themed merchandise and astronomy gear. Support Kuiper Space while shopping for space gifts.">
+<meta name="twitter:description" content="Support Kuiper Space with a donation, and check out original Kuiper Space merchandise, coming soon.">
 <meta name="twitter:image" content="https://thekuiperspace.com/assets/og/shop.png">
  
 <script type="application/ld+json">
@@ -41,7 +41,7 @@
   "@type": "Store",
   "name": "Kuiper Space Shop",
   "url": "https://thekuiperspace.com/pages/shop",
-  "description": "Space-themed merchandise and astronomy gear from Kuiper Space, including affiliate partner products and original Kuiper Space items.",
+  "description": "Support Kuiper Space via donations, plus original Kuiper Space merchandise, coming soon.",
   "author": {
     "@type": "Organization",
     "name": "The Kuiper Space",
@@ -64,7 +64,7 @@
 
     .merch-hero {
         text-align: center;
-        padding: 52px 20px 28px;
+        padding: 20px 20px 30px;
         max-width: 640px;
         margin: 0 auto;
     }
@@ -128,93 +128,6 @@
         border-radius: 50%;
         background: #4da3ff;
         flex-shrink: 0;
-    }
-
-    /* ── AFFILIATE GRID ── */
-    .affiliate-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 16px;
-    }
-
-    .affiliate-card {
-        background: linear-gradient(160deg, #0f1928, #121e30);
-        border: 1px solid #1c2d47;
-        border-radius: 14px;
-        padding: 22px 22px 18px;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .affiliate-card::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 0; right: 0;
-        height: 3px;
-        background: var(--card-color, linear-gradient(90deg, #4da3ff, #7bc4ff));
-    }
-
-    .affiliate-card:hover {
-        border-color: #2a3f5f;
-        transform: translateY(-3px);
-        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-    }
-
-    .affiliate-card-icon { font-size: 28px; }
-
-    .affiliate-card h3 {
-        font-size: 16px;
-        font-weight: 700;
-        color: white;
-        margin: 0;
-    }
-
-    .affiliate-card p {
-        font-size: 14px;
-        color: #6a85a8;
-        line-height: 1.6;
-        margin: 0;
-        flex: 1;
-    }
-
-    .affiliate-tag {
-        display: inline-block;
-        font-size: 10px;
-        font-weight: 800;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: #4da3ff;
-        background: rgba(77,163,255,0.08);
-        border: 1px solid rgba(77,163,255,0.2);
-        border-radius: 20px;
-        padding: 2px 10px;
-        width: fit-content;
-    }
-
-    .affiliate-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: rgba(77,163,255,0.08);
-        border: 1px solid rgba(77,163,255,0.25);
-        border-radius: 8px;
-        padding: 7px 14px;
-        color: #4da3ff;
-        font-size: 13px;
-        font-weight: 700;
-        text-decoration: none;
-        transition: background 0.2s, border-color 0.2s;
-        align-self: flex-start;
-        margin-top: 4px;
-    }
-
-    .affiliate-link:hover {
-        background: rgba(77,163,255,0.16);
-        border-color: #4da3ff;
     }
 
     /* ── PERSONAL MERCH ── */
@@ -288,14 +201,64 @@
         font-weight: 600;
     }
 
-    /* ── DISCLAIMER ── */
-    .affiliate-disclaimer {
+    /* ── SUPPORT / DONATE ── */
+    .support-card {
+        background: linear-gradient(160deg, #0f1928, #121e30);
+        border: 1px solid #1c2d47;
+        border-radius: 14px;
+        padding: 36px 32px;
         text-align: center;
-        font-size: 12px;
-        color: #3a4f6a;
-        padding: 0 0 40px;
-        line-height: 1.6;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
     }
+
+    .support-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #fbbf24, #fde68a);
+    }
+
+    .support-card h3 {
+        font-size: 20px;
+        font-weight: 700;
+        color: white;
+        margin: 0;
+    }
+
+    .support-card p {
+        font-size: 15px;
+        color: #6a85a8;
+        line-height: 1.7;
+        margin: 0;
+        max-width: 480px;
+    }
+
+    .support-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #fbbf24;
+        color: #1a1206;
+        border-radius: 8px;
+        padding: 12px 24px;
+        font-size: 15px;
+        font-weight: 800;
+        text-decoration: none;
+        transition: background 0.2s, transform 0.2s;
+        margin-top: 4px;
+    }
+
+    .support-btn:hover {
+        background: #fde68a;
+        transform: translateY(-2px);
+    }
+
 
 </style>
 </head>
@@ -310,10 +273,21 @@
     <div class="merch-hero">
         <h1>Shop &amp; <span>Support</span></h1>
         <div class="hero-divider"></div>
-        <p>Explore curated space-themed stores and help support Kuiper Space at the same time!</p>
+        <p>Support Kuiper Space directly, and check out what's coming to the shop.</p>
     </div>
 
     <div class="merch-body">
+
+        <!-- ── SUPPORT ── -->
+        <div>
+            <div class="merch-section-header"><h2>Support This Site</h2></div>
+            <div class="support-card">
+                <div style="font-size:44px;">🚀</div>
+                <h3>Help Keep This Site Free</h3>
+                <p>Kuiper Space is free to use, with no ads, no paywall, and no account required, and I'd love to keep it that way. Building and maintaining tools like these takes real time and a bit of hosting cost each month, so if this site has taught you something new, saved you some research, or just made you smile, a small donation goes a long way toward keeping things free for everyone. There's no pressure at all, just a heartfelt thank you for being here and for considering it. 🙂</p>
+                <a href="https://www.buymeacoffee.com/thekuiperspace" target="_blank" rel="noopener" class="support-btn">Support the Site</a>
+            </div>
+        </div>
 
         <!-- ── PERSONAL MERCH ── -->
         <div>
@@ -334,27 +308,7 @@
             </div>
         </div>
 
-        <!-- ── AFFILIATE STORES ── -->
-        <div>
-            <div class="merch-section-header"><h2>Space Stores We Recommend</h2></div>
-            <div class="affiliate-grid">
-
-                <!-- Placeholder cards for future affiliates -->
-                <div class="affiliate-card" style="--card-color: linear-gradient(90deg, #a78bfa, #c4b5fd);">
-                    <span class="affiliate-tag">Coming Soon</span>
-                    <div class="affiliate-card-icon">🌌</div>
-                    <h3>More Partners Soon</h3>
-                    <p>We're adding more curated space stores. <a href="contact" style="color:#a78bfa;">Contact us</a> if you'd like to be featured!</p>
-                </div>
-
-            </div>
-        </div>
-
     </div>
-
-    <p class="affiliate-disclaimer">
-        Some links on this page are affiliate links. We may earn a small commission (at no extra cost to you) which helps keep all the tools on this site free.
-    </p>
 
 </main>
 
