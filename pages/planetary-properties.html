@@ -362,6 +362,21 @@
     color: white;
 }
 
+/* Applied when the button reads "Deselect All" — that's a clearing
+   action, so it gets the same red treatment as Reset and the deselect
+   buttons, rather than staying blue like an additive action would. */
+.select-all-btn.danger {
+    background: rgba(248,113,113,0.05);
+    border-color: rgba(248,113,113,0.5);
+    color: #f87171;
+}
+
+.select-all-btn.danger:hover {
+    background: #fd3030;
+    border-color: #fd3030;
+    color: white;
+}
+
 .property-group {
     background: #0f1a2e;
     border: 1px solid #1c2d47;

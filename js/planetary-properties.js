@@ -133,11 +133,39 @@ function deselectPlanet(planet) {
     displayScale();
 }
 
-// Clears the current selection only — deliberately leaves the search box,
-// class filter, and property checkboxes untouched, since "reset" here
-// means "start the comparison over," not "reset every control on the page."
+// Resets everything: the current planet selection, the search box, the
+// class filter, and the property checkboxes — a full return to how the
+// page looks on first load.
+//
+// The class filter's default is read from whichever <option> has
+// defaultSelected true (reflecting a `selected` attribute in the HTML, or
+// the browser's own "first option if none is marked" rule) — same reason
+// as the checkboxes below: one source of truth in the HTML, rather than a
+// hardcoded value here that could drift out of sync if the markup's
+// default option ever changes later.
 function resetSelection() {
     selectedPlanets = [];
+
+    document.getElementById("planet-search").value = "";
+
+    const classFilterSelect = document.getElementById("class-filter");
+    const defaultOption = Array.from(classFilterSelect.options).find(opt => opt.defaultSelected);
+    classFilterSelect.value = defaultOption ? defaultOption.value : classFilterSelect.options[0].value;
+
+    // Property checkboxes: defaultChecked reflects the `checked` attribute
+    // as written in the HTML and never changes when a user toggles the
+    // box, so this needs no separately-maintained "defaults" list either.
+    document.querySelectorAll("#property-controls input[type='checkbox']").forEach(cb => {
+        cb.checked = cb.defaultChecked;
+    });
+
+    allSelected = false;
+    const selectAllBtn = document.getElementById("select-all-btn");
+    if (selectAllBtn) {
+        selectAllBtn.textContent = "Select All";
+        selectAllBtn.classList.remove("danger");
+    }
+
     applyFilters();
     displayComparison();
     displayScale();
@@ -214,7 +242,13 @@ function toggleSelectAll() {
     const checkboxes = document.querySelectorAll("#property-controls input[type='checkbox']");
     checkboxes.forEach(cb => cb.checked = allSelected);
     const btn = document.getElementById("select-all-btn");
-    if (btn) btn.textContent = allSelected ? "Deselect All" : "Select All";
+    if (btn) {
+        btn.textContent = allSelected ? "Deselect All" : "Select All";
+        // "Deselect All" is a clearing action — matches the red treatment
+        // used for Reset and the deselect buttons, rather than staying
+        // the default blue an additive action would get.
+        btn.classList.toggle("danger", allSelected);
+    }
     displayComparison();
 }
 
