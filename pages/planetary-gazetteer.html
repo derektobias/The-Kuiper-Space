@@ -363,57 +363,60 @@ table.detail-table td:last-child { text-align: right; color: white; }
 .archive-note { margin-top: 24px; padding-top: 16px; border-top: 1px solid #1c2d47; font-size: 12px; color: #6a85a8; }
 .archive-note a { color: #4da3ff; }
 
-/* ── MAP VIEW ── */
-.map-section { margin-top: 32px; }
+/* ── FEATURE TYPE GLOSSARY ── */
+/* Shows under the browse table. Default state (no feature-type filter
+   selected) shows every known type in a grid; selecting one specific type
+   in the sidebar dropdown narrows this to just that one entry. */
+.glossary-section { margin-top: 32px; }
 
-.map-empty-state {
-    padding: 50px 20px; text-align: center; color: #3a4f6a; font-size: 14px; font-weight: 700;
-    border: 1px dashed #1c2d47; border-radius: 10px;
+.glossary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
 }
 
-.map-container {
-    position: relative;
-    width: 100%;
+.glossary-card {
+    background: #0f1a2e;
     border: 1px solid #1c2d47;
-    border-radius: 10px;
-    overflow: hidden;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+/* Single-entry (filtered) state gets one wider card instead of a grid item */
+.glossary-single .glossary-card { max-width: 520px; }
+
+.glossary-card-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
     background: #05070d;
-    line-height: 0; /* prevents a stray gap under the image */
 }
-.map-container img { width: 100%; height: auto; display: block; }
-
-/* Dots layer sits directly over the image at the same size — percentage
-   left/top on each dot map 1:1 onto the image's own longitude/latitude
-   grid (see projectFeatureToPercent() in the JS), so this layer must
-   never be offset or padded relative to the image beneath it. */
-.map-dots-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-
-.map-dot {
-    position: absolute;
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: #4da3ff;
-    border: 1px solid white;
-    transform: translate(-50%, -50%);
-    cursor: pointer;
-    box-shadow: 0 0 4px rgba(77,163,255,0.8);
-    transition: transform 0.15s, background 0.15s;
-}
-.map-dot:hover { background: white; transform: translate(-50%, -50%) scale(1.6); z-index: 5; }
-
-/* Only rendered when the filtered set is small enough to stay readable
-   (see LABEL_VISIBILITY_THRESHOLD in the JS) — otherwise it's dots-only,
-   with the name available via the dot's native title-attribute tooltip. */
-.map-dot-label {
-    position: absolute;
-    transform: translate(8px, -50%);
+.glossary-card-image-placeholder {
+    width: 100%;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0a1020;
+    border: 1px dashed #1c2d47;
+    border-radius: 8px;
+    color: #3a4f6a;
     font-size: 11px;
-    color: white;
-    background: rgba(10,16,32,0.85);
-    padding: 1px 5px;
-    border-radius: 4px;
-    white-space: nowrap;
-    pointer-events: none;
+    font-weight: 700;
+    text-align: center;
+    padding: 0 10px;
+}
+
+.glossary-term { font-size: 16px; font-weight: 800; color: white; margin: 0; }
+.glossary-definition { font-size: 13px; color: #c8d8ee; line-height: 1.55; margin: 0; }
+.glossary-example { font-size: 12px; color: #4da3ff; font-weight: 700; margin: 0; }
+
+.glossary-empty-state {
+    padding: 40px 20px; text-align: center; color: #3a4f6a; font-size: 14px; font-weight: 700;
+    border: 1px dashed #1c2d47; border-radius: 10px;
 }
 
 /* ── RESPONSIVE ── */
@@ -508,17 +511,13 @@ table.detail-table td:last-child { text-align: right; color: white; }
                 <div id="browse-pagination" class="pagination"></div>
             </div>
 
-            <!-- MAP VIEW — mirrors whatever the sidebar filters are
-                 currently set to; only renders for one specific target
-                 body at a time (see js/planetary-gazetteer.js renderMap()). -->
-            <div class="map-section">
-                <div class="display-section-title">Feature Map</div>
-                <div id="map-empty-state" class="map-empty-state"></div>
-                <div id="map-container" class="map-container hidden">
-                    <img id="map-image" alt="">
-                    <div id="map-dots-layer" class="map-dots-layer"></div>
-                </div>
-                <p id="map-caption" class="data-source-note"></p>
+            <!-- FEATURE TYPE GLOSSARY — shows every known feature type by
+                 default; narrows to one entry when the sidebar's
+                 feature-type filter has a specific value selected
+                 (see renderGlossary() in js/planetary-gazetteer.js). -->
+            <div class="glossary-section">
+                <div class="display-section-title">Feature Type Glossary</div>
+                <div id="glossary-content"></div>
             </div>
         </div>
 

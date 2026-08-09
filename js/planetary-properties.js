@@ -55,7 +55,11 @@ function renderPlanetGrid(planets) {
             card.classList.add("disabled");
         }
 
+        // Selected cards get an explicit deselect button — relying on
+        // "click the same card again" as the only way to deselect wasn't
+        // an intuitive enough affordance on its own.
         card.innerHTML = `
+            ${isSelected ? `<button type="button" class="deselect-btn" aria-label="Deselect ${planet.name}">&times;</button>` : ""}
             <img src="${planet.image}" alt="${planet.name}">
             <p>${planet.name}</p>
         `;
@@ -64,6 +68,16 @@ function renderPlanetGrid(planets) {
             if (card.classList.contains("disabled")) return; // silently ignore
             selectPlanet(card, planet);
         });
+
+        if (isSelected) {
+            card.querySelector(".deselect-btn").addEventListener("click", (e) => {
+                // Without this, the click would bubble up to the card's own
+                // listener above, which would immediately re-select the
+                // planet right after this button just deselected it.
+                e.stopPropagation();
+                deselectPlanet(planet);
+            });
+        }
 
         grid.appendChild(card);
     });
@@ -97,17 +111,39 @@ function selectPlanet(card, planet) {
     const alreadySelected = selectedPlanets.find(p => p.name === planet.name);
 
     if (alreadySelected) {
-        selectedPlanets = selectedPlanets.filter(p => p.name !== planet.name);
-    } else {
-        if (selectedPlanets.length >= 2) return; // safety guard, no alert
-        selectedPlanets.push(planet);
+        deselectPlanet(planet);
+        return;
     }
+
+    if (selectedPlanets.length >= 2) return; // safety guard, no alert
+    selectedPlanets.push(planet);
 
     // Re-render grid to update disabled/selected states across all cards
     applyFilters();
     displayComparison();
     displayScale();
 }
+
+function deselectPlanet(planet) {
+    selectedPlanets = selectedPlanets.filter(p => p.name !== planet.name);
+
+    // Re-render grid to update disabled/selected states across all cards
+    applyFilters();
+    displayComparison();
+    displayScale();
+}
+
+// Clears the current selection only — deliberately leaves the search box,
+// class filter, and property checkboxes untouched, since "reset" here
+// means "start the comparison over," not "reset every control on the page."
+function resetSelection() {
+    selectedPlanets = [];
+    applyFilters();
+    displayComparison();
+    displayScale();
+}
+
+document.getElementById("reset-btn").addEventListener("click", resetSelection);
 
 // ================================
 // PROPERTY LABELS
@@ -230,12 +266,18 @@ function displayComparison() {
         });
 
         card.innerHTML = `
+            <button type="button" class="comparison-deselect-btn" aria-label="Remove ${planet.name} from comparison">&times;</button>
             <div class="planet-img-wrap">
                 <img src="${planet.image}" alt="${planet.name}">
             </div>
             <h2>${planet.name}</h2>
             ${propertyHTML}
         `;
+
+        card.querySelector(".comparison-deselect-btn").addEventListener("click", (e) => {
+            e.stopPropagation();
+            deselectPlanet(planet);
+        });
 
         container.appendChild(card);
     });

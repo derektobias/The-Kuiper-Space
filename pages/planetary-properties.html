@@ -234,6 +234,26 @@
     color: white;
 }
 
+.reset-btn {
+    background: rgba(248,113,113,0.05);
+    border: 2px solid rgba(248,113,113,0.5);
+    border-radius: 8px;
+    padding: 7px 14px;
+    color: #f87171;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: background 0.25s, border-color 0.25s, color 0.25s;
+    white-space: nowrap;
+}
+
+.reset-btn:hover {
+    background: #f87171;
+    border-color: #f87171;
+    color: white;
+}
+
 /* ── PLANET GRID ── */
 #planet-grid {
     display: grid;
@@ -257,6 +277,7 @@
     text-align: center;
     cursor: pointer;
     transition: border-color 0.25s, transform 0.25s;
+    position: relative; /* anchors the deselect button below */
 }
 
 .planet-card:hover {
@@ -288,6 +309,35 @@
     font-weight: 500;
     color: #4da3ff;
     margin: 3px 0 0;
+}
+
+/* Explicit deselect button on selected cards — clicking the card itself
+   still works too, but this makes the action visible rather than relying
+   on someone realizing they can click the same card again. */
+.deselect-btn {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.7);
+    border: 1px solid rgba(255,255,255,0.5);
+    color: white;
+    font-size: 13px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    padding: 0;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.deselect-btn:hover {
+    background: #fd3030;
+    border-color: #fd3030;
 }
 
 /* ── PROPERTY GROUPS ── */
@@ -431,6 +481,35 @@
     box-shadow: 0 8px 32px rgba(0,0,0,0.65);
 }
 
+/* Deselect button on comparison cards — same visual language as the
+   sidebar planet-card's deselect-btn, sized up for this larger card. */
+.comparison-deselect-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #c8d8ee;
+    font-size: 16px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    padding: 0;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.comparison-deselect-btn:hover {
+    background: #fd3030;
+    border-color: #fd3030;
+    color: white;
+}
+
 /* Planet image — fixed container so all images appear same size */
 .planet-img-wrap {
     width: 120px;
@@ -553,10 +632,13 @@
     <div id="sidebar">
 
         <div class="sidebar-section">
-            <button id="toggle-sidebar">⟨ Collapse</button>
+            <div style="display:flex; gap:8px;">
+                <button id="toggle-sidebar">⟨ Collapse</button>
+                <button id="reset-btn" class="reset-btn">Reset</button>
+            </div>
         </div>
 
-        <div class="sidebar-section">
+        <div class="sidebar-section" style="margin-top: 36px;">
             <div class="sidebar-label">Select Planetary Bodies</div>
             <input type="text" id="planet-search" placeholder="Search...">
             <select id="class-filter">
@@ -569,7 +651,7 @@
             <div id="planet-grid"></div>
         </div>
 
-        <div class="sidebar-section" style="margin-top: 10px;">
+        <div class="sidebar-section" style="margin-top: 36px;">
             <div class="sidebar-label" style="display:flex; align-items:center; justify-content:space-between;">
                 Data Properties
                 <button id="select-all-btn" class="select-all-btn" onclick="toggleSelectAll()">Select All</button>

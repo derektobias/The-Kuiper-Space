@@ -21,41 +21,35 @@ const PAGE_SIZE = 50;
 // script, mirror the change here too, or the picker and the data will
 // silently disagree (a body could appear in data but not the picker, or
 // vice versa).
-//
-// mapImage: filename under images/basemaps/, or null if we haven't
-// downloaded a basemap for that body yet. Starting with just four
-// (Mercury, Venus, Moon, Mars) to prove the map mechanism works before
-// spending time sourcing the rest — see renderMap() for what happens when
-// this is null (an honest "no map yet" state, not a broken image).
 // ================================
 const TARGETS = [
-  { displayName: "Mercury", bodyType: "planet", mapImage: null },
-  { displayName: "Venus", bodyType: "planet", mapImage: null },
-  { displayName: "The Moon", bodyType: "moon", mapImage: null },
-  { displayName: "Mars", bodyType: "planet", mapImage: null },
-  { displayName: "Phobos", bodyType: "moon", mapImage: null },
-  { displayName: "Deimos", bodyType: "moon", mapImage: null },
-  { displayName: "Ceres", bodyType: "dwarf_planet", mapImage: null },
-  { displayName: "Vesta", bodyType: "asteroid", mapImage: null },
-  { displayName: "Io", bodyType: "moon", mapImage: null },
-  { displayName: "Europa", bodyType: "moon", mapImage: null },
-  { displayName: "Ganymede", bodyType: "moon", mapImage: null },
-  { displayName: "Callisto", bodyType: "moon", mapImage: null },
-  { displayName: "Mimas", bodyType: "moon", mapImage: null },
-  { displayName: "Enceladus", bodyType: "moon", mapImage: null },
-  { displayName: "Tethys", bodyType: "moon", mapImage: null },
-  { displayName: "Dione", bodyType: "moon", mapImage: null },
-  { displayName: "Rhea", bodyType: "moon", mapImage: null },
-  { displayName: "Titan", bodyType: "moon", mapImage: null },
-  { displayName: "Iapetus", bodyType: "moon", mapImage: null },
-  { displayName: "Miranda", bodyType: "moon", mapImage: null },
-  { displayName: "Ariel", bodyType: "moon", mapImage: null },
-  { displayName: "Umbriel", bodyType: "moon", mapImage: null },
-  { displayName: "Titania", bodyType: "moon", mapImage: null },
-  { displayName: "Oberon", bodyType: "moon", mapImage: null },
-  { displayName: "Triton", bodyType: "moon", mapImage: null },
-  { displayName: "Pluto", bodyType: "dwarf_planet", mapImage: null },
-  { displayName: "Charon", bodyType: "moon", mapImage: null }
+  { displayName: "Mercury", bodyType: "planet" },
+  { displayName: "Venus", bodyType: "planet" },
+  { displayName: "The Moon", bodyType: "moon" },
+  { displayName: "Mars", bodyType: "planet" },
+  { displayName: "Phobos", bodyType: "moon" },
+  { displayName: "Deimos", bodyType: "moon" },
+  { displayName: "Ceres", bodyType: "dwarf_planet" },
+  { displayName: "Vesta", bodyType: "asteroid" },
+  { displayName: "Io", bodyType: "moon" },
+  { displayName: "Europa", bodyType: "moon" },
+  { displayName: "Ganymede", bodyType: "moon" },
+  { displayName: "Callisto", bodyType: "moon" },
+  { displayName: "Mimas", bodyType: "moon" },
+  { displayName: "Enceladus", bodyType: "moon" },
+  { displayName: "Tethys", bodyType: "moon" },
+  { displayName: "Dione", bodyType: "moon" },
+  { displayName: "Rhea", bodyType: "moon" },
+  { displayName: "Titan", bodyType: "moon" },
+  { displayName: "Iapetus", bodyType: "moon" },
+  { displayName: "Miranda", bodyType: "moon" },
+  { displayName: "Ariel", bodyType: "moon" },
+  { displayName: "Umbriel", bodyType: "moon" },
+  { displayName: "Titania", bodyType: "moon" },
+  { displayName: "Oberon", bodyType: "moon" },
+  { displayName: "Triton", bodyType: "moon" },
+  { displayName: "Pluto", bodyType: "dwarf_planet" },
+  { displayName: "Charon", bodyType: "moon" }
 ];
 
 // Visual grouping for the sidebar picker — dwarf planets and Vesta (an
@@ -469,92 +463,352 @@ function renderBrowseTable() {
     el.addEventListener("click", () => showDetail(Number(el.dataset.uid)));
   });
 
-  // Map reflects the exact same filtered set as the table (minus
-  // pagination — the map isn't paginated, it shows everything that
-  // matches the current filters, up to MAP_DOT_LIMIT below).
-  renderMap(list);
+  // Glossary reflects the current feature-type filter, independent of
+  // the table's own filtering/pagination.
+  renderGlossary();
 }
 
 // ================================
-// MAP VIEW
-// Overlays clickable dots (and, for small filtered sets, text labels)
-// on top of a body's basemap image, using the exact same filtered list
-// the browse table is showing. HTML/CSS-positioned elements rather than
-// canvas — simpler for click/hover, and there's no large-scale drawing
-// happening that would need canvas's performance.
+// FEATURE TYPE GLOSSARY
+// Default state (no specific feature-type selected): shows every feature
+// type actually present in the current target-body scope (or every type
+// across the whole dataset, if "All Bodies" is selected), alphabetically
+// — same scope and sort order as the feature-type dropdown itself.
+// Filtered state (a specific type selected): narrows to just that one entry.
+//
+// Keyed by the EXACT feature_type string as it appears in the data (e.g.
+// "Mons, montes", singular+plural together) — must match exactly or the
+// lookup silently misses.
+//
+// Definitions are paraphrased from USGS's own official descriptor-terms
+// glossary (https://planetarynames.wr.usgs.gov/DescriptorTerms), confirmed
+// against that page directly rather than guessed — all 54 terms present
+// in this site's actual dataset are covered.
+//
+// image: filename under images/glossary/, or null if not sourced yet.
 // ================================
-const MAP_DOT_LIMIT = 500; // safety valve — beyond this, ask the user to filter further rather than silently overwhelming the DOM
-const LABEL_VISIBILITY_THRESHOLD = 40; // only show text labels when the filtered set is this small or fewer
+const FEATURE_TYPE_GLOSSARY = {
+  "Albedo Feature": {
+    definition: "A region identified by how much light it reflects, rather than by its shape or elevation. Historically used for features observed from Earth-based telescopes before spacecraft imagery existed.",
+    example: "Historically used on Mars, before high-resolution imagery replaced most of these with more specific feature types.",
+    image: null
+  },
+  "Arcus, arc\u016bs": {
+    definition: "An arc-shaped feature.",
+    example: "Found on Venus.",
+    image: null
+  },
+  "Astronaut-named features": {
+    definition: "Lunar features located at or near Apollo landing sites, informally named for astronauts.",
+    example: "Small craters near the Apollo landing sites on the Moon.",
+    image: null
+  },
+  "Catena, catenae": {
+    definition: "A chain of craters, often formed by a body that broke apart before impact.",
+    example: "Enki Catena (Ganymede)",
+    image: null
+  },
+  "Cavus, cavi": {
+    definition: "Irregular, steep-sided hollows, usually found in clusters.",
+    example: "Found on Mars, in areas linked to ice or gas escaping from beneath the surface.",
+    image: null
+  },
+  "Chaos, chaoses": {
+    definition: "A distinctive area of jumbled, broken terrain.",
+    example: "Aram Chaos (Mars), a large region of chaotic terrain associated with ancient water release.",
+    image: null
+  },
+  "Chasma, chasmata": {
+    definition: "A deep, elongated, steep-walled canyon or depression.",
+    example: "Valles Marineris (Mars)",
+    image: null
+  },
+  "Collis, colles": {
+    definition: "Small hills or knobs.",
+    example: "Found on Mars and Titan.",
+    image: null
+  },
+  "Corona, coronae": {
+    definition: "An oval-shaped volcanic or tectonic feature, found almost exclusively on Venus.",
+    example: "Aine Corona (Venus)",
+    image: null
+  },
+  "Crater, craters": {
+    definition: "A roughly circular depression formed by the impact of a meteoroid, asteroid, or comet.",
+    example: "Tycho (Moon)",
+    image: null
+  },
+  "Dorsum, dorsa": {
+    definition: "A ridge, often a \"wrinkle ridge\" formed by compression of a volcanic plain as it cooled.",
+    example: "Serenitatis Dorsa (Moon)",
+    image: null
+  },
+  "Eruptive center": {
+    definition: "An active volcanic center \u2014 a term used specifically on Io.",
+    example: "Used for several of Io's most active volcanic centers.",
+    image: null
+  },
+  "Facula, faculae": {
+    definition: "A bright spot on a surface.",
+    example: "The bright faculae inside Ceres's Occator Crater, linked to salt deposits left behind by evaporated brine.",
+    image: null
+  },
+  "Farrum, farra": {
+    definition: "A pancake-shaped structure, or a row of them \u2014 a term used specifically on Venus.",
+    example: "Found on Venus, where they're thought to be a distinct type of volcanic dome.",
+    image: null
+  },
+  "Flexus, flex\u016bs": {
+    definition: "A very low, curving ridge with a scalloped edge.",
+    example: "Found on Europa, where its icy surface flexes into these subtle ridges.",
+    image: null
+  },
+  "Fluctus, fluct\u016bs": {
+    definition: "A flow of material across the surface, such as lava.",
+    example: "Found on Io, where active lava flows are common.",
+    image: null
+  },
+  "Flumen, flumina": {
+    definition: "A channel on Titan that may carry liquid, similar to a river.",
+    example: "Used on Titan, where channels like these may carry liquid hydrocarbons.",
+    image: null
+  },
+  "Fossa, fossae": {
+    definition: "A long, narrow, shallow depression or trench, typically tectonic in origin.",
+    example: "Cerberus Fossae (Mars)",
+    image: null
+  },
+  "Fretum, freta": {
+    definition: "A strait \u2014 a narrow passage of liquid connecting two larger bodies of liquid.",
+    example: "Used on Titan, connecting two of its hydrocarbon seas.",
+    image: null
+  },
+  "Insula, insulae": {
+    definition: "An island, or group of islands, surrounded by a liquid area such as a sea or lake.",
+    example: "Used on Titan, for landmasses within its hydrocarbon seas.",
+    image: null
+  },
+  "Labes, lab\u0113s": {
+    definition: "A landslide.",
+    example: "Found on Mars, often along the steep walls of Valles Marineris.",
+    image: null
+  },
+  "Labyrinthus, labyrinthi": {
+    definition: "A complex, maze-like network of intersecting valleys or ridges.",
+    example: "Noctis Labyrinthus (Mars), a vast tangle of interconnected canyons.",
+    image: null
+  },
+  "Lacuna, lacunae": {
+    definition: "An irregularly-shaped depression on Titan, resembling a dried-up lake bed.",
+    example: "Used on Titan, for what appear to be former lake basins.",
+    image: null
+  },
+  "Lacus, lac\u016bs": {
+    definition: "\"Lake\" \u2014 a small plain on the Moon or Mars, or an actual lake of liquid hydrocarbons on Titan.",
+    example: "Ontario Lacus (Titan), a real lake of liquid methane and ethane.",
+    image: null
+  },
+  "Large ringed feature": {
+    definition: "A large, hard-to-classify ringed structure.",
+    example: "Used for a small number of unusual, very large circular features.",
+    image: null
+  },
+  "Linea, lineae": {
+    definition: "A long, dark or bright marking, which may be straight or curved.",
+    example: "Found on Europa, where its icy shell is crossed by thousands of these fracture lines.",
+    image: null
+  },
+  "Lingula, lingulae": {
+    definition: "A tongue-shaped extension of a plateau, with rounded, lobe-like edges.",
+    example: "Found on Mars.",
+    image: null
+  },
+  "Macula, maculae": {
+    definition: "A dark spot, which may be irregular in shape.",
+    example: "Found on Pluto and other icy bodies, marking notably dark surface regions.",
+    image: null
+  },
+  "Mare, maria": {
+    definition: "A large, dark, basaltic plain. Latin for \"sea\" \u2014 early astronomers mistook these dark patches for actual bodies of water.",
+    example: "Mare Tranquillitatis (Moon) \u2014 the Apollo 11 landing site",
+    image: null
+  },
+  "Mensa, mensae": {
+    definition: "A flat-topped landform with steep, cliff-like sides, similar to a mesa on Earth.",
+    example: "Found on Mars.",
+    image: null
+  },
+  "Mons, montes": {
+    definition: "A mountain. On volcanically active bodies, this is often a large volcano rather than a tectonically-uplifted peak.",
+    example: "Olympus Mons (Mars) \u2014 the largest known volcano in the solar system",
+    image: null
+  },
+  "Oceanus, oceani": {
+    definition: "A very large dark area on the Moon, more extensive than a typical mare.",
+    example: "Oceanus Procellarum (Moon), the largest dark \"sea\" on the Moon.",
+    image: null
+  },
+  "Palus, paludes": {
+    definition: "\"Swamp\" \u2014 a small plain, used on the Moon.",
+    example: "Palus Putredinis (Moon)",
+    image: null
+  },
+  "Patera, paterae": {
+    definition: "A shallow volcanic crater with an irregular or complex, scalloped rim.",
+    example: "Loki Patera (Io) \u2014 the most powerful known active volcanic feature in the solar system",
+    image: null
+  },
+  "Planitia, planitiae": {
+    definition: "A low plain, often the floor of a large ancient impact basin.",
+    example: "Hellas Planitia (Mars) \u2014 one of the largest known impact basins",
+    image: null
+  },
+  "Planum, plana": {
+    definition: "A plateau or high plain.",
+    example: "Lakshmi Planum (Venus), a broad volcanic highland.",
+    image: null
+  },
+  "Plume, plumes": {
+    definition: "A cryovolcanic feature on Triton, associated with active geyser-like eruptions.",
+    example: "Used on Triton, where plumes of nitrogen gas and dust have been observed erupting from the surface.",
+    image: null
+  },
+  "Promontorium, promontoria": {
+    definition: "\"Cape\" \u2014 a headland, used on the Moon.",
+    example: "Promontorium Heraclides (Moon)",
+    image: null
+  },
+  "Regio, regiones": {
+    definition: "A broad region distinguished from its surroundings by color or brightness (albedo), rather than by elevation.",
+    example: "Cassini Regio (Iapetus) \u2014 the moon's darkened leading hemisphere",
+    image: null
+  },
+  "Rima, rimae": {
+    definition: "A narrow, sinuous channel or fissure, sometimes formed by a collapsed lava tube.",
+    example: "Hadley Rille (Moon) \u2014 the Apollo 15 landing site",
+    image: null
+  },
+  "Rupes, rup\u0113s": {
+    definition: "A scarp, or steep slope.",
+    example: "Discovery Rupes (Mercury), one of its largest cliff-like scarps.",
+    image: null
+  },
+  "Satellite Feature": {
+    definition: "A minor feature that shares its name with a larger, nearby named feature (for example, a small crater named after an adjacent larger one).",
+    example: "Used widely across many bodies, most classically for the Moon's \"lettered craters.\"",
+    image: null
+  },
+  "Scopulus, scopuli": {
+    definition: "A lobed or irregular scarp.",
+    example: "Found on Miranda.",
+    image: null
+  },
+  "Serpens, serpentes": {
+    definition: "A winding, snake-like feature with alternating raised and lowered sections along its length.",
+    example: "A rare term, used only for a small number of features.",
+    image: null
+  },
+  "Sinus, sin\u016bs": {
+    definition: "\"Bay\" \u2014 a small plain on the Moon or Mars, or a bay within one of Titan's hydrocarbon seas.",
+    example: "Sinus Iridum (Moon), the \"Bay of Rainbows.\"",
+    image: null
+  },
+  "Statio": {
+    definition: "A spacecraft landing site.",
+    example: "Statio Tranquillitatis (Moon), the Apollo 11 landing site.",
+    image: null
+  },
+  "Sulcus, sulci": {
+    definition: "A set of parallel grooves or ridges, often formed by tectonic stretching of icy crust.",
+    example: "Enceladus's \"tiger stripe\" sulci",
+    image: null
+  },
+  "Terra, terrae": {
+    definition: "An extensive landmass.",
+    example: "Aphrodite Terra (Venus), one of its largest highland regions.",
+    image: null
+  },
+  "Tessera, tesserae": {
+    definition: "Tile-like, polygonal terrain, shaped by intense tectonic deformation.",
+    example: "Found on Venus, where tesserae represent some of its oldest and most deformed terrain.",
+    image: null
+  },
+  "Tholus, tholi": {
+    definition: "A small, dome-shaped hill or mountain, often volcanic.",
+    example: "Ceraunius Tholus (Mars)",
+    image: null
+  },
+  "Unda, undae": {
+    definition: "Dunes.",
+    example: "Found on Titan, where vast fields of hydrocarbon sand dunes stretch across its equatorial regions.",
+    image: null
+  },
+  "Vallis, valles": {
+    definition: "A valley, often a sinuous channel thought to have been carved by an ancient flow of liquid (water, lava, or otherwise).",
+    example: "Baltis Vallis (Venus) \u2014 the longest known channel in the solar system",
+    image: null
+  },
+  "Vastitas, vastitates": {
+    definition: "An extensive plain.",
+    example: "Vastitas Borealis (Mars), a vast plain covering much of its northern hemisphere.",
+    image: null
+  },
+  "Virga, virgae": {
+    definition: "A streak or stripe of color.",
+    example: "A rare term, used only for a small number of features.",
+    image: null
+  }
+};
 
-// Converts a feature's real coordinates into a left/top percentage pair
-// matching the basemap image's own pixel grid. USGS's equirectangular
-// mosaics and this site's Gazetteer data both use the same convention
-// (east longitude 0\u2013360\u00b0, planetocentric latitude), confirmed directly
-// against USGS's own product documentation \u2014 so no coordinate-system
-// conversion is needed here, just a direct linear mapping.
-function projectFeatureToPercent(feature) {
-  if (feature.center_lon === null || feature.center_lat === null) return null;
-  const leftPct = (feature.center_lon / 360) * 100;
-  const topPct = ((90 - feature.center_lat) / 180) * 100;
-  return { leftPct, topPct };
+// Same scope logic as refreshFeatureTypeOptions() (target body, or every
+// body if "All Bodies" is selected) — reused here so the glossary always
+// matches exactly what the feature-type dropdown itself would offer.
+function getFeatureTypesInScope() {
+  const scope = currentTargetFilter ? allFeatures.filter(f => f.target === currentTargetFilter) : allFeatures;
+  return [...new Set(scope.map(f => f.feature_type).filter(Boolean))].sort();
 }
 
-function renderMap(filteredList) {
-  const emptyState = document.getElementById("map-empty-state");
-  const container = document.getElementById("map-container");
-  const caption = document.getElementById("map-caption");
+function glossaryCardHtml(term, entry) {
+  const imageHtml = entry.image
+    ? `<img class="glossary-card-image" src="../images/glossary/${escapeHtml(entry.image)}" alt="${escapeHtml(term)} example">`
+    : `<div class="glossary-card-image-placeholder">Image coming soon</div>`;
+  const exampleHtml = entry.example ? `<p class="glossary-example">Example: ${escapeHtml(entry.example)}</p>` : "";
+  return `
+    <div class="glossary-card">
+      ${imageHtml}
+      <p class="glossary-term">${escapeHtml(term)}</p>
+      <p class="glossary-definition">${escapeHtml(entry.definition)}</p>
+      ${exampleHtml}
+    </div>`;
+}
 
-  if (!currentTargetFilter) {
-    emptyState.textContent = "Select a specific target body above to see its feature map.";
-    emptyState.classList.remove("hidden");
-    container.classList.add("hidden");
-    caption.textContent = "";
+function renderGlossary() {
+  const container = document.getElementById("glossary-content");
+
+  if (currentFeatureTypeFilter) {
+    // Filtered state: one specific type selected in the sidebar dropdown.
+    const entry = FEATURE_TYPE_GLOSSARY[currentFeatureTypeFilter];
+    if (!entry) {
+      container.innerHTML = `<div class="glossary-empty-state">"${escapeHtml(currentFeatureTypeFilter)}" isn't documented yet \u2014 we're adding these gradually. Feel free to look up the term on the <a href="https://planetarynames.wr.usgs.gov/" target="_blank" rel="noopener" style="color:#4da3ff;">USGS Gazetteer</a> in the meantime.</div>`;
+      return;
+    }
+    container.innerHTML = `<div class="glossary-grid glossary-single">${glossaryCardHtml(currentFeatureTypeFilter, entry)}</div>`;
     return;
   }
 
-  const targetMeta = TARGETS.find(t => t.displayName === currentTargetFilter);
-  if (!targetMeta || !targetMeta.mapImage) {
-    emptyState.textContent = `No basemap image available yet for ${currentTargetFilter}.`;
-    emptyState.classList.remove("hidden");
-    container.classList.add("hidden");
-    caption.textContent = "";
+  // Default state: every feature type actually present in the current
+  // target-body scope (or every type across the whole dataset, if "All
+  // Bodies" is selected), alphabetically.
+  const typesInScope = getFeatureTypesInScope();
+  if (typesInScope.length === 0) {
+    container.innerHTML = `<div class="glossary-empty-state">No feature types found for this selection.</div>`;
     return;
   }
-
-  emptyState.classList.add("hidden");
-  container.classList.remove("hidden");
-
-  const image = document.getElementById("map-image");
-  const desiredSrc = `../images/basemaps/${targetMeta.mapImage}`;
-  if (image.getAttribute("src") !== desiredSrc) {
-    image.setAttribute("src", desiredSrc);
-    image.setAttribute("alt", `${currentTargetFilter} basemap`);
-  }
-
-  const withCoords = filteredList.filter(f => f.center_lon !== null && f.center_lat !== null);
-  const shown = withCoords.slice(0, MAP_DOT_LIMIT);
-  const showLabels = shown.length <= LABEL_VISIBILITY_THRESHOLD;
-
-  const dotsLayer = document.getElementById("map-dots-layer");
-  dotsLayer.innerHTML = shown.map(f => {
-    const pos = projectFeatureToPercent(f);
-    if (!pos) return "";
-    const label = showLabels
-      ? `<span class="map-dot-label" style="left:${pos.leftPct}%; top:${pos.topPct}%;">${escapeHtml(f.clean_name || "Unnamed")}</span>`
-      : "";
-    return `<span class="map-dot" style="left:${pos.leftPct}%; top:${pos.topPct}%;" data-uid="${f._uid}" title="${escapeHtml(f.clean_name || "Unnamed")}"></span>${label}`;
+  const cards = typesInScope.map(term => {
+    const entry = FEATURE_TYPE_GLOSSARY[term] || { definition: "Not documented yet \u2014 check the USGS Gazetteer for details.", example: "", image: null };
+    return glossaryCardHtml(term, entry);
   }).join("");
-
-  dotsLayer.querySelectorAll(".map-dot").forEach(dot => {
-    dot.addEventListener("click", () => showDetail(Number(dot.dataset.uid)));
-  });
-
-  const missingCoords = filteredList.length - withCoords.length;
-  const cappedNote = withCoords.length > MAP_DOT_LIMIT
-    ? ` Showing the first ${MAP_DOT_LIMIT.toLocaleString()} of ${withCoords.length.toLocaleString()} \u2014 narrow your filters to see the rest.`
-    : "";
-  const missingNote = missingCoords > 0 ? ` (${missingCoords.toLocaleString()} feature${missingCoords === 1 ? "" : "s"} missing coordinates, not shown.)` : "";
-  caption.textContent = `${shown.length.toLocaleString()} feature${shown.length === 1 ? "" : "s"} plotted.${cappedNote}${missingNote}${showLabels ? "" : " Hover a dot to see its name, or narrow your filters to show labels directly."}`;
+  container.innerHTML = `<div class="glossary-grid">${cards}</div>`;
 }
 
 function renderPaginationControls(totalPages) {
