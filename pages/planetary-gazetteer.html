@@ -383,6 +383,12 @@ table.detail-table td:last-child { text-align: right; color: white; }
     display: flex;
     flex-direction: column;
     gap: 10px;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s;
+}
+.glossary-card:hover {
+    border-color: #2a4a6a;
+    transform: translateY(-2px);
 }
 /* Single-entry (filtered) state gets one wider card instead of a grid item */
 .glossary-single .glossary-card { max-width: 520px; }
@@ -410,14 +416,121 @@ table.detail-table td:last-child { text-align: right; color: white; }
     padding: 0 10px;
 }
 
+/* This one's a same-specificity tie (.hidden vs this class) rather than an
+   ID-vs-class mismatch — ties are broken by source order, and this rule
+   comes later in the stylesheet, so it was winning over .hidden's
+   display:none on the lightbox's placeholder specifically. */
+.glossary-card-image-placeholder.hidden {
+    display: none;
+}
+
 .glossary-term { font-size: 16px; font-weight: 800; color: white; margin: 0; }
 .glossary-definition { font-size: 13px; color: #c8d8ee; line-height: 1.55; margin: 0; }
 .glossary-example { font-size: 12px; color: #4da3ff; font-weight: 700; margin: 0; }
+.glossary-image-caption { font-size: 11px; color: #6a85a8; font-style: italic; margin: 0; }
 
 .glossary-empty-state {
     padding: 40px 20px; text-align: center; color: #3a4f6a; font-size: 14px; font-weight: 700;
     border: 1px dashed #1c2d47; border-radius: 10px;
 }
+
+/* ── GLOSSARY LIGHTBOX ── */
+/* Clicking any glossary card opens this: a dimmed/blurred backdrop with
+   the same card's content shown larger and focused. Backdrop and content
+   are siblings, not nested — clicking content never bubbles into the
+   backdrop's own close-on-click listener, so no extra guard logic is
+   needed to keep clicks inside the card from closing it. */
+#glossary-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+/* Without this, .hidden's display:none loses to the display:flex above —
+   ID selectors beat class selectors regardless of source order, so the
+   lightbox was staying visible on every page load, and the hidden class
+   toggled by JS was silently doing nothing. Same issue is fixed below for
+   the image and placeholder inside it. */
+#glossary-lightbox.hidden {
+    display: none;
+}
+
+#glossary-lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(5, 7, 13, 0.85);
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+}
+
+#glossary-lightbox-content {
+    position: relative;
+    z-index: 1;
+    background: #0f1a2e;
+    border: 1px solid #1c2d47;
+    border-radius: 14px;
+    padding: 28px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    cursor: default;
+}
+
+#glossary-lightbox-image {
+    width: 100%;
+    max-height: 340px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 18px;
+    background: #05070d;
+    display: block;
+}
+
+#glossary-lightbox-image.hidden {
+    display: none;
+}
+
+#glossary-lightbox-content .glossary-card-image-placeholder {
+    height: 220px;
+    margin-bottom: 18px;
+}
+
+#glossary-lightbox-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    font-size: 18px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    padding: 0;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+#glossary-lightbox-close:hover {
+    background: #fd3030;
+    border-color: #fd3030;
+}
+
+#glossary-lightbox-term { font-size: 22px; font-weight: 800; color: white; margin: 0 0 10px; }
+#glossary-lightbox-definition { font-size: 15px; color: #c8d8ee; line-height: 1.6; margin: 0 0 10px; }
+#glossary-lightbox-example { font-size: 13px; color: #4da3ff; font-weight: 700; margin: 0; }
+#glossary-lightbox-image-caption { font-size: 12px; color: #6a85a8; font-style: italic; margin: -12px 0 14px; }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 860px) {
@@ -542,6 +655,21 @@ table.detail-table td:last-child { text-align: right; color: white; }
 
 <!-- Shared info-dot tooltip element — positioned via JS -->
 <div id="info-tooltip" class="hidden"></div>
+
+<!-- Glossary lightbox — populated by openGlossaryLightbox() in
+     js/planetary-gazetteer.js when any glossary card is clicked -->
+<div id="glossary-lightbox" class="hidden">
+    <div id="glossary-lightbox-backdrop"></div>
+    <div id="glossary-lightbox-content">
+        <button type="button" id="glossary-lightbox-close" aria-label="Close">&times;</button>
+        <img id="glossary-lightbox-image" class="hidden" src="" alt="">
+        <div id="glossary-lightbox-image-placeholder" class="glossary-card-image-placeholder hidden">Image coming soon</div>
+        <p id="glossary-lightbox-image-caption" class="hidden"></p>
+        <p id="glossary-lightbox-term"></p>
+        <p id="glossary-lightbox-definition"></p>
+        <p id="glossary-lightbox-example"></p>
+    </div>
+</div>
 
 <script src="../js/planetary-gazetteer.js"></script>
 

@@ -506,7 +506,7 @@ const FEATURE_TYPE_GLOSSARY = {
   "Catena, catenae": {
     definition: "A chain of craters, often formed by a body that broke apart before impact.",
     example: "Enki Catena (Ganymede)",
-    image: null
+    image: "enki-catena.jpg"
   },
   "Cavus, cavi": {
     definition: "Irregular, steep-sided hollows, usually found in clusters.",
@@ -520,7 +520,7 @@ const FEATURE_TYPE_GLOSSARY = {
   },
   "Chasma, chasmata": {
     definition: "A deep, elongated, steep-walled canyon or depression.",
-    example: "Valles Marineris (Mars)",
+    example: "Ophir Chasma (Mars) \u2014 one of the individually-named canyon segments that together make up Valles Marineris",
     image: null
   },
   "Collis, colles": {
@@ -531,12 +531,12 @@ const FEATURE_TYPE_GLOSSARY = {
   "Corona, coronae": {
     definition: "An oval-shaped volcanic or tectonic feature, found almost exclusively on Venus.",
     example: "Aine Corona (Venus)",
-    image: null
+    image: "aine-corona.jpg"
   },
   "Crater, craters": {
     definition: "A roughly circular depression formed by the impact of a meteoroid, asteroid, or comet.",
     example: "Tycho (Moon)",
-    image: null
+    image: "tycho-crater.jpg"
   },
   "Dorsum, dorsa": {
     definition: "A ridge, often a \"wrinkle ridge\" formed by compression of a volcanic plain as it cooled.",
@@ -550,8 +550,8 @@ const FEATURE_TYPE_GLOSSARY = {
   },
   "Facula, faculae": {
     definition: "A bright spot on a surface.",
-    example: "The bright faculae inside Ceres's Occator Crater, linked to salt deposits left behind by evaporated brine.",
-    image: null
+    example: "Cerealia Facula and Vinalia Faculae (Ceres) \u2014 salt deposits inside Occator Crater, left behind when brine reached the surface and evaporated",
+    image: "occator-crater-faculae.jpg"
   },
   "Farrum, farra": {
     definition: "A pancake-shaped structure, or a row of them \u2014 a term used specifically on Venus.",
@@ -576,7 +576,7 @@ const FEATURE_TYPE_GLOSSARY = {
   "Fossa, fossae": {
     definition: "A long, narrow, shallow depression or trench, typically tectonic in origin.",
     example: "Cerberus Fossae (Mars)",
-    image: null
+    image: "cerberus-fossae.jpg"
   },
   "Fretum, freta": {
     definition: "A strait \u2014 a narrow passage of liquid connecting two larger bodies of liquid.",
@@ -596,7 +596,7 @@ const FEATURE_TYPE_GLOSSARY = {
   "Labyrinthus, labyrinthi": {
     definition: "A complex, maze-like network of intersecting valleys or ridges.",
     example: "Noctis Labyrinthus (Mars), a vast tangle of interconnected canyons.",
-    image: null
+    image: "noctis-labyrinthus.jpg"
   },
   "Lacuna, lacunae": {
     definition: "An irregularly-shaped depression on Titan, resembling a dried-up lake bed.",
@@ -606,7 +606,7 @@ const FEATURE_TYPE_GLOSSARY = {
   "Lacus, lac\u016bs": {
     definition: "\"Lake\" \u2014 a small plain on the Moon or Mars, or an actual lake of liquid hydrocarbons on Titan.",
     example: "Ontario Lacus (Titan), a real lake of liquid methane and ethane.",
-    image: null
+    image: "ontario-lacus.jpg"
   },
   "Large ringed feature": {
     definition: "A large, hard-to-classify ringed structure.",
@@ -629,7 +629,7 @@ const FEATURE_TYPE_GLOSSARY = {
     image: null
   },
   "Mare, maria": {
-    definition: "A large, dark, basaltic plain. Latin for \"sea\" \u2014 early astronomers mistook these dark patches for actual bodies of water.",
+    definition: "A large, dark plain. Latin for \"sea\" \u2014 early astronomers mistook these dark patches for actual bodies of water. On the Moon, maria are true basaltic plains; on Mars the term marks dark albedo areas of no confirmed geological origin, and on Titan it describes dark expanses thought to be liquid hydrocarbons rather than rock at all.",
     example: "Mare Tranquillitatis (Moon) \u2014 the Apollo 11 landing site",
     image: null
   },
@@ -641,7 +641,8 @@ const FEATURE_TYPE_GLOSSARY = {
   "Mons, montes": {
     definition: "A mountain. On volcanically active bodies, this is often a large volcano rather than a tectonically-uplifted peak.",
     example: "Olympus Mons (Mars) \u2014 the largest known volcano in the solar system",
-    image: null
+    image: "olympus-mons.jpg",
+    imageCaption: "Color Mosaic"
   },
   "Oceanus, oceani": {
     definition: "A very large dark area on the Moon, more extensive than a typical mare.",
@@ -655,13 +656,15 @@ const FEATURE_TYPE_GLOSSARY = {
   },
   "Patera, paterae": {
     definition: "A shallow volcanic crater with an irregular or complex, scalloped rim.",
-    example: "Loki Patera (Io) \u2014 the most powerful known active volcanic feature in the solar system",
-    image: null
+    example: "Loki Patera (Io) \u2014 the most powerful known active volcanic feature in the solar system.",
+    image: "loki-patera.jpg",
+    imageCaption: "Artist's concept illustration \u2014 not an actual photograph."
   },
   "Planitia, planitiae": {
     definition: "A low plain, often the floor of a large ancient impact basin.",
     example: "Hellas Planitia (Mars) \u2014 one of the largest known impact basins",
-    image: null
+    image: "hellas-planitia.jpg",
+    imageCaption: "Topographic Map"
   },
   "Planum, plana": {
     definition: "A plateau or high plain.",
@@ -669,7 +672,7 @@ const FEATURE_TYPE_GLOSSARY = {
     image: null
   },
   "Plume, plumes": {
-    definition: "A cryovolcanic feature on Triton, associated with active geyser-like eruptions.",
+    definition: "A cryovolcanic feature on Triton, associated with active geyser-like eruptions. (The word \"plume\" is also used informally for Io's volcanic eruption clouds, but that's separate from this specific Gazetteer feature-type category, which USGS defines as Triton-only \u2014 Io's volcanic features are instead classified under other types, like Patera and Fluctus.)",
     example: "Used on Triton, where plumes of nitrogen gas and dust have been observed erupting from the surface.",
     image: null
   },
@@ -681,11 +684,11 @@ const FEATURE_TYPE_GLOSSARY = {
   "Regio, regiones": {
     definition: "A broad region distinguished from its surroundings by color or brightness (albedo), rather than by elevation.",
     example: "Cassini Regio (Iapetus) \u2014 the moon's darkened leading hemisphere",
-    image: null
+    image: "cassini-regio.jpg"
   },
   "Rima, rimae": {
     definition: "A narrow, sinuous channel or fissure, sometimes formed by a collapsed lava tube.",
-    example: "Hadley Rille (Moon) \u2014 the Apollo 15 landing site",
+    example: "Rima Hadley (Moon) \u2014 the Apollo 15 landing site, commonly known by its informal English name, Hadley Rille",
     image: null
   },
   "Rupes, rup\u0113s": {
@@ -736,7 +739,7 @@ const FEATURE_TYPE_GLOSSARY = {
   "Tholus, tholi": {
     definition: "A small, dome-shaped hill or mountain, often volcanic.",
     example: "Ceraunius Tholus (Mars)",
-    image: null
+    image: "ceraunius-tholus.jpg"
   },
   "Unda, undae": {
     definition: "Dunes.",
@@ -768,14 +771,26 @@ function getFeatureTypesInScope() {
   return [...new Set(scope.map(f => f.feature_type).filter(Boolean))].sort();
 }
 
+// Single source of truth for "what entry does this term map to," used
+// both when building the grid and when a card is clicked — so the
+// fallback for an undocumented type is never defined in two places that
+// could drift out of sync with each other.
+function getGlossaryEntry(term) {
+  return FEATURE_TYPE_GLOSSARY[term] || { definition: "Not documented yet \u2014 check the USGS Gazetteer for details.", example: "", image: null };
+}
+
 function glossaryCardHtml(term, entry) {
   const imageHtml = entry.image
     ? `<img class="glossary-card-image" src="../images/glossary/${escapeHtml(entry.image)}" alt="${escapeHtml(term)} example">`
     : `<div class="glossary-card-image-placeholder">Image coming soon</div>`;
+  const captionHtml = entry.image && entry.imageCaption
+    ? `<p class="glossary-image-caption">${escapeHtml(entry.imageCaption)}</p>`
+    : "";
   const exampleHtml = entry.example ? `<p class="glossary-example">Example: ${escapeHtml(entry.example)}</p>` : "";
   return `
-    <div class="glossary-card">
+    <div class="glossary-card" data-term="${escapeHtml(term)}">
       ${imageHtml}
+      ${captionHtml}
       <p class="glossary-term">${escapeHtml(term)}</p>
       <p class="glossary-definition">${escapeHtml(entry.definition)}</p>
       ${exampleHtml}
@@ -793,6 +808,7 @@ function renderGlossary() {
       return;
     }
     container.innerHTML = `<div class="glossary-grid glossary-single">${glossaryCardHtml(currentFeatureTypeFilter, entry)}</div>`;
+    wireGlossaryCardClicks(container);
     return;
   }
 
@@ -804,12 +820,63 @@ function renderGlossary() {
     container.innerHTML = `<div class="glossary-empty-state">No feature types found for this selection.</div>`;
     return;
   }
-  const cards = typesInScope.map(term => {
-    const entry = FEATURE_TYPE_GLOSSARY[term] || { definition: "Not documented yet \u2014 check the USGS Gazetteer for details.", example: "", image: null };
-    return glossaryCardHtml(term, entry);
-  }).join("");
+  const cards = typesInScope.map(term => glossaryCardHtml(term, getGlossaryEntry(term))).join("");
   container.innerHTML = `<div class="glossary-grid">${cards}</div>`;
+  wireGlossaryCardClicks(container);
 }
+
+function wireGlossaryCardClicks(container) {
+  container.querySelectorAll(".glossary-card").forEach(cardEl => {
+    cardEl.addEventListener("click", () => {
+      const term = cardEl.dataset.term;
+      openGlossaryLightbox(term, getGlossaryEntry(term));
+    });
+  });
+}
+
+// ================================
+// GLOSSARY LIGHTBOX
+// Reuses one persistent set of DOM elements (populated fresh on each
+// open) rather than rebuilding markup per click — simpler than the
+// small-card version since there's only ever one lightbox open at a time.
+// ================================
+function openGlossaryLightbox(term, entry) {
+  const img = document.getElementById("glossary-lightbox-image");
+  const placeholder = document.getElementById("glossary-lightbox-image-placeholder");
+  if (entry.image) {
+    img.src = `../images/glossary/${entry.image}`;
+    img.alt = `${term} example`;
+    img.classList.remove("hidden");
+    placeholder.classList.add("hidden");
+  } else {
+    img.classList.add("hidden");
+    placeholder.classList.remove("hidden");
+  }
+
+  const captionEl = document.getElementById("glossary-lightbox-image-caption");
+  if (entry.image && entry.imageCaption) {
+    captionEl.textContent = entry.imageCaption;
+    captionEl.classList.remove("hidden");
+  } else {
+    captionEl.classList.add("hidden");
+  }
+
+  document.getElementById("glossary-lightbox-term").textContent = term;
+  document.getElementById("glossary-lightbox-definition").textContent = entry.definition;
+  document.getElementById("glossary-lightbox-example").textContent = entry.example ? `Example: ${entry.example}` : "";
+
+  document.getElementById("glossary-lightbox").classList.remove("hidden");
+}
+
+function closeGlossaryLightbox() {
+  document.getElementById("glossary-lightbox").classList.add("hidden");
+}
+
+document.getElementById("glossary-lightbox-close").addEventListener("click", closeGlossaryLightbox);
+document.getElementById("glossary-lightbox-backdrop").addEventListener("click", closeGlossaryLightbox);
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeGlossaryLightbox();
+});
 
 function renderPaginationControls(totalPages) {
   const container = document.getElementById("browse-pagination");
