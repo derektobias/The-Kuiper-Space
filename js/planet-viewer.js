@@ -4,7 +4,7 @@ import * as THREE from 'three';
 // STATE
 // ================================
 let realisticScale        = false;
-let shadowsEnabled        = true;
+let shadowsEnabled        = false;
 const DISPLAY_RADIUS      = 4;
 const sizeScaleFactor     = DISPLAY_RADIUS / 11.2;
 let currentRotationSpeed  = 0.002;
@@ -341,8 +341,8 @@ function resetViewerSettings() {
     realisticScale = false;
     scaleToggle.checked = false;
 
-    shadowsEnabled = true;
-    shadowToggle.checked = true;
+    shadowsEnabled = false;
+    shadowToggle.checked = false;
 
     loadPlanet(selector.value);
 }

@@ -516,12 +516,12 @@ const FEATURE_TYPE_GLOSSARY = {
   "Chaos, chaoses": {
     definition: "A distinctive area of jumbled, broken terrain.",
     example: "Aram Chaos (Mars), a large region of chaotic terrain associated with ancient water release.",
-    image: null
+    image: "aram-chaos.jpg"
   },
   "Chasma, chasmata": {
     definition: "A deep, elongated, steep-walled canyon or depression.",
     example: "Ophir Chasma (Mars) \u2014 one of the individually-named canyon segments that together make up Valles Marineris",
-    image: null
+    image: "ophir-chasma.jpg"
   },
   "Collis, colles": {
     definition: "Small hills or knobs.",
@@ -540,8 +540,8 @@ const FEATURE_TYPE_GLOSSARY = {
   },
   "Dorsum, dorsa": {
     definition: "A ridge, often a \"wrinkle ridge\" formed by compression of a volcanic plain as it cooled.",
-    example: "Serenitatis Dorsa (Moon)",
-    image: null
+    example: "Mare Serenitatis Dorsa Smirnov (Moon)",
+    image: "mare-serenitatis-dorsa-smirnov.jpg"
   },
   "Eruptive center": {
     definition: "An active volcanic center \u2014 a term used specifically on Io.",
@@ -631,7 +631,7 @@ const FEATURE_TYPE_GLOSSARY = {
   "Mare, maria": {
     definition: "A large, dark plain. Latin for \"sea\" \u2014 early astronomers mistook these dark patches for actual bodies of water. On the Moon, maria are true basaltic plains; on Mars the term marks dark albedo areas of no confirmed geological origin, and on Titan it describes dark expanses thought to be liquid hydrocarbons rather than rock at all.",
     example: "Mare Tranquillitatis (Moon) \u2014 the Apollo 11 landing site",
-    image: null
+    image: "mare-tranquillitatis.jpg"
   },
   "Mensa, mensae": {
     definition: "A flat-topped landform with steep, cliff-like sides, similar to a mesa on Earth.",
@@ -647,12 +647,12 @@ const FEATURE_TYPE_GLOSSARY = {
   "Oceanus, oceani": {
     definition: "A very large dark area on the Moon, more extensive than a typical mare.",
     example: "Oceanus Procellarum (Moon), the largest dark \"sea\" on the Moon.",
-    image: null
+    image: "oceanus-procellarum.jpg"
   },
   "Palus, paludes": {
     definition: "\"Swamp\" \u2014 a small plain, used on the Moon.",
     example: "Palus Putredinis (Moon)",
-    image: null
+    image: "palus-putredinis.jpg"
   },
   "Patera, paterae": {
     definition: "A shallow volcanic crater with an irregular or complex, scalloped rim.",
@@ -669,7 +669,7 @@ const FEATURE_TYPE_GLOSSARY = {
   "Planum, plana": {
     definition: "A plateau or high plain.",
     example: "Lakshmi Planum (Venus), a broad volcanic highland.",
-    image: null
+    image: "lakshmi-planum.jpg"
   },
   "Plume, plumes": {
     definition: "A cryovolcanic feature on Triton, associated with active geyser-like eruptions. (The word \"plume\" is also used informally for Io's volcanic eruption clouds, but that's separate from this specific Gazetteer feature-type category, which USGS defines as Triton-only \u2014 Io's volcanic features are instead classified under other types, like Patera and Fluctus.)",
@@ -679,7 +679,7 @@ const FEATURE_TYPE_GLOSSARY = {
   "Promontorium, promontoria": {
     definition: "\"Cape\" \u2014 a headland, used on the Moon.",
     example: "Promontorium Heraclides (Moon)",
-    image: null
+    image: "promontorium-heraclides.jpg"
   },
   "Regio, regiones": {
     definition: "A broad region distinguished from its surroundings by color or brightness (albedo), rather than by elevation.",
@@ -689,12 +689,12 @@ const FEATURE_TYPE_GLOSSARY = {
   "Rima, rimae": {
     definition: "A narrow, sinuous channel or fissure, sometimes formed by a collapsed lava tube.",
     example: "Rima Hadley (Moon) \u2014 the Apollo 15 landing site, commonly known by its informal English name, Hadley Rille",
-    image: null
+    image: "rima-hadley.jpg"
   },
   "Rupes, rup\u0113s": {
     definition: "A scarp, or steep slope.",
     example: "Discovery Rupes (Mercury), one of its largest cliff-like scarps.",
-    image: null
+    image: "discovery-rupes.jpg"
   },
   "Satellite Feature": {
     definition: "A minor feature that shares its name with a larger, nearby named feature (for example, a small crater named after an adjacent larger one).",
@@ -714,22 +714,22 @@ const FEATURE_TYPE_GLOSSARY = {
   "Sinus, sin\u016bs": {
     definition: "\"Bay\" \u2014 a small plain on the Moon or Mars, or a bay within one of Titan's hydrocarbon seas.",
     example: "Sinus Iridum (Moon), the \"Bay of Rainbows.\"",
-    image: null
+    image: "sinus-iridium.jpg"
   },
   "Statio": {
     definition: "A spacecraft landing site.",
     example: "Statio Tranquillitatis (Moon), the Apollo 11 landing site.",
-    image: null
+    image: "statio-tranquillitatis.jpg"
   },
   "Sulcus, sulci": {
     definition: "A set of parallel grooves or ridges, often formed by tectonic stretching of icy crust.",
     example: "Enceladus's \"tiger stripe\" sulci",
-    image: null
+    image: "enceladus-tiger-stripe-sulci.jpg"
   },
   "Terra, terrae": {
     definition: "An extensive landmass.",
     example: "Aphrodite Terra (Venus), one of its largest highland regions.",
-    image: null
+    image: "aphrodite-terra.jpg"
   },
   "Tessera, tesserae": {
     definition: "Tile-like, polygonal terrain, shaped by intense tectonic deformation.",
@@ -749,12 +749,13 @@ const FEATURE_TYPE_GLOSSARY = {
   "Vallis, valles": {
     definition: "A valley, often a sinuous channel thought to have been carved by an ancient flow of liquid (water, lava, or otherwise).",
     example: "Baltis Vallis (Venus) \u2014 the longest known channel in the solar system",
-    image: null
+    image: "baltis-vallis.jpg"
   },
   "Vastitas, vastitates": {
     definition: "An extensive plain.",
     example: "Vastitas Borealis (Mars), a vast plain covering much of its northern hemisphere.",
-    image: null
+    image: "vastitas-borealis.jpg",
+    imageCaption: "NASA mosaic from Viking images"
   },
   "Virga, virgae": {
     definition: "A streak or stripe of color.",
