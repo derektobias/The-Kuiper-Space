@@ -276,11 +276,6 @@
 
 /* ── BROWSE TABLE ── */
 .browse-table-wrap { max-height: 560px; overflow: auto; border: 1px solid #1c2d47; border-radius: 10px; }
-/* width:auto (not 100%) so the table sizes to its actual content — with
-   few optional columns selected, forcing 100% width stretched the
-   remaining columns into awkward, disproportionate gaps. Horizontal
-   scroll (browse-table-wrap) still kicks in normally once enough columns
-   are selected to need more room than the container. */
 table.browse-table { width: auto; border-collapse: collapse; font-size: 14px; min-width: 640px; }
 
 table.browse-table thead th {
@@ -364,9 +359,6 @@ table.detail-table td:last-child { text-align: right; color: white; }
 .archive-note a { color: #4da3ff; }
 
 /* ── FEATURE TYPE GLOSSARY ── */
-/* Shows under the browse table. Default state (no feature-type filter
-   selected) shows every known type in a grid; selecting one specific type
-   in the sidebar dropdown narrows this to just that one entry. */
 .glossary-section { margin-top: 32px; }
 
 .glossary-grid {
@@ -386,10 +378,17 @@ table.detail-table td:last-child { text-align: right; color: white; }
     cursor: pointer;
     transition: border-color 0.2s, transform 0.2s;
 }
+
 .glossary-card:hover {
     border-color: #2a4a6a;
     transform: translateY(-2px);
 }
+
+.glossary-card:focus-visible {
+    outline: 2px solid #4da3ff;
+    outline-offset: 2px;
+}
+
 /* Single-entry (filtered) state gets one wider card instead of a grid item */
 .glossary-single .glossary-card { max-width: 520px; }
 
@@ -400,6 +399,7 @@ table.detail-table td:last-child { text-align: right; color: white; }
     border-radius: 8px;
     background: #05070d;
 }
+
 .glossary-card-image-placeholder {
     width: 100%;
     height: 150px;
@@ -416,10 +416,6 @@ table.detail-table td:last-child { text-align: right; color: white; }
     padding: 0 10px;
 }
 
-/* This one's a same-specificity tie (.hidden vs this class) rather than an
-   ID-vs-class mismatch — ties are broken by source order, and this rule
-   comes later in the stylesheet, so it was winning over .hidden's
-   display:none on the lightbox's placeholder specifically. */
 .glossary-card-image-placeholder.hidden {
     display: none;
 }
@@ -435,11 +431,6 @@ table.detail-table td:last-child { text-align: right; color: white; }
 }
 
 /* ── GLOSSARY LIGHTBOX ── */
-/* Clicking any glossary card opens this: a dimmed/blurred backdrop with
-   the same card's content shown larger and focused. Backdrop and content
-   are siblings, not nested — clicking content never bubbles into the
-   backdrop's own close-on-click listener, so no extra guard logic is
-   needed to keep clicks inside the card from closing it. */
 #glossary-lightbox {
     position: fixed;
     inset: 0;
@@ -450,11 +441,6 @@ table.detail-table td:last-child { text-align: right; color: white; }
     padding: 24px;
 }
 
-/* Without this, .hidden's display:none loses to the display:flex above —
-   ID selectors beat class selectors regardless of source order, so the
-   lightbox was staying visible on every page load, and the hidden class
-   toggled by JS was silently doing nothing. Same issue is fixed below for
-   the image and placeholder inside it. */
 #glossary-lightbox.hidden {
     display: none;
 }
@@ -482,10 +468,19 @@ table.detail-table td:last-child { text-align: right; color: white; }
     cursor: default;
 }
 
+/* object-fit: contain (not cover) so the full image is always visible,
+   never cropped — cover was cutting off parts of taller-than-16:9 images
+   whenever the box's computed width (which scales with the viewport,
+   since the box is wide on desktop and narrow on mobile) pushed the
+   image's natural height for that width past the fixed 340px cap below.
+   contain scales the whole image down to fit instead, at the cost of a
+   little empty space on the sides for images that aren't wide enough to
+   fill the box exactly — the dark background makes that read as
+   intentional letterboxing rather than a gap. */
 #glossary-lightbox-image {
     width: 100%;
     max-height: 340px;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 10px;
     margin-bottom: 18px;
     background: #05070d;

@@ -101,9 +101,6 @@ async function loadFeatures() {
     allFeatures = await featuresRes.json();
     columnMap = await columnMapRes.json();
 
-    // Stable unique id per feature for detail-view lookups — feature NAMES
-    // are not guaranteed unique across different target bodies (unlike
-    // exoplanets' pl_name), so array index is used as the identity instead.
     allFeatures.forEach((f, i) => { f._uid = i; });
 
     renderTargetPicker();
@@ -148,9 +145,6 @@ function setTargetFilter(target) {
   renderCurrentView();
 }
 
-// Feature-type options depend on what's actually present within the
-// current target scope, so switching bodies refreshes this list rather
-// than showing types that don't exist on the selected body.
 function refreshFeatureTypeOptions() {
   const select = document.getElementById("feature-type-filter");
   const scope = currentTargetFilter ? allFeatures.filter(f => f.target === currentTargetFilter) : allFeatures;
@@ -160,7 +154,6 @@ function refreshFeatureTypeOptions() {
   select.innerHTML = `<option value="">All feature types</option>` +
     types.map(t => `<option value="${escapeHtml(t)}">${escapeHtml(t)}</option>`).join("");
 
-  // Preserve the current selection only if it's still valid for this scope.
   currentFeatureTypeFilter = types.includes(previousValue) ? previousValue : "";
   select.value = currentFeatureTypeFilter;
 }
@@ -237,16 +230,10 @@ function formatNumber(value, precision) {
   return Number(value).toLocaleString(undefined, { minimumFractionDigits: precision, maximumFractionDigits: precision });
 }
 
-// approval_date's time component is always a dummy "00:00:00" (confirmed
-// via a real fetch run) — only the date portion is meaningful, so this
-// strips everything after the first space rather than displaying a
-// misleadingly precise-looking timestamp.
 function formatDate(raw) {
   return raw.split(" ")[0];
 }
 
-// Returns { text, hasValue } — never shows a blank cell, always says
-// exactly what's missing via the field's configured nullLabel.
 function formatValue(field, feature) {
   const def = columnMap.fields[field];
   const raw = feature ? feature[field] : null;
@@ -264,18 +251,13 @@ function formatValue(field, feature) {
   return { text: `${formatNumber(raw, precision)}${suffix}`, hasValue: true };
 }
 
-// A single info-dot span for a given tooltip string, or "" if none. Used
-// on column headers and detail-view field labels — NOT per-cell, since a
-// field's explanation is the same for every row (e.g. what "quad" means
-// doesn't change per feature), so repeating the dot on every value was
-// pure visual noise. See infoDotHtml() call sites below.
 function infoDotHtml(tooltip) {
   if (!tooltip) return "";
   return `<span class="info-dot" data-tooltip="${escapeHtml(tooltip)}">i</span>`;
 }
 
 // ================================
-// TOOLTIP — instant show on hover, click to pin open (shared #info-tooltip element)
+// TOOLTIP
 // ================================
 function showTooltipFor(dot) {
   const tooltip = document.getElementById("info-tooltip");
@@ -361,7 +343,7 @@ document.querySelectorAll(".quicklist-btn[data-list]").forEach(btn => {
 });
 
 // ================================
-// COLUMN SORTING — first click descending, second click ascending, nulls always last
+// COLUMN SORTING
 // ================================
 function toggleColumnSort(field) {
   if (sortField === field) {
@@ -463,29 +445,11 @@ function renderBrowseTable() {
     el.addEventListener("click", () => showDetail(Number(el.dataset.uid)));
   });
 
-  // Glossary reflects the current feature-type filter, independent of
-  // the table's own filtering/pagination.
   renderGlossary();
 }
 
 // ================================
 // FEATURE TYPE GLOSSARY
-// Default state (no specific feature-type selected): shows every feature
-// type actually present in the current target-body scope (or every type
-// across the whole dataset, if "All Bodies" is selected), alphabetically
-// — same scope and sort order as the feature-type dropdown itself.
-// Filtered state (a specific type selected): narrows to just that one entry.
-//
-// Keyed by the EXACT feature_type string as it appears in the data (e.g.
-// "Mons, montes", singular+plural together) — must match exactly or the
-// lookup silently misses.
-//
-// Definitions are paraphrased from USGS's own official descriptor-terms
-// glossary (https://planetarynames.wr.usgs.gov/DescriptorTerms), confirmed
-// against that page directly rather than guessed — all 54 terms present
-// in this site's actual dataset are covered.
-//
-// image: filename under images/glossary/, or null if not sourced yet.
 // ================================
 const FEATURE_TYPE_GLOSSARY = {
   "Albedo Feature": {
@@ -540,8 +504,8 @@ const FEATURE_TYPE_GLOSSARY = {
   },
   "Dorsum, dorsa": {
     definition: "A ridge, often a \"wrinkle ridge\" formed by compression of a volcanic plain as it cooled.",
-    example: "Mare Serenitatis Dorsa Smirnov (Moon)",
-    image: "mare-serenitatis-dorsa-smirnov.jpg"
+    example: "Dorsa Smirnov (Moon) \u2014 a wrinkle-ridge system in eastern Mare Serenitatis",
+    image: "dorsa-smirnov.jpg"
   },
   "Eruptive center": {
     definition: "An active volcanic center \u2014 a term used specifically on Io.",
@@ -764,32 +728,25 @@ const FEATURE_TYPE_GLOSSARY = {
   }
 };
 
-// Same scope logic as refreshFeatureTypeOptions() (target body, or every
-// body if "All Bodies" is selected) — reused here so the glossary always
-// matches exactly what the feature-type dropdown itself would offer.
 function getFeatureTypesInScope() {
   const scope = currentTargetFilter ? allFeatures.filter(f => f.target === currentTargetFilter) : allFeatures;
   return [...new Set(scope.map(f => f.feature_type).filter(Boolean))].sort();
 }
 
-// Single source of truth for "what entry does this term map to," used
-// both when building the grid and when a card is clicked — so the
-// fallback for an undocumented type is never defined in two places that
-// could drift out of sync with each other.
 function getGlossaryEntry(term) {
   return FEATURE_TYPE_GLOSSARY[term] || { definition: "Not documented yet \u2014 check the USGS Gazetteer for details.", example: "", image: null };
 }
 
 function glossaryCardHtml(term, entry) {
   const imageHtml = entry.image
-    ? `<img class="glossary-card-image" src="../images/glossary/${escapeHtml(entry.image)}" alt="${escapeHtml(term)} example">`
+    ? `<img class="glossary-card-image" src="../images/glossary/${escapeHtml(entry.image)}" alt="${escapeHtml(term)} example" loading="lazy">`
     : `<div class="glossary-card-image-placeholder">Image coming soon</div>`;
   const captionHtml = entry.image && entry.imageCaption
     ? `<p class="glossary-image-caption">${escapeHtml(entry.imageCaption)}</p>`
     : "";
   const exampleHtml = entry.example ? `<p class="glossary-example">Example: ${escapeHtml(entry.example)}</p>` : "";
   return `
-    <div class="glossary-card" data-term="${escapeHtml(term)}">
+    <div class="glossary-card" data-term="${escapeHtml(term)}" tabindex="0" role="button" aria-label="${escapeHtml(term)} details">
       ${imageHtml}
       ${captionHtml}
       <p class="glossary-term">${escapeHtml(term)}</p>
@@ -802,7 +759,6 @@ function renderGlossary() {
   const container = document.getElementById("glossary-content");
 
   if (currentFeatureTypeFilter) {
-    // Filtered state: one specific type selected in the sidebar dropdown.
     const entry = FEATURE_TYPE_GLOSSARY[currentFeatureTypeFilter];
     if (!entry) {
       container.innerHTML = `<div class="glossary-empty-state">"${escapeHtml(currentFeatureTypeFilter)}" isn't documented yet \u2014 we're adding these gradually. Feel free to look up the term on the <a href="https://planetarynames.wr.usgs.gov/" target="_blank" rel="noopener" style="color:#4da3ff;">USGS Gazetteer</a> in the meantime.</div>`;
@@ -813,9 +769,6 @@ function renderGlossary() {
     return;
   }
 
-  // Default state: every feature type actually present in the current
-  // target-body scope (or every type across the whole dataset, if "All
-  // Bodies" is selected), alphabetically.
   const typesInScope = getFeatureTypesInScope();
   if (typesInScope.length === 0) {
     container.innerHTML = `<div class="glossary-empty-state">No feature types found for this selection.</div>`;
@@ -826,20 +779,26 @@ function renderGlossary() {
   wireGlossaryCardClicks(container);
 }
 
+// Cards are keyboard-accessible: tabindex + role="button" (set in
+// glossaryCardHtml) plus this Enter/Space handler, so opening the
+// lightbox doesn't require a mouse.
 function wireGlossaryCardClicks(container) {
   container.querySelectorAll(".glossary-card").forEach(cardEl => {
     cardEl.addEventListener("click", () => {
       const term = cardEl.dataset.term;
       openGlossaryLightbox(term, getGlossaryEntry(term));
     });
+    cardEl.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        cardEl.click();
+      }
+    });
   });
 }
 
 // ================================
 // GLOSSARY LIGHTBOX
-// Reuses one persistent set of DOM elements (populated fresh on each
-// open) rather than rebuilding markup per click — simpler than the
-// small-card version since there's only ever one lightbox open at a time.
 // ================================
 function openGlossaryLightbox(term, entry) {
   const img = document.getElementById("glossary-lightbox-image");
@@ -940,10 +899,6 @@ function renderBrowseTableHead(cols) {
 
   headRow.querySelectorAll("th[data-sort]").forEach(th => {
     th.addEventListener("click", (e) => {
-      // The info-dot lives inside the sortable header cell — without this
-      // guard, clicking it would also trigger a column sort, since the
-      // click bubbles up from the dot to this th before it ever reaches
-      // the document-level tooltip handler.
       if (e.target.closest(".info-dot")) return;
       toggleColumnSort(th.dataset.sort);
     });
