@@ -454,8 +454,9 @@ function renderBrowseTable() {
 const FEATURE_TYPE_GLOSSARY = {
   "Albedo Feature": {
     definition: "A region identified by how much light it reflects, rather than by its shape or elevation. Historically used for features observed from Earth-based telescopes before spacecraft imagery existed.",
-    example: "Historically used on Mars, before high-resolution imagery replaced most of these with more specific feature types.",
-    image: null
+    example: "Historically used on Mars, such as for Syrtis Major, before high-resolution imagery replaced most of these with more specific feature types.",
+    image: "syrtis-major-albedo-feature.jpg",
+    imageCaption: "Digital-image mosaic merged with color image"
   },
   "Arcus, arc\u016bs": {
     definition: "An arc-shaped feature.",
@@ -465,7 +466,7 @@ const FEATURE_TYPE_GLOSSARY = {
   "Astronaut-named features": {
     definition: "Lunar features located at or near Apollo landing sites, informally named for astronauts.",
     example: "Small craters near the Apollo landing sites on the Moon.",
-    image: null
+    image: "astronaut-named-features.jpg"
   },
   "Catena, catenae": {
     definition: "A chain of craters, often formed by a body that broke apart before impact.",
@@ -474,8 +475,8 @@ const FEATURE_TYPE_GLOSSARY = {
   },
   "Cavus, cavi": {
     definition: "Irregular, steep-sided hollows, usually found in clusters.",
-    example: "Found on Mars, in areas linked to ice or gas escaping from beneath the surface.",
-    image: null
+    example: "Found on Mars in areas linked to ice or gas escaping from beneath the surface, such as Cavi Angusti.",
+    image: "cavi-angusti.jpg"
   },
   "Chaos, chaoses": {
     definition: "A distinctive area of jumbled, broken terrain.",
@@ -489,8 +490,8 @@ const FEATURE_TYPE_GLOSSARY = {
   },
   "Collis, colles": {
     definition: "Small hills or knobs.",
-    example: "Found on Mars and Titan.",
-    image: null
+    example: "Found on Titan and Mars, such as Scandia Colles.",
+    image: "scandia-colles.jpg"
   },
   "Corona, coronae": {
     definition: "An oval-shaped volcanic or tectonic feature, found almost exclusively on Venus.",
@@ -509,8 +510,8 @@ const FEATURE_TYPE_GLOSSARY = {
   },
   "Eruptive center": {
     definition: "An active volcanic center \u2014 a term used specifically on Io.",
-    example: "Used for several of Io's most active volcanic centers.",
-    image: null
+    example: "Used for several of Io's most active volcanic centers, such as Prometheus.",
+    image: "prometheus-eruptive-center.jpg"
   },
   "Facula, faculae": {
     definition: "A bright spot on a surface.",
@@ -519,18 +520,18 @@ const FEATURE_TYPE_GLOSSARY = {
   },
   "Farrum, farra": {
     definition: "A pancake-shaped structure, or a row of them \u2014 a term used specifically on Venus.",
-    example: "Found on Venus, where they're thought to be a distinct type of volcanic dome.",
-    image: null
+    example: "Found on Venus, where they're thought to be a distinct type of volcanic dome, such as Aegina Farrum.",
+    image: "aegina-farrum.png"
   },
   "Flexus, flex\u016bs": {
     definition: "A very low, curving ridge with a scalloped edge.",
     example: "Found on Europa, where its icy surface flexes into these subtle ridges.",
-    image: null
+    image: "europa-flexus.jpg"
   },
   "Fluctus, fluct\u016bs": {
     definition: "A flow of material across the surface, such as lava.",
-    example: "Found on Io, where active lava flows are common.",
-    image: null
+    example: "Found on Io, where active lava flows are common, such as Masubi Fluctus.",
+    image: "masubi-fluctus.jpg"
   },
   "Flumen, flumina": {
     definition: "A channel on Titan that may carry liquid, similar to a river.",
@@ -555,7 +556,7 @@ const FEATURE_TYPE_GLOSSARY = {
   "Labes, lab\u0113s": {
     definition: "A landslide.",
     example: "Found on Mars, often along the steep walls of Valles Marineris.",
-    image: null
+    image: "valles-marineris-labes.jpg"
   },
   "Labyrinthus, labyrinthi": {
     definition: "A complex, maze-like network of intersecting valleys or ridges.",
@@ -574,23 +575,23 @@ const FEATURE_TYPE_GLOSSARY = {
   },
   "Large ringed feature": {
     definition: "A large, hard-to-classify ringed structure.",
-    example: "Used for a small number of unusual, very large circular features.",
-    image: null
+    example: "Used for a small number of unusual, very large circular features such as the Valhalla large ringed feature (Callisto).",
+    image: "valhalla-large-ringed-feature.jpg"
   },
   "Linea, lineae": {
     definition: "A long, dark or bright marking, which may be straight or curved.",
     example: "Found on Europa, where its icy shell is crossed by thousands of these fracture lines.",
-    image: null
+    image: "europa-lineae.jpg"
   },
   "Lingula, lingulae": {
     definition: "A tongue-shaped extension of a plateau, with rounded, lobe-like edges.",
-    example: "Found on Mars.",
-    image: null
+    example: "Promethei Lingula (Mars).",
+    image: "promethei-lingula.jpg"
   },
   "Macula, maculae": {
     definition: "A dark spot, which may be irregular in shape.",
-    example: "Found on Pluto and other icy bodies, marking notably dark surface regions.",
-    image: null
+    example: "Found on Pluto (Krun Macula) and other icy bodies, marking notably dark surface regions.",
+    image: "krun-macula.png"
   },
   "Mare, maria": {
     definition: "A large, dark plain. Latin for \"sea\" \u2014 early astronomers mistook these dark patches for actual bodies of water. On the Moon, maria are true basaltic plains; on Mars the term marks dark albedo areas of no confirmed geological origin, and on Titan it describes dark expanses thought to be liquid hydrocarbons rather than rock at all.",
@@ -599,8 +600,8 @@ const FEATURE_TYPE_GLOSSARY = {
   },
   "Mensa, mensae": {
     definition: "A flat-topped landform with steep, cliff-like sides, similar to a mesa on Earth.",
-    example: "Found on Mars.",
-    image: null
+    example: "Nilosyrtis Mensae (Mars).",
+    image: "north-nilosyrtis-mensae.jpg"
   },
   "Mons, montes": {
     definition: "A mountain. On volcanically active bodies, this is often a large volcano rather than a tectonically-uplifted peak.",
@@ -638,7 +639,7 @@ const FEATURE_TYPE_GLOSSARY = {
   "Plume, plumes": {
     definition: "A cryovolcanic feature on Triton, associated with active geyser-like eruptions. (The word \"plume\" is also used informally for Io's volcanic eruption clouds, but that's separate from this specific Gazetteer feature-type category, which USGS defines as Triton-only \u2014 Io's volcanic features are instead classified under other types, like Patera and Fluctus.)",
     example: "Used on Triton, where plumes of nitrogen gas and dust have been observed erupting from the surface.",
-    image: null
+    image: "triton-plumes.jpg"
   },
   "Promontorium, promontoria": {
     definition: "\"Cape\" \u2014 a headland, used on the Moon.",
@@ -663,17 +664,17 @@ const FEATURE_TYPE_GLOSSARY = {
   "Satellite Feature": {
     definition: "A minor feature that shares its name with a larger, nearby named feature (for example, a small crater named after an adjacent larger one).",
     example: "Used widely across many bodies, most classically for the Moon's \"lettered craters.\"",
-    image: null
+    image: "lunar-satellite-features.jpg"
   },
   "Scopulus, scopuli": {
     definition: "A lobed or irregular scarp.",
     example: "Found on Miranda.",
-    image: null
+    image: "miranda-scopulus.jpg"
   },
   "Serpens, serpentes": {
     definition: "A winding, snake-like feature with alternating raised and lowered sections along its length.",
-    example: "A rare term, used only for a small number of features.",
-    image: null
+    example: "A rare term, used only for a small number of features (such as on the Moon).",
+    image: "lunar-serpentes.jpg"
   },
   "Sinus, sin\u016bs": {
     definition: "\"Bay\" \u2014 a small plain on the Moon or Mars, or a bay within one of Titan's hydrocarbon seas.",
@@ -693,12 +694,14 @@ const FEATURE_TYPE_GLOSSARY = {
   "Terra, terrae": {
     definition: "An extensive landmass.",
     example: "Aphrodite Terra (Venus), one of its largest highland regions.",
-    image: "aphrodite-terra.jpg"
+    image: "aphrodite-terra.jpg",
+    imageCaption: "False color image"
   },
   "Tessera, tesserae": {
     definition: "Tile-like, polygonal terrain, shaped by intense tectonic deformation.",
     example: "Found on Venus, where tesserae represent some of its oldest and most deformed terrain.",
-    image: null
+    image: "venus-tesserae.jpg",
+    imageCaption: "False color image"
   },
   "Tholus, tholi": {
     definition: "A small, dome-shaped hill or mountain, often volcanic.",
@@ -707,8 +710,8 @@ const FEATURE_TYPE_GLOSSARY = {
   },
   "Unda, undae": {
     definition: "Dunes.",
-    example: "Found on Titan, where vast fields of hydrocarbon sand dunes stretch across its equatorial regions.",
-    image: null
+    example: "Found on Titan (such as Ahmakiq Undae), where vast fields of hydrocarbon sand dunes stretch across its equatorial regions.",
+    image: "ahmakiq-undae.png"
   },
   "Vallis, valles": {
     definition: "A valley, often a sinuous channel thought to have been carved by an ancient flow of liquid (water, lava, or otherwise).",
